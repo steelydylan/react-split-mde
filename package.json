@@ -1,0 +1,39 @@
+{
+  "name": "zenn-mde",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/src/index.js",
+  "types": "./lib/src/index.d.ts",
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.config.js --host 0.0.0.0 --port 3031",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf ./lib",
+    "tsc": "npm run clean && tsc",
+    "patch": "npm run tsc && npm version patch && npm publish && npm run clean",
+    "minor": "npm run tsc && npm version minor && npm publish && npm run clean",
+    "major": "npm run tsc && npm version minor && npm publish && npm run clean"
+  },
+  "keywords": [],
+  "author": "steelydylan",
+  "license": "MIT",
+  "dependencies": {
+    "markdown-it": "^11.0.1",
+    "xss": "^1.0.8",
+    "zenn-markdown-html": "^0.1.31"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "css-loader": "^4.3.0",
+    "null-loader": "^4.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "style-loader": "^1.2.1",
+    "ts-loader": "^7.0.4",
+    "typescript": "^3.9.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "zenn-content-css": "^0.1.34"
+  }
+}
