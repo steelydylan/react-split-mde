@@ -6,6 +6,7 @@
   "types": "./lib/src/index.d.ts",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.js --host 0.0.0.0 --port 3031",
+    "build": "webpack --mode production && cp index.html ./dist/index.html",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf ./lib",
     "tsc": "npm run clean && tsc",
