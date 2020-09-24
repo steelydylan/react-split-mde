@@ -11,16 +11,17 @@ type Props = {
 
 const psudoRef = React.createRef<HTMLTextAreaElement>()
 
-export const Textarea: React.FC<Props> = ({ onChange, commands, value }) => {
-  const [markdown, setMarkdown] = React.useState(value);
+export const Textarea: React.FC<Props> = ({ onChange, commands, value: markdown }) => {
+  // const [markdown, setMarkdown] = React.useState(value);
   const [composing, setComposing] = React.useState(false);
   const htmlRef = React.useRef<HTMLTextAreaElement>();
+
   const handleTextareaScroll = React.useCallback(() => {
     const scrollPos = htmlRef.current.scrollTop
     psudoRef.current.scrollTo(0, scrollPos)
   }, [])
   const handleTextChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMarkdown(e.target.value);
+    // setMarkdown(e.target.value);
     onChange(e.target.value)
   }, []);
 
@@ -43,7 +44,8 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, value }) => {
       const stop = command(textarea, { line, value, code, start, end, composing })
       if (stop) {
         e.preventDefault()
-        setMarkdown(textarea.value)
+        // setMarkdown(textarea.value)
+        onChange(textarea.value)
       }
     })
   }, [composing])
@@ -66,7 +68,7 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, value }) => {
       onScroll={handleTextareaScroll}
       onCompositionStart={handleCompositionStart}
       onCompositionEnd={handleCompositionEnd}
-      value={value}
+      value={markdown}
     ></textarea>
   </div>)
 }
