@@ -1,13 +1,13 @@
-# name: publish
-# env:
-#   CI: true
-# # masterブランチにpushした時のみ実行するワークフロー
-# on:
-#   push:
-#     branches:
-#       - master
-#     tags:
-#       - "!*"
+name: publish
+env:
+  CI: true
+# masterブランチにpushした時のみ実行するワークフロー
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - "!*"
 
 # jobs:
 #   release:

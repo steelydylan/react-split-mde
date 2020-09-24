@@ -51,10 +51,11 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, value: markdown 
   }, [composing])
 
   const convertMarkdown = (md: string) => {
-    if (md.endsWith("\n")) {
-      return `${md} `
+    const escaped = md.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    if (escaped.endsWith("\n")) {
+      return `${escaped} `
     }
-    return md;
+    return escaped;
   }
 
   return (<div className="zenn-mde-textarea-wrap">
