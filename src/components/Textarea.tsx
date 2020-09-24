@@ -5,6 +5,7 @@ import { SafeHTML } from "./SafeHTML";
 
 type Props = {
   onChange: (value: string) => void
+
   commands: Command[]
   decorations: Decoration[]
   value: string
@@ -16,17 +17,41 @@ const xssAllowOption = {
   }
 }
 
-const psudoRef = React.createRef<HTMLTextAreaElement>()
+export const getBottomElement = (target: HTMLPreElement) => {
+  const targetRect = target.getBoundingClientRect()
+  const { bottom, top } = targetRect
+  const { children } = target;
+  const result = [].find.call(children, (child: HTMLElement) => {
+    const rect = child.getBoundingClientRect()
+    if (bottom >= rect.bottom && bottom - 50 <= rect.top) {
+      return true
+    }
+    return false
+  }) as (HTMLElement | null)
+  if (result) {
+    const elements = [].slice.call( target.querySelectorAll(`.${result.className}`));
+    return {
+      elementType: result.className,
+      number: elements.indexOf(result),
+    }
+  }
+}
 
 export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, value: markdown }) => {
   // const [markdown, setMarkdown] = React.useState(value);
   const [composing, setComposing] = React.useState(false);
   const htmlRef = React.useRef<HTMLTextAreaElement>();
+  const psudoRef = React.useMemo(() => React.createRef<HTMLPreElement>(), [])
 
   const handleTextareaScroll = React.useCallback(() => {
     const scrollPos = htmlRef.current.scrollTop
     psudoRef.current.scrollTo(0, scrollPos)
+    const result = getBottomElement(psudoRef.current)
+    if (result) {
+      console.log(result)
+    }
   }, [])
+
   const handleTextChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     // setMarkdown(e.target.value);
     onChange(e.target.value)
