@@ -1,17 +1,24 @@
 import * as React from "react";
-import { Command } from "../types";
+import { Command, Decoration } from "../types";
 import { getCurrentLine } from "../utils";
 import { SafeHTML } from "./SafeHTML";
 
 type Props = {
   onChange: (value: string) => void
   commands: Command[]
+  decorations: Decoration[]
   value: string
+}
+
+const xssAllowOption = {
+  whiteList: {
+    span: ['class']
+  }
 }
 
 const psudoRef = React.createRef<HTMLTextAreaElement>()
 
-export const Textarea: React.FC<Props> = ({ onChange, commands, value: markdown }) => {
+export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, value: markdown }) => {
   // const [markdown, setMarkdown] = React.useState(value);
   const [composing, setComposing] = React.useState(false);
   const htmlRef = React.useRef<HTMLTextAreaElement>();
@@ -51,7 +58,10 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, value: markdown 
   }, [composing])
 
   const convertMarkdown = (md: string) => {
-    const escaped = md.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    let escaped = md.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    decorations.forEach(dec => {
+      escaped = dec(escaped)
+    })
     if (escaped.endsWith("\n")) {
       return `${escaped} `
     }
@@ -59,7 +69,7 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, value: markdown 
   }
 
   return (<div className="zenn-mde-textarea-wrap">
-    <SafeHTML ref={psudoRef} className="zenn-mde-psudo" tagName="pre" html={convertMarkdown(markdown)} />
+    <SafeHTML options={xssAllowOption} ref={psudoRef} className="zenn-mde-psudo" tagName="pre" html={convertMarkdown(markdown)} />
     <textarea 
       ref={htmlRef} 
       className="zenn-mde-textarea" 

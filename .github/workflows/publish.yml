@@ -9,20 +9,20 @@ on:
     tags:
       - "!*"
 
-# jobs:
-#   release:
-#     name: Setup
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: checkout
-#         uses: actions/checkout@v1
-#       - name: setup Node
-#         uses: actions/setup-node@v1
-#         with:
-#           node-version: 12.x
-#           registry-url: 'https://npm.pkg.github.com'
-#       - name: install
-#         run: npm install
+jobs:
+  release:
+    name: Setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: 'https://npm.pkg.github.com'
+      - name: install
+        run: npm install
 #       # まだtagがないバージョンなら、Git Tagをpushする
 #       - name: package-version-to-git-tag
 #         uses: pkgdeps/action-package-version-to-git-tag@v1

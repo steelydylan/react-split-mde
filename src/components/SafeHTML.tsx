@@ -9,7 +9,7 @@ type Props = {
   options?: xss.Option
 }
 
-export const SafeHTML= React.forwardRef(({ tagName, html, className, options }: Props, ref) => {
+export const SafeHTML = React.forwardRef(({ tagName, html, className, options }: Props, ref) => {
   return React.createElement(tagName, {
     className,
     ref,

@@ -83,4 +83,22 @@
   text-transform: inherit;
   white-space: inherit;
   overflow-wrap: inherit;
+  color: #333;
+}
+
+.zenn-mde-psudo .bullet-item {
+  color: #999;
+}
+
+.zenn-mde-psudo .code {
+  color: #999;
+}
+
+.zenn-mde-psudo .title {
+  /* font-weight: bold */
+  color: #000;
+}
+
+.zenn-mde-psudo .sharp {
+  color: #999;
 }
