@@ -2,6 +2,7 @@ export type CommandOption = {
   line: string
   value: string
   code: string
+  shiftKey: boolean
   start: number
   end: number
   composing: boolean

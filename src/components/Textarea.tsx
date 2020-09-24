@@ -45,10 +45,11 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, val
     const line = getCurrentLine(textarea)
     const value = (textarea).value
     const code = e.key
+    const { shiftKey } = e
     const start = textarea.selectionStart!;
     const end = textarea.selectionEnd!;
     commands.forEach(command => { 
-      const stop = command(textarea, { line, value, code, start, end, composing })
+      const stop = command(textarea, { line, value, code, shiftKey, start, end, composing })
       if (stop) {
         e.preventDefault()
         // setMarkdown(textarea.value)
