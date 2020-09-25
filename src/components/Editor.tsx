@@ -1,9 +1,10 @@
 import * as React from "react"
+import { useEmitter } from 'use-eventmit'
 import { Preview } from "./Preview";
 import { Textarea } from "./Textarea";
 import * as defaultCommands from '../commands';
 import * as defaultDecorations from '../decorations';
-import { Command, Decoration } from "../types";
+import { Command, Decoration, Target } from "../types";
 
 type Props = {
   commands?: Command[]
@@ -23,6 +24,7 @@ const getDecorations = (decorations: Decoration[]) => {
 
 export const Editor: React.FC<Props> = ({ commands, decorations, previewClassName, parser, value: defaultValue }) => {
   const [value, setValue] = React.useState(defaultValue);
+  const [target, setTarget] = React.useState<Target | null>(null)
   const handleTextareaChange = React.useCallback((text: string) => {
     setValue(text);
   }, [])
@@ -31,17 +33,22 @@ export const Editor: React.FC<Props> = ({ commands, decorations, previewClassNam
     setValue(defaultValue);
   }, [defaultValue])
 
+  const handleTargetChange = React.useCallback((target) => {
+    setTarget(target)
+  }, [])
+
   return (<div className="zenn-mde-wrap">
     <div className="zenn-mde zenn-mde-box">
       <Textarea 
         onChange={handleTextareaChange} 
+        onTargetChange={handleTargetChange}
         commands={getCommands(commands)}
         decorations={getDecorations(decorations)}
         value={value}
       />
     </div>
     <div className="zenn-mde-box">
-      <Preview value={value} className={previewClassName} parser={parser} />
+      <Preview value={value} className={previewClassName} parser={parser} target={target} />
     </div>
   </div>)
 }

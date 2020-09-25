@@ -1,11 +1,11 @@
 import * as React from "react";
-import { Command, Decoration } from "../types";
+import { Command, Decoration, Target } from "../types";
 import { getCurrentLine } from "../utils";
 import { SafeHTML } from "./SafeHTML";
 
 type Props = {
   onChange: (value: string) => void
-
+  onTargetChange: (target: Target) => void
   commands: Command[]
   decorations: Decoration[]
   value: string
@@ -23,7 +23,7 @@ export const getBottomElement = (target: HTMLPreElement) => {
   const { children } = target;
   const result = [].find.call(children, (child: HTMLElement) => {
     const rect = child.getBoundingClientRect()
-    if (bottom >= rect.bottom && bottom - 50 <= rect.top) {
+    if (bottom >= rect.bottom && bottom - 50 <= rect.top && /(title|bullet-item)/.test(child.className)) {
       return true
     }
     return false
@@ -32,12 +32,12 @@ export const getBottomElement = (target: HTMLPreElement) => {
     const elements = [].slice.call( target.querySelectorAll(`.${result.className}`));
     return {
       elementType: result.className,
-      number: elements.indexOf(result),
+      index: elements.indexOf(result),
     }
   }
 }
 
-export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, value: markdown }) => {
+export const Textarea: React.FC<Props> = ({ onChange, onTargetChange, commands, decorations, value: markdown }) => {
   // const [markdown, setMarkdown] = React.useState(value);
   const [composing, setComposing] = React.useState(false);
   const htmlRef = React.useRef<HTMLTextAreaElement>();
@@ -48,7 +48,7 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, val
     psudoRef.current.scrollTo(0, scrollPos)
     const result = getBottomElement(psudoRef.current)
     if (result) {
-      console.log(result)
+      onTargetChange(result)
     }
   }, [])
 
