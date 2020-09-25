@@ -1,3 +1,3 @@
 export const bulletList = (text: string) => {
-  return text.replace(/\- /g, `<span class="bullet-item">-</span> `)
+  return text.replace(/\n\- /g, `\n<span class="bullet-item">-</span> `)
 }
