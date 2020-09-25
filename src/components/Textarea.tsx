@@ -32,6 +32,7 @@ export const getBottomElement = (target: HTMLPreElement) => {
     const elements = [].slice.call( target.querySelectorAll(`.${result.className}`));
     return {
       elementType: result.className,
+      text: result.textContent,
       index: elements.indexOf(result),
     }
   }

@@ -30,14 +30,18 @@ export const Preview: React.FC<Props> = ({ value, className, parser, target }) =
     if (!target) {
       return
     }
-    console.log(target)
     const tagName = convertTargetToTagName(target)
-    const child = ref.current.querySelector(`${tagName}:nth-of-type(${target.index - 1})`) as HTMLElement
+    if (!tagName) {
+      return
+    }
+    const children = ref.current.querySelectorAll(`${tagName}`)
+    const child = children[target.index] as HTMLElement
     if (!child) {
       return
     }
-    // @ts-ignore
-    ref.current.parentNode.scrollTo(0, child.offsetTop)
+    const parent = ref.current.parentNode as HTMLElement
+    console.log(child, child.offsetTop, target)
+    parent.scrollTo(0, child.offsetTop - parent.offsetHeight + 50)
   }, [target])
 
   return (<SafeHTML ref={ref} className={className} tagName="div" html={parser ? parser(value) : defaultParser(value)} />)
