@@ -12,6 +12,7 @@ type Props = {
   previewCallback?: Record<string, (node: any) => any>
   parser?: (text: string) => string
   value: string
+  onChange?: (value: string) => void
 }
 
 const getCommands = (commands: Command[]) => {
@@ -22,15 +23,10 @@ const getDecorations = (decorations: Decoration[]) => {
   return decorations ? decorations : Object.keys(defaultDecorations).map((key: keyof typeof defaultDecorations) => defaultDecorations[key])
 }
 
-export const Editor: React.FC<Props> = ({ commands, decorations, previewClassName, previewCallback = {}, parser, value: defaultValue }) => {
-  const [value, setValue] = React.useState(defaultValue);
+export const Editor: React.FC<Props> = ({ commands, decorations, previewClassName, previewCallback = {}, parser, value, onChange }) => {
   const handleTextareaChange = React.useCallback((text: string) => {
-    setValue(text);
+    onChange(text);
   }, [])
-
-  React.useEffect(() => {
-    setValue(defaultValue);
-  }, [defaultValue])
 
   return (<div className="zenn-mde-wrap">
     <div className="zenn-mde zenn-mde-box">

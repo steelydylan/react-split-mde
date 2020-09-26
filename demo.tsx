@@ -14,14 +14,17 @@ loadStylesheet({
 
 const Main = () => {
   const [emit, Provider] = useProvider()
+  const [value, setValue] = React.useState(markdown)
 
+  const handleValueChange = React.useCallback((newValue: string) => {
+    setValue(newValue)
+  }, [])
   const handleYouTubeClick = React.useCallback(() => {
     emit({
       type: 'insert',
       text: '@[youtube](ApXoWvfEYVU)'
     })
   }, [])
-
   const handleTwitterClick = React.useCallback(() => {
     emit({
       type: 'insert',
@@ -57,7 +60,8 @@ const Main = () => {
         }
       },
     }}
-    value={markdown} 
+    value={value}
+    onChange={handleValueChange}
   /></Provider>)
 }
 
