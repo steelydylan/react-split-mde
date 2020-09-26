@@ -42,7 +42,6 @@ export const Preview: React.FC<Props> = ({ value, className, parser, target }) =
       return
     }
     const parent = ref.current.parentNode as HTMLElement
-    console.log(target, child, children)
     parent.scrollTo(0, child.offsetTop - parent.offsetHeight + 50)
   }, [target])
 
