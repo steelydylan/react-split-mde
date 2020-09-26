@@ -31,6 +31,7 @@
     "markdown-it-prism": "^2.1.1",
     "markdown-it-task-lists": "^2.1.1",
     "markdown-it-texmath": "^0.8.0",
+    "morphdom": "^2.6.1",
     "react-lowlight": "^2.0.0",
     "xss": "^1.0.8",
     "zenn-markdown-html": "^0.1.31"

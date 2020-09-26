@@ -1,5 +1,5 @@
 import * as React from "react"
-import { SafeHTML } from "./SafeHTML";
+import morphdom from "morphdom"
 import { parser as defaultParser } from "../parser";
 import { Target } from "../types";
 
@@ -26,7 +26,7 @@ const convertTargetToTagName = (target: Target) => {
 }
 
 export const Preview: React.FC<Props> = ({ value, className, parser, target }) => {
-  const ref = React.useMemo(() => React.createRef<HTMLPreElement>(), [])
+  const ref = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
     if (!target) {
@@ -45,5 +45,14 @@ export const Preview: React.FC<Props> = ({ value, className, parser, target }) =
     parent.scrollTo(0, child.offsetTop - parent.offsetHeight + 50)
   }, [target])
 
-  return (<SafeHTML sanitize={false} ref={ref} className={className} tagName="div" html={parser ? parser(value) : defaultParser(value)} />)
+  React.useEffect(() => {
+    try {
+      morphdom(ref.current, `<div class="${className}">${parser ? parser(value) : defaultParser(value)}</div>`)
+      // return parser ? parser(value) : defaultParser(value)
+    } catch (e) {
+
+    } 
+  }, [value]);
+
+  return (<div ref={ref} className={className} />)
 }
