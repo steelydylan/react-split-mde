@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Command, Decoration, Target } from "../types";
-import { getCurrentLine } from "../utils";
+import { getCurrentLine, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
+import { useSubscriber } from '../hooks'
 
 import highlight from 'highlight.js/lib/core'
 import md from 'highlight.js/lib/languages/markdown'
@@ -102,6 +103,18 @@ export const Textarea: React.FC<Props> = ({ onChange, onTargetChange, commands, 
       return `${p1}${value}${p4}`
     })
   }
+
+  useSubscriber((event) => {
+    const { type } = event
+    const target = htmlRef.current
+    if (type === 'insert') {
+      const { text } = event
+      const start = target.selectionStart!;
+      insertTextAtCursor(htmlRef.current, text);
+      target.setSelectionRange(start + text.length, start + text.length);
+    }
+    onChange(target.value)
+  })
 
   return (<div className="zenn-mde-textarea-wrap">
     <SafeHTML options={xssAllowOption} ref={psudoRef} className="zenn-mde-psudo" tagName="pre" html={convertMarkdown(markdown)} />
