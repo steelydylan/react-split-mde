@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useEmitter } from 'use-eventmit'
 import { Preview } from "./Preview";
 import { Textarea } from "./Textarea";
 import * as defaultCommands from '../commands';

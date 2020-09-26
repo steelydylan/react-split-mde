@@ -19,6 +19,7 @@ const convertTargetToTagName = (target: Target) => {
     "title-5": "h5",
     "title-6": "h6",
     "code-start": "pre",
+    "hljs-bullet": "li",
   }
   const tagName = map[target.elementType]
   return tagName

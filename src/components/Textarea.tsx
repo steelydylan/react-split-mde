@@ -27,7 +27,7 @@ export const getBottomElement = (target: HTMLPreElement) => {
   const children = target.querySelectorAll('span');
   const result = [].find.call(children, (child: HTMLElement) => {
     const rect = child.getBoundingClientRect()
-    if (bottom >= rect.bottom && bottom - 50 <= rect.top && /(title|bullet-item)/.test(child.className)) {
+    if (bottom >= rect.bottom && bottom - 50 <= rect.top && /(title|hljs-bullet|hljs-code)/.test(child.className)) {
       return true
     }
     return false
