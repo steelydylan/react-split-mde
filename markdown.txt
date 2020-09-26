@@ -181,3 +181,8 @@ SpeakerDeckで取得した埋め込みコードに含まれる`data-id`の値を
 ---
 
 今後[CodeSandbox](https://codesandbox.io)などの埋め込みにも対応する予定です。
+
+
+@[youtube](ApXoWvfEYVU)
+
+@[tweet](https://twitter.com/catnose99/status/1309382877272879110)

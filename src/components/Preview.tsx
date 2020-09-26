@@ -47,10 +47,11 @@ export const Preview: React.FC<Props> = ({ value, className, parser, target }) =
 
   React.useEffect(() => {
     try {
-      morphdom(ref.current, `<div class="${className}">${parser ? parser(value) : defaultParser(value)}</div>`)
+      const html = parser ? parser(value) : defaultParser(value)
+      morphdom(ref.current, `<div class="${className}">${html}</div>`)
       // return parser ? parser(value) : defaultParser(value)
     } catch (e) {
-
+      console.log(e)
     } 
   }, [value]);
 
