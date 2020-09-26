@@ -8,6 +8,7 @@ type Props = {
   className?: string
   parser: (text: string) => string
   target: Target | null
+  callback: Record<string, (node: any) => any>
 }
 
 const convertTargetToTagName = (target: Target) => {
@@ -25,7 +26,7 @@ const convertTargetToTagName = (target: Target) => {
   return tagName
 }
 
-export const Preview: React.FC<Props> = ({ value, className, parser, target }) => {
+export const Preview: React.FC<Props> = ({ value, className, parser, target, callback }) => {
   const ref = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
@@ -48,7 +49,7 @@ export const Preview: React.FC<Props> = ({ value, className, parser, target }) =
   React.useEffect(() => {
     try {
       const html = parser ? parser(value) : defaultParser(value)
-      morphdom(ref.current, `<div class="${className}">${html}</div>`)
+      morphdom(ref.current, `<div class="${className}">${html}</div>`, callback)
       // return parser ? parser(value) : defaultParser(value)
     } catch (e) {
       console.log(e)

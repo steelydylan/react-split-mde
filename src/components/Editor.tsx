@@ -9,6 +9,7 @@ type Props = {
   commands?: Command[]
   decorations?: Decoration[]
   previewClassName?: string
+  previewCallback?: Record<string, (node: any) => any>
   parser?: (text: string) => string
   value: string
 }
@@ -21,7 +22,7 @@ const getDecorations = (decorations: Decoration[]) => {
   return decorations ? decorations : Object.keys(defaultDecorations).map((key: keyof typeof defaultDecorations) => defaultDecorations[key])
 }
 
-export const Editor: React.FC<Props> = ({ commands, decorations, previewClassName, parser, value: defaultValue }) => {
+export const Editor: React.FC<Props> = ({ commands, decorations, previewClassName, previewCallback = {}, parser, value: defaultValue }) => {
   const [value, setValue] = React.useState(defaultValue);
   const [target, setTarget] = React.useState<Target | null>(null)
   const handleTextareaChange = React.useCallback((text: string) => {
@@ -47,7 +48,7 @@ export const Editor: React.FC<Props> = ({ commands, decorations, previewClassNam
       />
     </div>
     <div className="zenn-mde-box">
-      <Preview value={value} className={previewClassName} parser={parser} target={target} />
+      <Preview value={value} className={previewClassName} callback={previewCallback} parser={parser} target={target} />
     </div>
   </div>)
 }
