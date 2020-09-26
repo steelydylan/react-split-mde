@@ -95,8 +95,9 @@ export const Textarea: React.FC<Props> = ({ onChange, onTargetChange, commands, 
     const { value } = highlight.highlight('markdown', md)
     return value.replace(/(<\s*span[^>]*>)(([\n\r\t]|.)*?)(<\s*\/\s*span>)/g, (match, p1, p2, p3, p4) => {
       let value = p2
+      const [_,className] = p1.match(/class="(.*)?"/)
       decorations.forEach(decoration => {
-        value = decoration(value)
+        value = decoration(value, className)
       })
       return `${p1}${value}${p4}`
     })

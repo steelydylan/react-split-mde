@@ -1,1 +1,1 @@
-export type Decoration = (text: string) => string
+export type Decoration = (text: string, className?: string) => string

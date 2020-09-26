@@ -37,7 +37,7 @@ export const Preview: React.FC<Props> = ({ value, className, parser, target }) =
       return
     }
     const children = ref.current.querySelectorAll(`${tagName}`)
-    const child = children[target.index - 1] as HTMLElement
+    const child = children[target.index] as HTMLElement
     if (!child) {
       return
     }
