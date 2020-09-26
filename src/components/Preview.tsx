@@ -45,5 +45,5 @@ export const Preview: React.FC<Props> = ({ value, className, parser, target }) =
     parent.scrollTo(0, child.offsetTop - parent.offsetHeight + 50)
   }, [target])
 
-  return (<SafeHTML ref={ref} className={className} tagName="div" html={parser ? parser(value) : defaultParser(value)} />)
+  return (<SafeHTML sanitize={false} ref={ref} className={className} tagName="div" html={parser ? parser(value) : defaultParser(value)} />)
 }

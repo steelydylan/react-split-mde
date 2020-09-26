@@ -7,12 +7,13 @@ type Props = {
   tagName: string
   className?: string
   options?: xss.Option
+  sanitize?: boolean
 }
 
-export const SafeHTML = React.forwardRef(({ tagName, html, className, options }: Props, ref) => {
+export const SafeHTML = React.forwardRef(({ tagName, html, className, options, sanitize = true }: Props, ref) => {
   return React.createElement(tagName, {
     className,
     ref,
-    dangerouslySetInnerHTML: { __html: xss(html, options) }
+    dangerouslySetInnerHTML: { __html: sanitize ? xss(html, options) : html }
   })
 })

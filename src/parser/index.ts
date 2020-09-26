@@ -1,6 +1,6 @@
-import MarkdownIt from "markdown-it"
-const md = new MarkdownIt();
+import md from "./md";
 
-export const parser = (value: string) => {
-  return md.render(value)
-}
+export const parser = (text: string): string => {
+  if (!(text && text.length)) return text;
+  return md.render(text);
+};

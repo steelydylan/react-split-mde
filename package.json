@@ -19,8 +19,18 @@
   "license": "MIT",
   "dependencies": {
     "highlight.js": "^10.2.0",
+    "katex": "^0.12.0",
     "lowlight": "^1.15.0",
     "markdown-it": "^11.0.1",
+    "markdown-it-anchor": "^5.3.0",
+    "markdown-it-container": "^3.0.0",
+    "markdown-it-custom-block": "^0.1.1",
+    "markdown-it-footnote": "^3.0.2",
+    "markdown-it-image-lazy-loading": "^1.0.2",
+    "markdown-it-link-attributes": "^3.0.0",
+    "markdown-it-prism": "^2.1.1",
+    "markdown-it-task-lists": "^2.1.1",
+    "markdown-it-texmath": "^0.8.0",
     "react-lowlight": "^2.0.0",
     "xss": "^1.0.8",
     "zenn-markdown-html": "^0.1.31"
