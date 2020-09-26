@@ -25,7 +25,7 @@
 .zenn-mde-box {
   flex: 1;
   border: 1px solid #999;
-  overflow: scroll;
+  overflow: auto;
   padding: 5px;
 }
 
@@ -107,4 +107,8 @@
 
 .zenn-mde-psudo .hljs-link {
   color: #1199ff;
+}
+
+.katex {
+  position: relative;
 }
