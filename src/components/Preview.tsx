@@ -18,7 +18,7 @@ const convertTargetToTagName = (target: Target) => {
     "title-4": "h4",
     "title-5": "h5",
     "title-6": "h6",
-    "code-start": "pre",
+    "hljs-code": "code",
     "hljs-bullet": "li",
   }
   const tagName = map[target.elementType]
@@ -37,11 +37,12 @@ export const Preview: React.FC<Props> = ({ value, className, parser, target }) =
       return
     }
     const children = ref.current.querySelectorAll(`${tagName}`)
-    const child = children[target.index] as HTMLElement
+    const child = children[target.index - 1] as HTMLElement
     if (!child) {
       return
     }
     const parent = ref.current.parentNode as HTMLElement
+    console.log(target, child, children)
     parent.scrollTo(0, child.offsetTop - parent.offsetHeight + 50)
   }, [target])
 

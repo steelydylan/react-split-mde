@@ -171,7 +171,9 @@ SpeakerDeckで取得した埋め込みコードに含まれる`data-id`の値を
 @[jsfiddle](ページのURL)
 ```
 ### オンラインエディターではモーダルから挿入可能
+
 オンラインのエディターでは「+」ボタンを押すことで、外部コンテンツ埋め込み用のモーダルを表示できます。
+
 ![](https://storage.googleapis.com/zenn-user-upload/t87wf3d7xgfv7cabv4a9lfr1t79q)
 ---
 今後[CodeSandbox](https://codesandbox.io)などの埋め込みにも対応する予定です。
