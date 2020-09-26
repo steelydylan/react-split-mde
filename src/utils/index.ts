@@ -1,3 +1,5 @@
+import { Target } from "../types";
+
 export function getCurrentLine(target: HTMLTextAreaElement) {
   const starVal = target.value.substr(0, target.selectionStart);
   const valArr = starVal.split('\n');
@@ -30,4 +32,20 @@ export function removeTextAtFirstLine(target: HTMLTextAreaElement, count: number
   const final = lines.join('\n')
   target.value = final
   target.setSelectionRange(savedSelection, savedSelection);
+}
+
+
+export function convertTargetToTagName(target: Target) {
+  const map = {
+    "title-1": "h1",
+    "title-2": "h2",
+    "title-3": "h3",
+    "title-4": "h4",
+    "title-5": "h5",
+    "title-6": "h6",
+    "hljs-code": "code",
+    "hljs-bullet": "li",
+  }
+  const tagName = map[target.elementType]
+  return tagName
 }

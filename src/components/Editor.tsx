@@ -24,7 +24,6 @@ const getDecorations = (decorations: Decoration[]) => {
 
 export const Editor: React.FC<Props> = ({ commands, decorations, previewClassName, previewCallback = {}, parser, value: defaultValue }) => {
   const [value, setValue] = React.useState(defaultValue);
-  const [target, setTarget] = React.useState<Target | null>(null)
   const handleTextareaChange = React.useCallback((text: string) => {
     setValue(text);
   }, [])
@@ -33,22 +32,17 @@ export const Editor: React.FC<Props> = ({ commands, decorations, previewClassNam
     setValue(defaultValue);
   }, [defaultValue])
 
-  const handleTargetChange = React.useCallback((target) => {
-    setTarget(target)
-  }, [])
-
   return (<div className="zenn-mde-wrap">
     <div className="zenn-mde zenn-mde-box">
       <Textarea 
         onChange={handleTextareaChange} 
-        onTargetChange={handleTargetChange}
         commands={getCommands(commands)}
         decorations={getDecorations(decorations)}
         value={value}
       />
     </div>
     <div className="zenn-mde-box">
-      <Preview value={value} className={previewClassName} callback={previewCallback} parser={parser} target={target} />
+      <Preview value={value} className={previewClassName} callback={previewCallback} parser={parser} />
     </div>
   </div>)
 }

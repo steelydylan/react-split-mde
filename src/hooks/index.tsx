@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { eventmit, EventmitHandler } from 'eventmit'
+import { Target } from '../types';
 
 const { useRef, useContext, useEffect, useMemo } = React;
 
@@ -20,12 +21,20 @@ type Event = {
 } | {
   type: 'remove'
   text: string
+} | {
+  type: 'scroll'
+  target: Target
 }
 
-export const useEmitter = <T extends Event>() => {
+export const useProvider = <T extends Event>() => {
   const emitter = useRef(eventmit<T>())
   const Provider = useMemo(() => createEmitterProvider(emitter.current), [])
   return [emitter.current.emit, Provider] as const
+}
+
+export const useEmitter = <T extends Event>() => {
+  const ctx = useContext(EmitterContext)
+  return ctx.emit as (value: T) => void
 }
 
 export const useSubscriber = <T extends Event>(fn: EventmitHandler<T>) => {

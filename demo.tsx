@@ -5,7 +5,7 @@ import 'zenn-content-css';
 import './css/editor.css';
 import markdown from './markdown.txt'
 import { loadScript, loadStylesheet } from "zenn-init-embed/lib/utils/load-external-source";
-import { useEmitter } from "./src/hooks";
+import { useProvider } from "./src/hooks";
 
 loadStylesheet({
   id: "katex-css",
@@ -13,7 +13,7 @@ loadStylesheet({
 });
 
 const Main = () => {
-  const [emit, Provider] = useEmitter()
+  const [emit, Provider] = useProvider()
 
   const handleYouTubeClick = React.useCallback(() => {
     emit({

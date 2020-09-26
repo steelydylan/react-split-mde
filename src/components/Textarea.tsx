@@ -2,7 +2,7 @@ import * as React from "react";
 import { Command, Decoration, Target } from "../types";
 import { getCurrentLine, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
-import { useSubscriber } from '../hooks'
+import { useEmitter, useSubscriber } from '../hooks'
 
 import highlight from 'highlight.js/lib/core'
 import md from 'highlight.js/lib/languages/markdown'
@@ -10,7 +10,6 @@ highlight.registerLanguage('markdown', md)
 
 type Props = {
   onChange: (value: string) => void
-  onTargetChange: (target: Target) => void
   commands: Command[]
   decorations: Decoration[]
   value: string
@@ -43,18 +42,19 @@ export const getBottomElement = (target: HTMLPreElement) => {
   }
 }
 
-export const Textarea: React.FC<Props> = ({ onChange, onTargetChange, commands, decorations, value: markdown }) => {
+export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, value: markdown }) => {
   // const [markdown, setMarkdown] = React.useState(value);
   const [composing, setComposing] = React.useState(false);
   const htmlRef = React.useRef<HTMLTextAreaElement>();
   const psudoRef = React.useMemo(() => React.createRef<HTMLPreElement>(), [])
+  const emit = useEmitter()
 
   const handleTextareaScroll = React.useCallback(() => {
     const scrollPos = htmlRef.current.scrollTop
     psudoRef.current.scrollTo(0, scrollPos)
     const result = getBottomElement(psudoRef.current)
     if (result) {
-      onTargetChange(result)
+      emit({ type: 'scroll', target: result })
     }
   }, [])
 
@@ -105,9 +105,8 @@ export const Textarea: React.FC<Props> = ({ onChange, onTargetChange, commands, 
   }
 
   useSubscriber((event) => {
-    const { type } = event
     const target = htmlRef.current
-    if (type === 'insert') {
+    if (event.type === 'insert') {
       const { text } = event
       const start = target.selectionStart!;
       insertTextAtCursor(htmlRef.current, text);
