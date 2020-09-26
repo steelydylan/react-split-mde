@@ -73,9 +73,11 @@ e^{i\theta} = \cos\theta + i\sin\theta
 $$
 ```
 は以下のように表示されます。
+
 $$
 e^{i\theta} = \cos\theta + i\sin\theta
 $$
+
 :::message
 `$$`の前後は空の行でないと正しく埋め込まれないことがあります。
 :::
