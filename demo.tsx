@@ -6,12 +6,6 @@ import './css/editor.css';
 import markdown from './markdown.txt'
 import { loadScript, loadStylesheet } from "zenn-init-embed/lib/utils/load-external-source";
 
-loadScript({
-  src: "https://platform.twitter.com/widgets.js",
-  id: "embed-tweet",
-  refreshIfExist: true,
-});
-
 loadStylesheet({
   id: "katex-css",
   href: "https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css",
@@ -32,6 +26,10 @@ render(<Editor
           src: "https://platform.twitter.com/widgets.js",
           id: "embed-tweet",
           refreshIfExist: true,
+        }).then(() => {
+          const znc = node.closest('.znc')
+          const extraTweets = znc.querySelectorAll('.twitter-tweet + .twitter-tweet')
+          extraTweets.forEach(tweet => tweet.remove())
         });
       }
     },
