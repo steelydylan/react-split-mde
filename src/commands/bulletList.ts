@@ -1,5 +1,5 @@
 import { CommandOption, EnterKey, TabKey } from "../types";
-import { insertTextAtCursor, insertTextAtCursorFirstLine } from "../utils";
+import { insertTextAtCursor, insertTextAtCursorFirstLine, removeTextAtFirstLine } from "../utils";
 
 const generateSpace = (count: number) => {
   let i = 0;
@@ -31,7 +31,8 @@ export const bulletList = (target: HTMLTextAreaElement, option: CommandOption) =
     target.setSelectionRange(option.start + text.length, option.start + text.length);
     return true
   } else if (option.code === TabKey && option.shiftKey) {
-    // todo
+    removeTextAtFirstLine(target, 2)
+    return true
   } else if (option.code === TabKey) {
     const text = '  '
     insertTextAtCursorFirstLine(target, text);

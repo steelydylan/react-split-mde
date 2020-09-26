@@ -18,7 +18,10 @@
   "author": "steelydylan",
   "license": "MIT",
   "dependencies": {
+    "highlight.js": "^10.2.0",
+    "lowlight": "^1.15.0",
     "markdown-it": "^11.0.1",
+    "react-lowlight": "^2.0.0",
     "xss": "^1.0.8",
     "zenn-markdown-html": "^0.1.31"
   },
@@ -27,6 +30,7 @@
     "@types/react-dom": "^16.9.8",
     "css-loader": "^4.3.0",
     "null-loader": "^4.0.0",
+    "raw-loader": "^4.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "style-loader": "^1.2.1",

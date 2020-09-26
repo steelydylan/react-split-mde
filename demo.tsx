@@ -3,17 +3,7 @@ import { render } from "react-dom";
 import { Editor } from "./src"
 import 'zenn-content-css';
 import './css/editor.css';
-// import zennMarkdownHtml from 'zenn-markdown-html';
+import markdown from './markdown.txt'
 
-const value = `# hello zenn
+render(<Editor previewClassName="znc" value={markdown} />, document.getElementById("main"))
 
-- test1
-- test2
-- test3
-
-\`\`\`js
-const a = 'b';
-\`\`\`
-`
-
-render(<Editor previewClassName="znc" value={value} />, document.getElementById("main"))

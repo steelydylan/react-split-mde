@@ -90,7 +90,8 @@
   color: #999;
 }
 
-.zenn-mde-psudo .code {
+.zenn-mde-psudo .code-start,
+.zenn-mde-psudo .code-end {
   color: #999;
 }
 

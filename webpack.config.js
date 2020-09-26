@@ -12,6 +12,9 @@ module.exports = {
   externals: ["fs"],
   module: {
     rules: [{
+      test: /\.txt$/i,
+      use: 'raw-loader',
+    },{
       test: /\.tsx?$/,
       exclude: /node_modules/,
       loader: 'ts-loader',
