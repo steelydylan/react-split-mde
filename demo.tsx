@@ -29,7 +29,9 @@ const Main = () => {
       previewCallback={{
       onBeforeNodeDiscarded(node: any) {
         if (node.closest && !node.classList.contains('embed-tweet') && node.closest('.embed-tweet')) {
-          return false
+          if (node.tagName === "IFRAME" || node.classList.contains('twitter-tweet')) {
+            return false
+          }
         }
         return true
       },
