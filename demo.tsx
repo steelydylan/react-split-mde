@@ -15,15 +15,23 @@ loadStylesheet({
 const Main = () => {
   const [emit, Provider] = useEmitter()
 
-  const handleClick = React.useCallback(() => {
+  const handleYouTubeClick = React.useCallback(() => {
     emit({
       type: 'insert',
       text: '@[youtube](ApXoWvfEYVU)'
     })
   }, [])
 
+  const handleTwitterClick = React.useCallback(() => {
+    emit({
+      type: 'insert',
+      text: '@[tweet](https://twitter.com/catnose99/status/1309382877272879110)'
+    })
+  }, [])
+
   return (<Provider>
-    <button onClick={handleClick}>YouTube挿入</button>
+    <button onClick={handleYouTubeClick}>YouTube挿入</button>
+    <button onClick={handleTwitterClick}>Twitter挿入</button>
     <Editor 
       previewClassName="znc" 
       previewCallback={{
