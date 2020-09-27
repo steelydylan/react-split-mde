@@ -155,9 +155,9 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, val
       const offset = targetText.length - text.length
       target.value = target.value.replace(targetText, text)
       target.setSelectionRange(currentSelection + offset, currentSelection + offset)
-    } else if (event.type = 'undo') {
+    } else if (event.type === 'undo') {
       undo()
-    } else if (event.type = 'redo') {
+    } else if (event.type === 'redo') {
       redo()
     }
     onChange(target.value)
