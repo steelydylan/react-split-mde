@@ -2,7 +2,6 @@ import * as React from "react"
 import morphdom from "morphdom"
 import { parser as defaultParser } from "../parser";
 import { Target } from "../types";
-import { convertTargetToTagName } from "../utils";
 import { useSubscriber } from "../hooks";
 
 type Props = {
@@ -10,20 +9,21 @@ type Props = {
   className?: string
   parser: (text: string) => string
   callback: Record<string, (node: any) => any>
+  scrollMapping: Record<string, string>
 }
 
-export const Preview: React.FC<Props> = ({ value, className, parser, callback }) => {
+export const Preview: React.FC<Props> = ({ value, className, parser, callback, scrollMapping }) => {
   const ref = React.useRef<HTMLDivElement>(null)
 
   useSubscriber((event) => {
     if (event.type !== 'scroll' || !event.target) {
       return
     }
-    const tagName = convertTargetToTagName(event.target)
-    if (!tagName) {
+    const selector = scrollMapping[event.target.selector]
+    if (!selector) {
       return
     }
-    const children = ref.current.querySelectorAll(`${tagName}`)
+    const children = ref.current.querySelectorAll(`${selector}`)
     const child = children[event.target.index] as HTMLElement
     if (!child) {
       return

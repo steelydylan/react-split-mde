@@ -1,4 +1,5 @@
 export type Target = {
-  elementType: string
+  selector: string
+  text: string
   index: number
 }

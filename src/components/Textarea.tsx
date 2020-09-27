@@ -14,6 +14,7 @@ type Props = {
   commands: Command[]
   decorations: Decoration[]
   value: string
+  scrollMapping: Record<string, string>
 }
 
 const xssAllowOption = {
@@ -22,13 +23,13 @@ const xssAllowOption = {
   }
 }
 
-export const getBottomElement = (target: HTMLPreElement) => {
+export const getBottomElement = (target: HTMLPreElement, scrollMapping: Record<string, string>) => {
   const targetRect = target.getBoundingClientRect()
   const { bottom, top } = targetRect
   const children = target.querySelectorAll('span');
   const result = [].find.call(children, (child: HTMLElement) => {
     const rect = child.getBoundingClientRect()
-    if (bottom >= rect.bottom && bottom - 50 <= rect.top && /(title|hljs-bullet|hljs-code)/.test(child.className)) {
+    if (bottom >= rect.bottom && bottom - 50 <= rect.top && scrollMapping[child.className]) {
       return true
     }
     return false
@@ -36,14 +37,14 @@ export const getBottomElement = (target: HTMLPreElement) => {
   if (result) {
     const elements = [].slice.call( target.querySelectorAll(`.${result.className}`));
     return {
-      elementType: result.className,
+      selector: result.className,
       text: result.textContent,
       index: elements.indexOf(result),
     }
   }
 }
 
-export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, value: markdown }) => {
+export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, value: markdown, scrollMapping }) => {
   // const [markdown, setMarkdown] = React.useState(value);
   const [composing, setComposing] = React.useState(false);
   const htmlRef = React.useRef<HTMLTextAreaElement>();
@@ -58,7 +59,7 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, val
   const handleTextareaScroll = React.useCallback(() => {
     const scrollPos = htmlRef.current.scrollTop
     psudoRef.current.scrollTo(0, scrollPos)
-    const result = getBottomElement(psudoRef.current)
+    const result = getBottomElement(psudoRef.current, scrollMapping)
     if (result) {
       emit({ type: 'scroll', target: result })
     }

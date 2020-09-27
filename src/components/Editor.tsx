@@ -4,6 +4,7 @@ import { Textarea } from "./Textarea";
 import * as defaultCommands from '../commands';
 import * as defaultDecorations from '../decorations';
 import { Command, Decoration, Target } from "../types";
+import { scrollMapping as defaultScrollMapping } from "../utils";
 
 type Props = {
   commands?: Command[]
@@ -13,6 +14,7 @@ type Props = {
   parser?: (text: string) => string
   value: string
   onChange?: (value: string) => void
+  scrollMapping: Record<string, string>
 }
 
 const getCommands = (commands: Command[]) => {
@@ -23,14 +25,15 @@ const getDecorations = (decorations: Decoration[]) => {
   return decorations ? decorations : Object.keys(defaultDecorations).map((key: keyof typeof defaultDecorations) => defaultDecorations[key])
 }
 
-export const Editor: React.FC<Props> = ({ commands, decorations, previewClassName, previewCallback = {}, parser, value, onChange }) => {
+export const Editor: React.FC<Props> = ({ commands, decorations, previewClassName, previewCallback = {}, parser, value, onChange, scrollMapping }) => {
   const handleTextareaChange = React.useCallback((text: string) => {
     onChange(text);
   }, [])
 
   return (<div className="zenn-mde-wrap">
     <div className="zenn-mde zenn-mde-box">
-      <Textarea 
+      <Textarea
+        scrollMapping={scrollMapping ? scrollMapping : defaultScrollMapping}
         onChange={handleTextareaChange} 
         commands={getCommands(commands)}
         decorations={getDecorations(decorations)}
@@ -38,7 +41,7 @@ export const Editor: React.FC<Props> = ({ commands, decorations, previewClassNam
       />
     </div>
     <div className="zenn-mde-box">
-      <Preview value={value} className={previewClassName} callback={previewCallback} parser={parser} />
+      <Preview value={value} className={previewClassName} callback={previewCallback} parser={parser} scrollMapping={scrollMapping ? scrollMapping : defaultScrollMapping} />
     </div>
   </div>)
 }
