@@ -3,7 +3,6 @@ import { eventmit, EventmitHandler } from 'eventmit'
 import { Target } from '../types';
 
 const { useRef, useContext, useEffect, useMemo } = React;
-
 const EmitterContext = React.createContext(eventmit())
 const Provider = EmitterContext.Provider
 
@@ -28,6 +27,10 @@ type Event = {
   type: 'replace'
   text: string
   targetText: string
+} | {
+  type: 'undo'
+} | {
+  type: 'redo'
 }
 
 export const useProvider = <T extends Event>() => {

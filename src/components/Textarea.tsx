@@ -6,6 +6,7 @@ import { useEmitter, useSubscriber } from '../hooks'
 
 import highlight from 'highlight.js/lib/core'
 import md from 'highlight.js/lib/languages/markdown'
+import { UndoRedo } from "../utils/undo-redo";
 highlight.registerLanguage('markdown', md)
 
 type Props = {
@@ -46,6 +47,11 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, val
   // const [markdown, setMarkdown] = React.useState(value);
   const [composing, setComposing] = React.useState(false);
   const htmlRef = React.useRef<HTMLTextAreaElement>();
+  const historyManager = React.useRef(new UndoRedo({
+    markdown,
+    selectionStart: 0,
+    selectionEnd: 0,
+  }))
   const psudoRef = React.useMemo(() => React.createRef<HTMLPreElement>(), [])
   const emit = useEmitter()
 
@@ -71,14 +77,46 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, val
     setComposing(false)
   }, [])
 
+  const undo = () => {
+    if (!historyManager.current.canUndo()) {
+      return
+    }
+    historyManager.current.undo()
+    const { markdown, selectionStart, selectionEnd } = historyManager.current.getValue()
+    htmlRef.current.value = markdown
+    htmlRef.current.setSelectionRange(selectionStart, selectionEnd);
+    onChange(markdown)
+  }
+
+  const redo = () => {
+    if (!historyManager.current.canRedo()) {
+      return
+    }
+    historyManager.current.redo()
+    const { markdown, selectionStart, selectionEnd } = historyManager.current.getValue()
+    htmlRef.current.value = markdown
+    htmlRef.current.setSelectionRange(selectionStart, selectionEnd);
+    onChange(markdown)
+  }
+
   const handleKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const textarea = (e.target as HTMLTextAreaElement);
     const line = getCurrentLine(textarea)
     const value = (textarea).value
     const code = e.key
-    const { shiftKey } = e
+    const { shiftKey, metaKey, ctrlKey } = e
     const start = textarea.selectionStart!;
     const end = textarea.selectionEnd!;
+
+    if (code === 'z' && (metaKey || ctrlKey) && shiftKey) {
+      e.preventDefault()
+      redo()
+      return
+    } else if (code === 'z' && (metaKey || ctrlKey)) {
+      e.preventDefault()
+      undo()
+      return
+    }
     commands.forEach(command => { 
       const stop = command(textarea, { line, value, code, shiftKey, start, end, composing })
       if (stop) {
@@ -117,9 +155,21 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, val
       const offset = targetText.length - text.length
       target.value = target.value.replace(targetText, text)
       target.setSelectionRange(currentSelection + offset, currentSelection + offset)
+    } else if (event.type = 'undo') {
+      undo()
+    } else if (event.type = 'redo') {
+      redo()
     }
     onChange(target.value)
   })
+
+  React.useEffect(() => {
+    historyManager.current.push({
+      markdown,
+      selectionStart: htmlRef.current.selectionStart,
+      selectionEnd: htmlRef.current.selectionStart,
+    })
+  }, [markdown])
 
   return (<div className="zenn-mde-textarea-wrap">
     <SafeHTML options={xssAllowOption} ref={psudoRef} className="zenn-mde-psudo" tagName="pre" html={convertMarkdown(markdown)} />
