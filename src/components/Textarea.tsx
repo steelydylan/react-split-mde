@@ -111,6 +111,12 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, val
       const start = target.selectionStart!;
       insertTextAtCursor(htmlRef.current, text);
       target.setSelectionRange(start + text.length, start + text.length);
+    } else if (event.type === 'replace') {
+      const { text, targetText } = event
+      const currentSelection = target.selectionStart
+      const offset = targetText.length - text.length
+      target.value = target.value.replace(targetText, text)
+      target.setSelectionRange(currentSelection + offset, currentSelection + offset)
     }
     onChange(target.value)
   })

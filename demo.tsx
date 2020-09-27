@@ -31,10 +31,26 @@ const Main = () => {
       text: '@[tweet](https://twitter.com/catnose99/status/1309382877272879110)'
     })
   }, [])
+  const handleImageUpload = React.useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadingMsg = '![](now uploading...)'
+    emit({
+      type: 'insert',
+      text: uploadingMsg
+    })
+    await new Promise((resolve) => {
+      setTimeout(() => resolve(), 1000)
+    })
+    emit({
+      type: 'replace',
+      targetText: uploadingMsg,
+      text: '![](https://source.unsplash.com/1600x900/?nature,water)'
+    })
+  }, [])
 
   return (<Provider>
     <button onClick={handleYouTubeClick}>YouTube挿入</button>
     <button onClick={handleTwitterClick}>Twitter挿入</button>
+    <input type="file" onChange={handleImageUpload} />
     <Editor 
       previewClassName="znc" 
       previewCallback={{

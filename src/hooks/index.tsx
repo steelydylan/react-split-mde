@@ -24,6 +24,10 @@ type Event = {
 } | {
   type: 'scroll'
   target: Target
+} | {
+  type: 'replace'
+  text: string
+  targetText: string
 }
 
 export const useProvider = <T extends Event>() => {
