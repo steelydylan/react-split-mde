@@ -16,7 +16,12 @@ export const Preview: React.FC<Props> = ({ value, className, parser, callback, s
   const ref = React.useRef<HTMLDivElement>(null)
 
   useSubscriber((event) => {
-    if (event.type !== 'scroll' || !event.target) {
+    if (event.type !== 'scroll') {
+      return
+    }
+    const parent = ref.current.parentNode as HTMLElement
+    if (!event.target) {
+      parent.scrollTo(0, parent.scrollTop + event.scrollDiff * 1.2)
       return
     }
     const selector = scrollMapping[event.target.selector]
@@ -28,8 +33,7 @@ export const Preview: React.FC<Props> = ({ value, className, parser, callback, s
     if (!child) {
       return
     }
-    const parent = ref.current.parentNode as HTMLElement
-    parent.scrollTo(0, child.offsetTop - parent.offsetHeight + 50)
+    parent.scrollTo(0, child.offsetTop - parent.offsetHeight + (event.scrollPercent * child.offsetHeight) + (parent.offsetHeight * ( 1 - event.scrollPercent )))
   })
 
   React.useEffect(() => {

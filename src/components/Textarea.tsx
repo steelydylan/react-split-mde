@@ -25,29 +25,33 @@ const xssAllowOption = {
 
 export const getBottomElement = (target: HTMLPreElement, scrollMapping: Record<string, string>) => {
   const targetRect = target.getBoundingClientRect()
-  const { bottom, top } = targetRect
+  const { top } = targetRect
+  const scrollPercent = (target.scrollTop + target.offsetHeight) / target.scrollHeight
   const children = target.querySelectorAll('span');
+  const focusedPos = top + scrollPercent * target.offsetHeight
   const result = [].find.call(children, (child: HTMLElement) => {
     const rect = child.getBoundingClientRect()
-    if (bottom >= rect.bottom && bottom - 50 <= rect.top && scrollMapping[child.className]) {
+    if (focusedPos >= rect.bottom && focusedPos - 50 <= rect.top && scrollMapping[child.className]) {
       return true
     }
     return false
   }) as (HTMLElement | null)
   if (result) {
     const elements = [].slice.call( target.querySelectorAll(`.${result.className}`));
-    return {
+    return [{
       selector: result.className,
       text: result.textContent,
       index: elements.indexOf(result),
-    }
+    }, scrollPercent] as [Target, number]
   }
+  return [null, scrollPercent] as [null, number]
 }
 
 export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, value: markdown, scrollMapping }) => {
   // const [markdown, setMarkdown] = React.useState(value);
   const [composing, setComposing] = React.useState(false);
   const htmlRef = React.useRef<HTMLTextAreaElement>();
+  const oldScrollRef = React.useRef<number>(0);
   const historyManager = React.useRef(new UndoRedo({
     markdown,
     selectionStart: 0,
@@ -58,11 +62,12 @@ export const Textarea: React.FC<Props> = ({ onChange, commands, decorations, val
 
   const handleTextareaScroll = React.useCallback(() => {
     const scrollPos = htmlRef.current.scrollTop
+    const scrollDiff = scrollPos - oldScrollRef.current
+    oldScrollRef.current = scrollPos
     psudoRef.current.scrollTo(0, scrollPos)
-    const result = getBottomElement(psudoRef.current, scrollMapping)
-    if (result) {
-      emit({ type: 'scroll', target: result })
-    }
+    const [result, scrollPercent] = getBottomElement(psudoRef.current, scrollMapping)
+
+    emit({ type: 'scroll', target: result, scrollDiff, scrollPercent })
   }, [])
 
   const handleTextChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {

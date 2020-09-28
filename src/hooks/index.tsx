@@ -22,7 +22,9 @@ type Event = {
   text: string
 } | {
   type: 'scroll'
-  target: Target
+  target: Target | null
+  scrollDiff: number
+  scrollPercent: number
 } | {
   type: 'replace'
   text: string
