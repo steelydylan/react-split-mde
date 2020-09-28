@@ -1,7 +1,6 @@
-import * as React from "react";
+import React from "react";
 import morphdom from "morphdom";
 import { parser as defaultParser } from "../parser";
-import { Target } from "../types";
 import { useSubscriber } from "../hooks";
 
 type Props = {
@@ -59,7 +58,6 @@ export const Preview: React.FC<Props> = ({
         `<div class="${className}">${html}</div>`,
         callback
       );
-      // return parser ? parser(value) : defaultParser(value)
     } catch (e) {
       console.log(e);
     }

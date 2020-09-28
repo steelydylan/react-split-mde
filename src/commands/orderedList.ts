@@ -10,7 +10,7 @@ const generateSpace = (count: number) => {
   let text = "";
   while (i < count) {
     text += " ";
-    i++;
+    i += 1;
   }
   return text;
 };

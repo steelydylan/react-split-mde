@@ -36,6 +36,7 @@ export function removeTextAtFirstLine(
   const lines = target.value.split("\n");
   lines[valArr.length - 1] = currentLine;
   const final = lines.join("\n");
+  // eslint-disable-next-line
   target.value = final;
   target.setSelectionRange(savedSelection, savedSelection);
 }

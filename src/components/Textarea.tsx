@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 import highlight from "highlight.js/lib/core";
-import md from "highlight.js/lib/languages/markdown";
+import markdown from "highlight.js/lib/languages/markdown";
 import { Command, Decoration, Target } from "../types";
 import { getCurrentLine, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
@@ -8,7 +8,7 @@ import { useEmitter, useSubscriber } from "../hooks";
 
 import { UndoRedo } from "../utils/undo-redo";
 
-highlight.registerLanguage("markdown", md);
+highlight.registerLanguage("markdown", markdown);
 
 type Props = {
   onChange: (value: string) => void;
@@ -117,13 +117,13 @@ export const Textarea: React.FC<Props> = ({
     }
     historyManager.current.undo();
     const {
-      markdown,
+      markdown: undoMarkdown,
       selectionStart,
       selectionEnd,
     } = historyManager.current.getValue();
     htmlRef.current.value = markdown;
     htmlRef.current.setSelectionRange(selectionStart, selectionEnd);
-    onChange(markdown);
+    onChange(undoMarkdown);
   };
 
   const redo = () => {
@@ -132,13 +132,13 @@ export const Textarea: React.FC<Props> = ({
     }
     historyManager.current.redo();
     const {
-      markdown,
+      markdown: redoMarkdown,
       selectionStart,
       selectionEnd,
     } = historyManager.current.getValue();
     htmlRef.current.value = markdown;
     htmlRef.current.setSelectionRange(selectionStart, selectionEnd);
-    onChange(markdown);
+    onChange(redoMarkdown);
   };
 
   const handleKeyDown = React.useCallback(
@@ -182,13 +182,14 @@ export const Textarea: React.FC<Props> = ({
   );
 
   const convertMarkdown = (md: string) => {
-    if (md.endsWith("\n")) {
-      md = `${md} `;
+    let text = md;
+    if (text.endsWith("\n")) {
+      text = `${text} `;
     }
-    const { value } = highlight.highlight("markdown", md);
-    return value.replace(
+    const { value: result } = highlight.highlight("markdown", text);
+    return result.replace(
       /(<\s*span[^>]*>)(([\n\r\t]|.)*?)(<\s*\/\s*span>)/g,
-      (match, p1, p2, p3, p4) => {
+      (_match, p1, p2, _p3, p4) => {
         let value = p2;
         const [_, className] = p1.match(/class="(.*)?"/);
         decorations.forEach((decoration) => {

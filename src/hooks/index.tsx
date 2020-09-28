@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { eventmit, EventmitHandler } from "eventmit";
 import { Target } from "../types";
 
@@ -43,8 +43,11 @@ type Event =
 
 export const useProvider = <T extends Event>() => {
   const emitter = useRef(eventmit<T>());
-  const Provider = useMemo(() => createEmitterProvider(emitter.current), []);
-  return [emitter.current.emit, Provider] as const;
+  const MemorizedProvider = useMemo(
+    () => createEmitterProvider(emitter.current),
+    []
+  );
+  return [emitter.current.emit, MemorizedProvider] as const;
 };
 
 export const useEmitter = <T extends Event>() => {

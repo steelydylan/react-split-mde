@@ -1,9 +1,9 @@
-import * as React from "react";
+import React from "react";
 import { Preview } from "./Preview";
 import { Textarea } from "./Textarea";
 import * as defaultCommands from "../commands";
 import * as defaultDecorations from "../decorations";
-import { Command, Decoration, Target } from "../types";
+import { Command, Decoration } from "../types";
 import { scrollMapping as defaultScrollMapping } from "../utils";
 
 type Props = {
