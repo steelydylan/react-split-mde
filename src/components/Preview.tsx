@@ -46,9 +46,8 @@ export const Preview: React.FC<Props> = ({
     parent.scrollTo(
       0,
       child.offsetTop -
-        parent.offsetHeight +
         event.scrollPercent * child.offsetHeight +
-        parent.offsetHeight * (1 - event.scrollPercent)
+        parent.offsetHeight * (2 - event.scrollPercent)
     );
   });
 
