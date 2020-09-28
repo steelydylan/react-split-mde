@@ -21,7 +21,11 @@ export const Preview: React.FC<Props> = ({ value, className, parser, callback, s
     }
     const parent = ref.current.parentNode as HTMLElement
     if (!event.target) {
-      parent.scrollTo(0, parent.scrollTop + event.scrollDiff * 1.2)
+      if (event.scrollPercent === 1) {
+        parent.scrollTo(0, parent.scrollHeight)
+      } else {
+        parent.scrollTo(0, parent.scrollTop + event.scrollDiff)
+      }
       return
     }
     const selector = scrollMapping[event.target.selector]
