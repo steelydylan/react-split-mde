@@ -1,15 +1,15 @@
 // plugis
-import { md } from "./md-base";
 import mdContainer from "markdown-it-container";
 import prism from "markdown-it-prism";
-import footnote from "markdown-it-footnote"
-import lazyLoading from "markdown-it-image-lazy-loading"
-import taskLists from "markdown-it-task-lists"
-import anchor from "markdown-it-anchor"
-import linkAttribute from "markdown-it-link-attributes"
-import customBlock from "markdown-it-custom-block"
-import textMatch from "markdown-it-texmath"
-import katex from "katex"
+import footnote from "markdown-it-footnote";
+import lazyLoading from "markdown-it-image-lazy-loading";
+import taskLists from "markdown-it-task-lists";
+import anchor from "markdown-it-anchor";
+import linkAttribute from "markdown-it-link-attributes";
+import customBlock from "markdown-it-custom-block";
+import textMatch from "markdown-it-texmath";
+import katex from "katex";
+import { md } from "./md-base";
 
 // options
 import { mdContainerDetails, mdContainerMessage } from "./option-md-container";

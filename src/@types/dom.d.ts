@@ -1,13 +1,13 @@
 interface HTMLElement {
-  createTextRange: () => any
-  selectionStart: any
-  selectionEnd: any
+  createTextRange: () => any;
+  selectionStart: any;
+  selectionEnd: any;
 }
 
 interface Window {
-  clipboardData: any
+  clipboardData: any;
 }
 
 interface Document {
-  selection: any
+  selection: any;
 }

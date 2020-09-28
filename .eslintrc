@@ -1,0 +1,63 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": false
+    }
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}, // use <root>/tsconfig.json
+      "node": { "extensions": [".ts", ".js", ".tsx", "json"] }
+    }
+  },
+  "rules": {
+    "arrow-parens": "off",
+    "camelcase": "off",
+    "class-methods-use-this": "off",
+    "consistent-return": "off",
+    "import/extensions": [
+      "error",
+      { "js": "never", "ts": "never", "json": "always" }
+    ],
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "lines-between-class-members": [
+      "error",
+      "always",
+      { "exceptAfterSingleLine": true }
+    ],
+    "no-nested-ternary": "off",
+    "max-len": "off",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "no-undef": "off",
+    "no-bitwise": "off",
+    "no-unused-vars": "off",
+    "import/no-duplicates": "off",
+    "no-restricted-globals": "off",
+    "prefer-promise-reject-errors": "off",
+    "no-underscore-dangle": "off",
+    "max-classes-per-file": "warn",
+    "prefer-object-spread": "warn",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-filename-extension": "off",
+    "react/destructuring-assignment": "off",
+    "react/prop-types": "off",
+    "react/jsx-pascal-case": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/static-property-placement": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/alt-text": "off",
+    "prettier/prettier": ["error", { "singleQuote": false }]
+  },
+  "plugins": ["prettier", "import"]
+}

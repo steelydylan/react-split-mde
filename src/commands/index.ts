@@ -1,2 +1,2 @@
-export * from "./bulletList"
-export * from "./orderedList"
+export * from "./bulletList";
+export * from "./orderedList";
