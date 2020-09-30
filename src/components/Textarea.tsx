@@ -121,7 +121,7 @@ export const Textarea: React.FC<Props> = ({
       selectionStart,
       selectionEnd,
     } = historyManager.current.getValue();
-    htmlRef.current.value = markdown;
+    htmlRef.current.value = undoMarkdown;
     htmlRef.current.setSelectionRange(selectionStart, selectionEnd);
     onChange(undoMarkdown);
   };
@@ -136,7 +136,7 @@ export const Textarea: React.FC<Props> = ({
       selectionStart,
       selectionEnd,
     } = historyManager.current.getValue();
-    htmlRef.current.value = markdown;
+    htmlRef.current.value = redoMarkdown;
     htmlRef.current.setSelectionRange(selectionStart, selectionEnd);
     onChange(redoMarkdown);
   };
@@ -150,19 +150,8 @@ export const Textarea: React.FC<Props> = ({
       const { shiftKey, metaKey, ctrlKey } = e;
       const start = textarea.selectionStart!;
       const end = textarea.selectionEnd!;
-
-      if (code === "z" && (metaKey || ctrlKey) && shiftKey) {
-        e.preventDefault();
-        redo();
-        return;
-      }
-      if (code === "z" && (metaKey || ctrlKey)) {
-        e.preventDefault();
-        undo();
-        return;
-      }
       commands.forEach((command) => {
-        const stop = command(textarea, {
+        const result = command(textarea, {
           line,
           value,
           code,
@@ -170,10 +159,14 @@ export const Textarea: React.FC<Props> = ({
           start,
           end,
           composing,
+          metaKey,
+          ctrlKey,
+          emit,
         });
-        if (stop) {
+        if (result?.stop) {
           e.preventDefault();
-          // setMarkdown(textarea.value)
+        }
+        if (result?.change) {
           onChange(textarea.value);
         }
       });

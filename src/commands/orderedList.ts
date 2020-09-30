@@ -1,4 +1,4 @@
-import { CommandOption, EnterKey, TabKey } from "../types";
+import { Command, EnterKey, TabKey } from "../types";
 import {
   insertTextAtCursor,
   insertTextAtCursorFirstLine,
@@ -15,10 +15,7 @@ const generateSpace = (count: number) => {
   return text;
 };
 
-export const orderedList = (
-  target: HTMLTextAreaElement,
-  option: CommandOption
-) => {
+export const orderedList: Command = (target, option) => {
   const { line } = option;
   const lineWithoutSpace = line.replace(/^(\s*)/g, "");
   const spaces = line.match(/^(\s*)/);
@@ -30,12 +27,12 @@ export const orderedList = (
     }
   }
   if (!/^(\d+)/.test(lineWithoutSpace)) {
-    return;
+    return { stop: false, change: false };
   }
   if (option.code === EnterKey && !option.composing) {
     const [_, number] = lineWithoutSpace.match(/^(\d+)/);
     if (lineWithoutSpace.length - number.length <= 2) {
-      return false;
+      return { stop: false, change: false };
     }
     const text = `\n${generateSpace(spaceLength)}${parseInt(number, 10) + 1}. `;
     insertTextAtCursor(target, text);
@@ -43,11 +40,11 @@ export const orderedList = (
       option.start + text.length,
       option.start + text.length
     );
-    return true;
+    return { stop: true, change: true };
   }
   if (option.code === TabKey && option.shiftKey) {
     removeTextAtFirstLine(target, 2);
-    return true;
+    return { stop: true, change: true };
   }
   if (option.code === TabKey) {
     const text = "  ";
@@ -56,7 +53,7 @@ export const orderedList = (
       option.start + text.length,
       option.start + text.length
     );
-    return true;
+    return { stop: true, change: true };
   }
-  return false;
+  return { stop: false, change: false };
 };

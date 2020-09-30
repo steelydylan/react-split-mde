@@ -8,6 +8,7 @@ export function getCurrentLine(target: HTMLTextAreaElement) {
 export function insertTextAtCursor(target: HTMLTextAreaElement, text: string) {
   target.setRangeText(text);
 }
+
 export function putCaretAtFirstLine(target) {
   const currentLineStr = getCurrentLine(target);
   target.setSelectionRange(

@@ -1,4 +1,4 @@
-import { CommandOption, EnterKey, TabKey } from "../types";
+import { Command, CommandOption, EnterKey, TabKey } from "../types";
 import {
   insertTextAtCursor,
   insertTextAtCursorFirstLine,
@@ -15,10 +15,7 @@ const generateSpace = (count: number) => {
   return text;
 };
 
-export const bulletList = (
-  target: HTMLTextAreaElement,
-  option: CommandOption
-) => {
+export const bulletList: Command = (target, option) => {
   const { line } = option;
   const lineWithoutSpace = line.replace(/^(\s*)/g, "");
   const spaces = line.match(/^(\s*)/);
@@ -30,7 +27,7 @@ export const bulletList = (
     }
   }
   if (!lineWithoutSpace.startsWith("-")) {
-    return false;
+    return { stop: false, change: false };
   }
   if (
     option.code === EnterKey &&
@@ -43,11 +40,11 @@ export const bulletList = (
       option.start + text.length,
       option.start + text.length
     );
-    return true;
+    return { stop: true, change: true };
   }
   if (option.code === TabKey && option.shiftKey) {
     removeTextAtFirstLine(target, 2);
-    return true;
+    return { stop: true, change: true };
   }
   if (option.code === TabKey) {
     const text = "  ";
@@ -56,7 +53,7 @@ export const bulletList = (
       option.start + text.length,
       option.start + text.length
     );
-    return true;
+    return { stop: true, change: true };
   }
-  return false;
+  return { stop: false, change: false };
 };

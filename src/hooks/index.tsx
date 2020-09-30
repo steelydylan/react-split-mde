@@ -14,7 +14,7 @@ const createEmitterProvider = (subscription: ReturnType<typeof eventmit>) => ({
   return <Provider value={subscription}>{children}</Provider>;
 };
 
-type Event =
+export type EmitEvent =
   | {
       type: "insert";
       text: string;
@@ -50,12 +50,12 @@ export const useProvider = <T extends Event>() => {
   return [emitter.current.emit, MemorizedProvider] as const;
 };
 
-export const useEmitter = <T extends Event>() => {
+export const useEmitter = <T extends EmitEvent>() => {
   const ctx = useContext(EmitterContext);
   return ctx.emit as (value: T) => void;
 };
 
-export const useSubscriber = <T extends Event>(fn: EventmitHandler<T>) => {
+export const useSubscriber = <T extends EmitEvent>(fn: EventmitHandler<T>) => {
   const ctx = useContext(EmitterContext);
   useEffect(() => {
     ctx.on(fn);
