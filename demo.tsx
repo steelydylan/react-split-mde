@@ -70,8 +70,10 @@ const Main = () => {
             refreshIfExist: true,
           }).then(() => {
             const znc = node.closest('.znc')
-            const extraTweets = znc.querySelectorAll('.twitter-tweet + .twitter-tweet')
-            extraTweets.forEach(tweet => tweet.remove())
+            if (znc) {
+              const extraTweets = znc.querySelectorAll('.twitter-tweet + .twitter-tweet')
+              extraTweets.forEach(tweet => tweet.remove())
+            }
           });
         }
       },

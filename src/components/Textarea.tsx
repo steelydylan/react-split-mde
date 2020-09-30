@@ -97,7 +97,7 @@ export const Textarea: React.FC<Props> = ({
 
   const handleTextChange = React.useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      // setMarkdown(e.target.value);
+      e.target.scrollTo(0, oldScrollRef.current)
       onChange(e.target.value);
     },
     []
@@ -200,6 +200,7 @@ export const Textarea: React.FC<Props> = ({
       const start = target.selectionStart!;
       insertTextAtCursor(htmlRef.current, text);
       target.setSelectionRange(start + text.length, start + text.length);
+      onChange(target.value);
     } else if (event.type === "replace") {
       const { text, targetText } = event;
       const currentSelection = target.selectionStart;
@@ -209,12 +210,12 @@ export const Textarea: React.FC<Props> = ({
         currentSelection + offset,
         currentSelection + offset
       );
+      onChange(target.value);
     } else if (event.type === "undo") {
       undo();
     } else if (event.type === "redo") {
       redo();
     }
-    onChange(target.value);
   });
 
   React.useEffect(() => {

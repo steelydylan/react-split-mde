@@ -14,7 +14,7 @@ type Props = {
   parser?: (text: string) => string;
   value: string;
   onChange?: (value: string) => void;
-  scrollMapping: Record<string, string>;
+  scrollMapping?: Record<string, string>;
 };
 
 const getCommands = (commands: Command[]) => {
