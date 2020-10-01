@@ -7,8 +7,8 @@ import { Command, Decoration } from "../types";
 import { scrollMapping as defaultScrollMapping } from "../utils";
 
 type Props = {
-  commands?: Command[];
-  decorations?: Decoration[];
+  commands?: Record<string, Command>;
+  decorations?: Record<string, Decoration>;
   previewClassName?: string;
   previewCallback?: Record<string, (node: any) => any>;
   parser?: (text: string) => string;
@@ -17,19 +17,17 @@ type Props = {
   scrollMapping?: Record<string, string>;
 };
 
-const getCommands = (commands: Command[]) => {
+const getCommands = (commands: Record<string, Command>) => {
   return (
-    commands ||
-    Object.keys(defaultCommands).map(
+    Object.keys(commands || defaultCommands).map(
       (key: keyof typeof defaultCommands) => defaultCommands[key]
     )
   );
 };
 
-const getDecorations = (decorations: Decoration[]) => {
+const getDecorations = (decorations: Record<string, Decoration>) => {
   return (
-    decorations ||
-    Object.keys(defaultDecorations).map(
+    Object.keys(decorations || defaultDecorations).map(
       (key: keyof typeof defaultDecorations) => defaultDecorations[key]
     )
   );

@@ -2,6 +2,7 @@ import * as React from "react";
 import { render } from "react-dom";
 import { Editor } from "./src"
 import 'zenn-content-css';
+import markdownHTML from 'zenn-markdown-html'
 import './css/editor.css';
 import markdown from './markdown.txt'
 import { loadScript, loadStylesheet } from "zenn-init-embed/lib/utils/load-external-source";
@@ -80,6 +81,7 @@ const Main = () => {
     }}
     value={value}
     onChange={handleValueChange}
+    parser={markdownHTML}
   /></Provider>)
 }
 

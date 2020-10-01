@@ -41,7 +41,7 @@ export type EmitEvent =
       type: "redo";
     };
 
-export const useProvider = <T extends Event>() => {
+export const useProvider = <T extends EmitEvent>() => {
   const emitter = useRef(eventmit<T>());
   const MemorizedProvider = useMemo(
     () => createEmitterProvider(emitter.current),

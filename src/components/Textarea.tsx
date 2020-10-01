@@ -1,7 +1,6 @@
 import React from "react";
 import highlight from "highlight.js/lib/core";
 import markdown from "highlight.js/lib/languages/markdown";
-import lozad from "lozad"
 import { Command, Decoration, Target } from "../types";
 import { getCurrentLine, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
