@@ -1,6 +1,7 @@
 import React from "react";
 import highlight from "highlight.js/lib/core";
 import markdown from "highlight.js/lib/languages/markdown";
+import lozad from "lozad"
 import { Command, Decoration, Target } from "../types";
 import { getCurrentLine, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
@@ -24,43 +25,6 @@ const xssAllowOption = {
   },
 };
 
-export const getBottomElement = (
-  target: HTMLPreElement,
-  scrollMapping: Record<string, string>
-) => {
-  const targetRect = target.getBoundingClientRect();
-  const { top } = targetRect;
-  const scrollPercent =
-    (target.scrollTop + target.offsetHeight) / target.scrollHeight;
-  const children = target.querySelectorAll("span");
-  const focusedPos = top + scrollPercent * target.offsetHeight;
-  const result = [].find.call(children, (child: HTMLElement) => {
-    const rect = child.getBoundingClientRect();
-    if (
-      focusedPos >= rect.bottom &&
-      focusedPos - 50 <= rect.top &&
-      scrollMapping[child.className]
-    ) {
-      return true;
-    }
-    return false;
-  }) as HTMLElement | null;
-  if (result) {
-    const elements = [].slice.call(
-      target.querySelectorAll(`.${result.className}`)
-    );
-    return [
-      {
-        selector: result.className,
-        text: result.textContent,
-        index: elements.indexOf(result),
-      },
-      scrollPercent,
-    ] as [Target, number];
-  }
-  return [null, scrollPercent] as [null, number];
-};
-
 export const Textarea: React.FC<Props> = ({
   onChange,
   commands,
@@ -81,18 +45,51 @@ export const Textarea: React.FC<Props> = ({
   );
   const psudoRef = React.useMemo(() => React.createRef<HTMLPreElement>(), []);
   const emit = useEmitter();
+  const observer = React.useRef<IntersectionObserver>()
+
+  React.useEffect(() => {
+    observer.current = new IntersectionObserver((entries) => {
+      const parent = psudoRef.current
+      const scrollPercent =
+      (parent.scrollTop + parent.offsetHeight) / parent.scrollHeight;
+      const scrollPos = htmlRef.current.scrollTop;
+      const scrollDiff = scrollPos - oldScrollRef.current;
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const { target } = entry
+          if (scrollMapping[`.${target.className}`]) {
+            const elements = [].slice.call(
+              psudoRef.current.querySelectorAll(`.${target.className}`)
+            );
+            const result = {
+              selector: `.${target.className}`,
+              text: target.textContent,
+              index: elements.indexOf(target),
+            }
+            return emit({ type: "scroll", target: result, scrollDiff, scrollPercent });
+          }
+        }
+      }
+    }, {
+      root: psudoRef.current
+    })
+    return () => {
+      observer.current.disconnect()
+    }
+  }, [])
+
+  React.useEffect(() => {
+    const parent = psudoRef.current;
+    const children = parent.querySelectorAll(Object.keys(scrollMapping).join(','));
+    [].forEach.call(children, (child) => {
+      observer.current.observe(child)
+    });
+  }, [markdown])
 
   const handleTextareaScroll = React.useCallback(() => {
     const scrollPos = htmlRef.current.scrollTop;
-    const scrollDiff = scrollPos - oldScrollRef.current;
     oldScrollRef.current = scrollPos;
     psudoRef.current.scrollTo(0, scrollPos);
-    const [result, scrollPercent] = getBottomElement(
-      psudoRef.current,
-      scrollMapping
-    );
-
-    emit({ type: "scroll", target: result, scrollDiff, scrollPercent });
   }, []);
 
   const handleTextChange = React.useCallback(
@@ -239,9 +236,9 @@ export const Textarea: React.FC<Props> = ({
         ref={htmlRef}
         className="zenn-mde-textarea"
         spellCheck={false}
+        onScroll={handleTextareaScroll}
         onChange={handleTextChange}
         onKeyDown={handleKeyDown}
-        onScroll={handleTextareaScroll}
         onCompositionStart={handleCompositionStart}
         onCompositionEnd={handleCompositionEnd}
         value={markdown}

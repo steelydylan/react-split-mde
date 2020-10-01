@@ -43,14 +43,14 @@ export function removeTextAtFirstLine(
 }
 
 export const scrollMapping = {
-  "title-1": "h1",
-  "title-2": "h2",
-  "title-3": "h3",
-  "title-4": "h4",
-  "title-5": "h5",
-  "title-6": "h6",
-  "hljs-code": "code",
-  "hljs-bullet": "li",
-  youtube: ".embed-youtube",
-  tweet: ".embed-tweet",
+  ".title-1": "h1",
+  ".title-2": "h2",
+  ".title-3": "h3",
+  ".title-4": "h4",
+  ".title-5": "h5",
+  ".title-6": "h6",
+  ".hljs-code": "code",
+  ".hljs-bullet": "li",
+  ".youtube": ".embed-youtube",
+  ".tweet": ".embed-tweet",
 };
