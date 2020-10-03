@@ -37,7 +37,7 @@ export const Preview: React.FC<Props> = ({
     if (!child) {
       return;
     }
-    parent.scrollTo(0, child.offsetTop - event.target.top);
+    parent.scrollTo(0, parent.scrollTop + child.getBoundingClientRect().top - parent.getBoundingClientRect().top - event.target.top);
   });
 
   React.useEffect(() => {

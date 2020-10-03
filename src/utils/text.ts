@@ -49,7 +49,6 @@ export const scrollMapping = {
   ".title-4": "h4",
   ".title-5": "h5",
   ".title-6": "h6",
-  ".hljs-code": "code",
   ".hljs-bullet": "li",
   ".youtube": ".embed-youtube",
   ".tweet": ".embed-tweet",

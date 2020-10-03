@@ -27,7 +27,6 @@ export type EmitEvent =
       type: "scroll";
       target: Target | null;
       scrollDiff: number;
-      scrollPercent: number;
       scrollPos: number;
     }
   | {

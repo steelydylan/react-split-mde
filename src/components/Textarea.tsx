@@ -43,37 +43,52 @@ const convertMarkdown = (md: string, decorations: Decoration[]) => {
   );
 };
 
+export const convertElementToTarget = ({ result, target, top }: {
+  result: HTMLElement, 
+  target: HTMLPreElement, 
+  top: number
+}) => {
+  const elements = Array.from(target.querySelectorAll(`.${result.className}`))
+  return {
+    selector: `.${result.className}`,
+    text: result.textContent,
+    index: elements.indexOf(result),
+    top: result.getBoundingClientRect().top - top,
+  }
+}
+
 export const getTargetElement = (
   target: HTMLPreElement,
   scrollMapping: Record<string, string>
 ) => {
   const targetRect = target.getBoundingClientRect();
   const { top, bottom } = targetRect;
-  const scrollPercent =
-    (target.scrollTop + target.offsetHeight) / target.scrollHeight;
   const children = target.querySelectorAll("span");
   const result = [].find.call(children, (child: HTMLElement) => {
     const rect = child.getBoundingClientRect();
-    if (rect.bottom >= top && rect.bottom <= bottom && Object.keys(scrollMapping).some(key => child.matches(key))) {
+    if (rect.bottom >= top && rect.top <= bottom && Object.keys(scrollMapping).some(key => child.matches(key))) {
       return true;
     }
     return false;
   }) as HTMLElement | null;
   if (result) {
-    const elements = [].slice.call(
-      target.querySelectorAll(`.${result.className}`)
-    );
-    return [
-      {
-        selector: `.${result.className}`,
-        text: result.textContent,
-        index: elements.indexOf(result),
-        top: result.getBoundingClientRect().top - top,
-      },
-      scrollPercent,
-    ] as [Target, number];
+    return convertElementToTarget({ result, target, top })
   }
-  return [null, scrollPercent] as [null, number];
+  const results = Array.from(children).filter(child => Object.keys(scrollMapping).some(key => child.matches(key)) 
+  ).sort((a: HTMLElement, b: HTMLElement) => {
+    const rectA = a.getBoundingClientRect();
+    const rectB = b.getBoundingClientRect();
+    const minA = Math.min(Math.abs(rectA.bottom - top), Math.abs(rectA.top - bottom))
+    const minB = Math.min(Math.abs(rectB.bottom - top), Math.abs(rectB.top - bottom))
+    if (minA < minB) {
+      return -1
+    } 
+    return 1
+  })
+  if (results[0]) {
+    return convertElementToTarget({ result: results[0], target, top })
+  }
+  return null;
 };
 
 export const Textarea: React.FC<Props> = ({
@@ -101,11 +116,11 @@ export const Textarea: React.FC<Props> = ({
     const scrollDiff = scrollPos - oldScrollRef.current;
     oldScrollRef.current = scrollPos;
     psudoRef.current.scrollTo(0, scrollPos);
-    const [result, scrollPercent] = getTargetElement(
+    const result = getTargetElement(
       psudoRef.current,
       scrollMapping
     );
-    emit({ type: "scroll", target: result, scrollDiff, scrollPercent, scrollPos });
+    emit({ type: "scroll", target: result, scrollDiff, scrollPos });
   }, []);
 
   const handleTextChange = React.useCallback(
