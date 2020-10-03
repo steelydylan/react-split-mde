@@ -112,15 +112,15 @@ export const Textarea: React.FC<Props> = ({
   const psudoRef = React.useMemo(() => React.createRef<HTMLPreElement>(), []);
   const emit = useEmitter();
   const handleTextareaScroll = React.useCallback(() => {
-    const scrollPos = htmlRef.current.scrollTop;
-    const scrollDiff = scrollPos - oldScrollRef.current;
-    oldScrollRef.current = scrollPos;
-    psudoRef.current.scrollTo(0, scrollPos);
+    const { offsetHeight, scrollHeight, scrollTop } = htmlRef.current
+    const scrollDiff = scrollTop - oldScrollRef.current;
+    oldScrollRef.current = scrollTop;
+    psudoRef.current.scrollTo(0, scrollTop);
     const result = getTargetElement(
       psudoRef.current,
       scrollMapping
     );
-    emit({ type: "scroll", target: result, scrollDiff, scrollPos });
+    emit({ type: "scroll", target: result, scrollDiff, scrollTop, scrollHeight, offsetHeight });
   }, []);
 
   const handleTextChange = React.useCallback(

@@ -28,6 +28,15 @@ export const Preview: React.FC<Props> = ({
       return
     }
     const parent = ref.current.parentNode as HTMLElement;
+    if (event.scrollTop < 50) {
+      parent.scrollTo(0, 0)
+      return
+    } 
+    const bottomOffset = event.scrollHeight - event.scrollTop - event.offsetHeight
+    if (bottomOffset < 50) {
+      parent.scrollTo(0, parent.scrollHeight)
+      return
+    }
     const selector = scrollMapping[event.target.selector];
     if (!selector) {
       return;
