@@ -53,4 +53,5 @@ export const scrollMapping = {
   ".hljs-bullet": "li",
   ".youtube": ".embed-youtube",
   ".tweet": ".embed-tweet",
+  ".image": "img",
 };

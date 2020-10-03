@@ -25,10 +25,6 @@ export const Preview: React.FC<Props> = ({
       return;
     }
     const parent = ref.current.parentNode as HTMLElement;
-    if (event.scrollPos < 70) {
-      parent.scrollTo(0, 0)
-      return
-    }
     const selector = scrollMapping[event.target.selector];
     if (!selector) {
       return;

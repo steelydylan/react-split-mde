@@ -34,6 +34,7 @@
     "markdown-it-prism": "^2.1.1",
     "markdown-it-task-lists": "^2.1.1",
     "markdown-it-texmath": "^0.8.0",
+    "markdown-tree-parser": "^0.12.4",
     "morphdom": "^2.6.1",
     "react-lowlight": "^2.0.0",
     "use-eventmit": "^1.0.3",
