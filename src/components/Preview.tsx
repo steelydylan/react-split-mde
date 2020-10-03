@@ -24,6 +24,9 @@ export const Preview: React.FC<Props> = ({
     if (event.type !== "scroll") {
       return;
     }
+    if (!event.target) {
+      return
+    }
     const parent = ref.current.parentNode as HTMLElement;
     const selector = scrollMapping[event.target.selector];
     if (!selector) {
@@ -34,10 +37,7 @@ export const Preview: React.FC<Props> = ({
     if (!child) {
       return;
     }
-    parent.scrollTo(
-      0,
-      child.offsetTop - parent.offsetHeight + child.offsetHeight
-    );
+    parent.scrollTo(0, child.offsetTop - event.target.top);
   });
 
   React.useEffect(() => {

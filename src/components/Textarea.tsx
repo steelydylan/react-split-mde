@@ -43,23 +43,18 @@ const convertMarkdown = (md: string, decorations: Decoration[]) => {
   );
 };
 
-export const getBottomElement = (
+export const getTargetElement = (
   target: HTMLPreElement,
   scrollMapping: Record<string, string>
 ) => {
   const targetRect = target.getBoundingClientRect();
-  const { top } = targetRect;
+  const { top, bottom } = targetRect;
   const scrollPercent =
     (target.scrollTop + target.offsetHeight) / target.scrollHeight;
   const children = target.querySelectorAll("span");
-  const focusedPos = top + scrollPercent * target.offsetHeight;
   const result = [].find.call(children, (child: HTMLElement) => {
     const rect = child.getBoundingClientRect();
-    if (
-      focusedPos >= rect.bottom &&
-      focusedPos - 50 <= rect.top &&
-      scrollMapping[`.${child.className}`]
-    ) {
+    if (rect.bottom >= top && rect.bottom <= bottom && Object.keys(scrollMapping).some(key => child.matches(key))) {
       return true;
     }
     return false;
@@ -73,6 +68,7 @@ export const getBottomElement = (
         selector: `.${result.className}`,
         text: result.textContent,
         index: elements.indexOf(result),
+        top: result.getBoundingClientRect().top - top,
       },
       scrollPercent,
     ] as [Target, number];
@@ -105,7 +101,7 @@ export const Textarea: React.FC<Props> = ({
     const scrollDiff = scrollPos - oldScrollRef.current;
     oldScrollRef.current = scrollPos;
     psudoRef.current.scrollTo(0, scrollPos);
-    const [result, scrollPercent] = getBottomElement(
+    const [result, scrollPercent] = getTargetElement(
       psudoRef.current,
       scrollMapping
     );
