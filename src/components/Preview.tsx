@@ -25,13 +25,9 @@ export const Preview: React.FC<Props> = ({
       return;
     }
     const parent = ref.current.parentNode as HTMLElement;
-    if (!event.target) {
-      if (event.scrollPercent === 1) {
-        parent.scrollTo(0, parent.scrollHeight);
-      } else {
-        parent.scrollTo(0, parent.scrollTop + event.scrollDiff);
-      }
-      return;
+    if (event.scrollPos < 70) {
+      parent.scrollTo(0, 0)
+      return
     }
     const selector = scrollMapping[event.target.selector];
     if (!selector) {
@@ -44,10 +40,7 @@ export const Preview: React.FC<Props> = ({
     }
     parent.scrollTo(
       0,
-      child.offsetTop -
-        parent.offsetHeight +
-        event.scrollPercent * child.offsetHeight +
-        parent.offsetHeight * (1 - event.scrollPercent)
+      child.offsetTop - parent.offsetHeight + child.offsetHeight
     );
   });
 

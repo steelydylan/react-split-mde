@@ -28,6 +28,7 @@ export type EmitEvent =
       target: Target | null;
       scrollDiff: number;
       scrollPercent: number;
+      scrollPos: number;
     }
   | {
       type: "replace";

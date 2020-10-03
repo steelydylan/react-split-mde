@@ -54,23 +54,24 @@ export const Textarea: React.FC<Props> = ({
       const scrollPos = htmlRef.current.scrollTop;
       const scrollDiff = scrollPos - oldScrollRef.current;
       for (const entry of entries) {
-        if (entry.isIntersecting) {
-          const { target } = entry
-          if (scrollMapping[`.${target.className}`]) {
-            const elements = [].slice.call(
-              psudoRef.current.querySelectorAll(`.${target.className}`)
-            );
-            const result = {
-              selector: `.${target.className}`,
-              text: target.textContent,
-              index: elements.indexOf(target),
-            }
-            return emit({ type: "scroll", target: result, scrollDiff, scrollPercent });
+        const { target, boundingClientRect } = entry
+        if (boundingClientRect.top < 400) {
+          return
+        }
+        if (scrollMapping[`.${target.className}`]) {
+          const elements = [].slice.call(
+            psudoRef.current.querySelectorAll(`.${target.className}`)
+          );
+          const result = {
+            selector: `.${target.className}`,
+            text: target.textContent,
+            index: elements.indexOf(target),
           }
+          return emit({ type: "scroll", target: result, scrollDiff, scrollPercent, scrollPos });
         }
       }
     }, {
-      root: psudoRef.current
+      root: psudoRef.current,
     })
     return () => {
       observer.current.disconnect()
