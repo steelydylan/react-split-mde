@@ -81,6 +81,7 @@ const Main = () => {
     }}
     value={value}
     onChange={handleValueChange}
+    parser={markdownHTML}
   /></Provider>)
 }
 
