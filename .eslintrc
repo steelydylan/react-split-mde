@@ -57,7 +57,8 @@
     "jsx-a11y/label-has-associated-control": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/alt-text": "off",
-    "prettier/prettier": ["error", { "singleQuote": false }]
+    "prettier/prettier": ["error", { "singleQuote": false }],
+    "import/no-webpack-loader-syntax": "off"
   },
   "plugins": ["prettier", "import"]
 }

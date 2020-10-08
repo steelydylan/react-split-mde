@@ -6,7 +6,7 @@ import { useSubscriber } from "../hooks";
 type Props = {
   value: string;
   className?: string;
-  parser: (text: string) => string;
+  parser: (text: string) => Promise<string>;
   callback: Record<string, (node: any) => any>;
   scrollMapping: Record<string, string>;
 };
@@ -25,17 +25,21 @@ export const Preview: React.FC<Props> = ({
       return;
     }
     if (!event.target) {
-      return
+      return;
     }
     const parent = ref.current.parentNode as HTMLElement;
     if (event.scrollTop < 50) {
-      parent.scrollTo(0, event.scrollTop)
-      return
-    } 
-    const bottomOffset = event.scrollHeight - event.scrollTop - event.offsetHeight
+      parent.scrollTo(0, event.scrollTop);
+      return;
+    }
+    const bottomOffset =
+      event.scrollHeight - event.scrollTop - event.offsetHeight;
     if (bottomOffset < 50) {
-      parent.scrollTo(0, parent.scrollHeight - parent.offsetHeight - bottomOffset)
-      return
+      parent.scrollTo(
+        0,
+        parent.scrollHeight - parent.offsetHeight - bottomOffset
+      );
+      return;
     }
     const selector = scrollMapping[event.target.selector];
     if (!selector) {
@@ -46,20 +50,28 @@ export const Preview: React.FC<Props> = ({
     if (!child) {
       return;
     }
-    parent.scrollTo(0, parent.scrollTop + child.getBoundingClientRect().top - parent.getBoundingClientRect().top - event.target.top);
+    parent.scrollTo(
+      0,
+      parent.scrollTop +
+        child.getBoundingClientRect().top -
+        parent.getBoundingClientRect().top -
+        event.target.top
+    );
   });
 
   React.useEffect(() => {
-    try {
-      const html = parser ? parser(value) : defaultParser(value);
-      morphdom(
-        ref.current,
-        `<div class="${className}">${html}</div>`,
-        callback
-      );
-    } catch (e) {
-      console.log(e);
-    }
+    (async () => {
+      try {
+        const html = parser ? await parser(value) : await defaultParser(value);
+        morphdom(
+          ref.current,
+          `<div class="${className}">${html}</div>`,
+          callback
+        );
+      } catch (e) {
+        console.log(e);
+      }
+    })();
   }, [value]);
 
   return <div ref={ref} className={className} />;

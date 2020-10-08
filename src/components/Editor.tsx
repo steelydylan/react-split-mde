@@ -11,25 +11,21 @@ type Props = {
   decorations?: Record<string, Decoration>;
   previewClassName?: string;
   previewCallback?: Record<string, (node: any) => any>;
-  parser?: (text: string) => string;
+  parser?: (text: string) => Promise<string>;
   value: string;
   onChange?: (value: string) => void;
   scrollMapping?: Record<string, string>;
 };
 
 const getCommands = (commands: Record<string, Command>) => {
-  return (
-    Object.keys(commands || defaultCommands).map(
-      (key: keyof typeof defaultCommands) => defaultCommands[key]
-    )
+  return Object.keys(commands || defaultCommands).map(
+    (key: keyof typeof defaultCommands) => defaultCommands[key]
   );
 };
 
 const getDecorations = (decorations: Record<string, Decoration>) => {
-  return (
-    Object.keys(decorations || defaultDecorations).map(
-      (key: keyof typeof defaultDecorations) => defaultDecorations[key]
-    )
+  return Object.keys(decorations || defaultDecorations).map(
+    (key: keyof typeof defaultDecorations) => defaultDecorations[key]
   );
 };
 

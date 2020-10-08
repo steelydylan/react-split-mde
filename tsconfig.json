@@ -11,9 +11,11 @@
     "jsx": "react",
     "lib": [
       "es2018",
-      "dom"
+      "dom",
+      "webworker",
     ],
-    "types": ["react"]
+    "types": ["react"],
+    "typeRoots": ["./demo/@types", "./src/@types"]
   },
   "exclude": ["node_modules"]
 }
