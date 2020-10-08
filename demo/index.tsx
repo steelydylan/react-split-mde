@@ -60,15 +60,15 @@ const Main = () => {
     []
   );
 
-  // const handleMarkdown = async (str: string) => {
-  //   worker.postMessage(str);
-  //   const e = await pEvent(worker, "message");
-  //   return e.data;
-  // };
-
   const handleMarkdown = async (str: string) => {
-    return markdownToHtml(str);
+    worker.postMessage(str);
+    const e = await pEvent(worker, "message");
+    return e.data;
   };
+
+  // const handleMarkdown = async (str: string) => {
+  //   return markdownToHtml(str);
+  // };
 
   return (
     <Provider>
