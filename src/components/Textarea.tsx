@@ -75,7 +75,7 @@ export const getTargetElement = (
   const targetRect = target.getBoundingClientRect();
   const { top, bottom } = targetRect;
   const children = target.querySelectorAll("span");
-  const result = [].find.call(children, (child: HTMLElement) => {
+  const result = Array.from(children).find((child: HTMLElement) => {
     const rect = child.getBoundingClientRect();
     if (
       rect.bottom >= top &&

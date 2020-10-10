@@ -27,9 +27,10 @@ export const Preview: React.FC<Props> = ({
     if (!event.target) {
       return;
     }
+    const ratio = ref.current.scrollHeight / event.scrollHeight;
     const parent = ref.current.parentNode as HTMLElement;
     if (event.scrollTop < 50) {
-      parent.scrollTo(0, event.scrollTop);
+      parent.scrollTo(0, ratio * event.scrollTop);
       return;
     }
     const bottomOffset =
@@ -55,7 +56,7 @@ export const Preview: React.FC<Props> = ({
       parent.scrollTop +
         child.getBoundingClientRect().top -
         parent.getBoundingClientRect().top -
-        event.target.top
+        ratio * event.target.top
     );
   });
 
