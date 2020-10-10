@@ -38,7 +38,7 @@ export const Preview: React.FC<Props> = ({
     if (bottomOffset < 50) {
       parent.scrollTo(
         0,
-        parent.scrollHeight - parent.offsetHeight - bottomOffset
+        parent.scrollHeight - parent.offsetHeight - bottomOffset * ratio
       );
       return;
     }
