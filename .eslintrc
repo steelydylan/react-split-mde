@@ -53,12 +53,11 @@
     "react/prop-types": "off",
     "react/jsx-pascal-case": "off",
     "react/jsx-wrap-multilines": "off",
-    "react/static-property-placement": "off",
+    "react/require-default-props": "off",
+    "react/no-unused-prop-types": "off",
     "jsx-a11y/label-has-associated-control": "off",
-    "jsx-a11y/anchor-is-valid": "off",
-    "jsx-a11y/alt-text": "off",
     "prettier/prettier": ["error", { "singleQuote": false }],
-    "import/no-webpack-loader-syntax": "off"
+    "no-use-before-define": "off"
   },
   "plugins": ["prettier", "import"]
 }

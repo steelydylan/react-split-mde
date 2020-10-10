@@ -1,14 +1,21 @@
-import React from "react";
 import highlight from "highlight.js/lib/core";
-import markdown from "highlight.js/lib/languages/markdown";
-import { Command, Decoration, Target } from "../types";
+import md from "highlight.js/lib/languages/markdown";
+import React, {
+  createRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Command, Decoration } from "../types";
 import { getCurrentLine, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
 import { useEmitter, useSubscriber } from "../hooks";
 
 import { UndoRedo } from "../utils/undo-redo";
 
-highlight.registerLanguage("markdown", markdown);
+highlight.registerLanguage("markdown", md);
 
 type Props = {
   onChange: (value: string) => void;
@@ -24,8 +31,8 @@ const xssAllowOption = {
   },
 };
 
-const convertMarkdown = (md: string, decorations: Decoration[]) => {
-  let text = md;
+const convertMarkdown = (beforeMd: string, decorations: Decoration[]) => {
+  let text = beforeMd;
   if (text.endsWith("\n")) {
     text = `${text} `;
   }
@@ -43,19 +50,23 @@ const convertMarkdown = (md: string, decorations: Decoration[]) => {
   );
 };
 
-export const convertElementToTarget = ({ result, target, top }: {
-  result: HTMLElement, 
-  target: HTMLPreElement, 
-  top: number
+export const convertElementToTarget = ({
+  result,
+  target,
+  top,
+}: {
+  result: HTMLElement;
+  target: HTMLPreElement;
+  top: number;
 }) => {
-  const elements = Array.from(target.querySelectorAll(`.${result.className}`))
+  const elements = Array.from(target.querySelectorAll(`.${result.className}`));
   return {
     selector: `.${result.className}`,
     text: result.textContent,
     index: elements.indexOf(result),
     top: result.getBoundingClientRect().top - top,
-  }
-}
+  };
+};
 
 export const getTargetElement = (
   target: HTMLPreElement,
@@ -66,27 +77,40 @@ export const getTargetElement = (
   const children = target.querySelectorAll("span");
   const result = [].find.call(children, (child: HTMLElement) => {
     const rect = child.getBoundingClientRect();
-    if (rect.bottom >= top && rect.top <= bottom && Object.keys(scrollMapping).some(key => child.matches(key))) {
+    if (
+      rect.bottom >= top &&
+      rect.top <= bottom &&
+      Object.keys(scrollMapping).some((key) => child.matches(key))
+    ) {
       return true;
     }
     return false;
   }) as HTMLElement | null;
   if (result) {
-    return convertElementToTarget({ result, target, top })
+    return convertElementToTarget({ result, target, top });
   }
-  const results = Array.from(children).filter(child => Object.keys(scrollMapping).some(key => child.matches(key)) 
-  ).sort((a: HTMLElement, b: HTMLElement) => {
-    const rectA = a.getBoundingClientRect();
-    const rectB = b.getBoundingClientRect();
-    const minA = Math.min(Math.abs(rectA.bottom - top), Math.abs(rectA.top - bottom))
-    const minB = Math.min(Math.abs(rectB.bottom - top), Math.abs(rectB.top - bottom))
-    if (minA < minB) {
-      return -1
-    } 
-    return 1
-  })
+  const results = Array.from(children)
+    .filter((child) =>
+      Object.keys(scrollMapping).some((key) => child.matches(key))
+    )
+    .sort((a: HTMLElement, b: HTMLElement) => {
+      const rectA = a.getBoundingClientRect();
+      const rectB = b.getBoundingClientRect();
+      const minA = Math.min(
+        Math.abs(rectA.bottom - top),
+        Math.abs(rectA.top - bottom)
+      );
+      const minB = Math.min(
+        Math.abs(rectB.bottom - top),
+        Math.abs(rectB.top - bottom)
+      );
+      if (minA < minB) {
+        return -1;
+      }
+      return 1;
+    });
   if (results[0]) {
-    return convertElementToTarget({ result: results[0], target, top })
+    return convertElementToTarget({ result: results[0], target, top });
   }
   return null;
 };
@@ -99,43 +123,47 @@ export const Textarea: React.FC<Props> = ({
   scrollMapping,
 }) => {
   // const [markdown, setMarkdown] = React.useState(value);
-  const [composing, setComposing] = React.useState(false);
-  const htmlRef = React.useRef<HTMLTextAreaElement>();
-  const oldScrollRef = React.useRef<number>(0);
-  const historyManager = React.useRef(
+  const [composing, setComposing] = useState(false);
+  const htmlRef = useRef<HTMLTextAreaElement>();
+  const oldScrollRef = useRef<number>(0);
+  const historyManager = useRef(
     new UndoRedo({
       markdown,
       selectionStart: 0,
       selectionEnd: 0,
     })
   );
-  const psudoRef = React.useMemo(() => React.createRef<HTMLPreElement>(), []);
+  const psudoRef = useMemo(() => createRef<HTMLPreElement>(), []);
   const emit = useEmitter();
-  const handleTextareaScroll = React.useCallback(() => {
-    const { offsetHeight, scrollHeight, scrollTop } = htmlRef.current
+  const handleTextareaScroll = useCallback(() => {
+    const { offsetHeight, scrollHeight, scrollTop } = htmlRef.current;
     const scrollDiff = scrollTop - oldScrollRef.current;
     oldScrollRef.current = scrollTop;
     psudoRef.current.scrollTo(0, scrollTop);
-    const result = getTargetElement(
-      psudoRef.current,
-      scrollMapping
-    );
-    emit({ type: "scroll", target: result, scrollDiff, scrollTop, scrollHeight, offsetHeight });
+    const result = getTargetElement(psudoRef.current, scrollMapping);
+    emit({
+      type: "scroll",
+      target: result,
+      scrollDiff,
+      scrollTop,
+      scrollHeight,
+      offsetHeight,
+    });
   }, []);
 
-  const handleTextChange = React.useCallback(
+  const handleTextChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      e.target.scrollTo(0, oldScrollRef.current)
+      e.target.scrollTo(0, oldScrollRef.current);
       onChange(e.target.value);
     },
     []
   );
 
-  const handleCompositionStart = React.useCallback(() => {
+  const handleCompositionStart = useCallback(() => {
     setComposing(true);
   }, []);
 
-  const handleCompositionEnd = React.useCallback(() => {
+  const handleCompositionEnd = useCallback(() => {
     setComposing(false);
   }, []);
 
@@ -169,7 +197,7 @@ export const Textarea: React.FC<Props> = ({
     onChange(redoMarkdown);
   };
 
-  const handleKeyDown = React.useCallback(
+  const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       const textarea = e.target as HTMLTextAreaElement;
       const line = getCurrentLine(textarea);
@@ -227,7 +255,7 @@ export const Textarea: React.FC<Props> = ({
     }
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     historyManager.current.push({
       markdown,
       selectionStart: htmlRef.current.selectionStart,
