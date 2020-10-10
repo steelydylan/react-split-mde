@@ -56,7 +56,7 @@ export const Preview: React.FC<Props> = ({
       parent.scrollTop +
         child.getBoundingClientRect().top -
         parent.getBoundingClientRect().top -
-        ratio * event.target.top
+        event.target.top
     );
   });
 
