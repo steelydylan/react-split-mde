@@ -57,7 +57,8 @@
     "react/no-unused-prop-types": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "prettier/prettier": ["error", { "singleQuote": false }],
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "import/no-webpack-loader-syntax": "off"
   },
   "plugins": ["prettier", "import"]
 }

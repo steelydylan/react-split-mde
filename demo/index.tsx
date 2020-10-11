@@ -6,8 +6,8 @@ import {
   loadStylesheet,
 } from "zenn-init-embed/lib/utils/load-external-source";
 import pEvent from "p-event";
+// eslint-disable-next-line import/no-unresolved
 import Worker from "worker-loader!./worker";
-import markdownToHtml from "zenn-markdown-html";
 import { useProvider } from "../src/hooks";
 import "../css/editor.css";
 import { Editor } from "../src";
