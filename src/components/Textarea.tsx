@@ -49,7 +49,7 @@ export const getTargetElement = (
   scrollMapping: Record<string, string>
 ) => {
   const targetRect = target.getBoundingClientRect();
-  const { top } = targetRect;
+  const { top, bottom } = targetRect;
   const children = target.querySelectorAll("span");
   const results = Array.from(children)
     .filter((child) =>
@@ -68,6 +68,9 @@ export const getTargetElement = (
         Math.abs(top - rectBBottom),
         Math.abs(top - rectB.top)
       );
+      if (rectABottom < bottom && rectA.top > top) {
+        return 1;
+      }
       if (absA < absB) {
         return -1;
       }
