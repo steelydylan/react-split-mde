@@ -73,22 +73,9 @@ export const getTargetElement = (
   scrollMapping: Record<string, string>
 ) => {
   const targetRect = target.getBoundingClientRect();
-  const { top, bottom } = targetRect;
+  const { top, bottom, height } = targetRect;
+  const center = top + height / 2;
   const children = target.querySelectorAll("span");
-  const result = Array.from(children).find((child: HTMLElement) => {
-    const rect = child.getBoundingClientRect();
-    if (
-      rect.bottom >= top &&
-      rect.top <= bottom &&
-      Object.keys(scrollMapping).some((key) => child.matches(key))
-    ) {
-      return true;
-    }
-    return false;
-  }) as HTMLElement | null;
-  if (result) {
-    return convertElementToTarget({ result, target, top });
-  }
   const results = Array.from(children)
     .filter((child) =>
       Object.keys(scrollMapping).some((key) => child.matches(key))
@@ -96,15 +83,11 @@ export const getTargetElement = (
     .sort((a: HTMLElement, b: HTMLElement) => {
       const rectA = a.getBoundingClientRect();
       const rectB = b.getBoundingClientRect();
-      const minA = Math.min(
-        Math.abs(rectA.bottom - top),
-        Math.abs(rectA.top - bottom)
-      );
-      const minB = Math.min(
-        Math.abs(rectB.bottom - top),
-        Math.abs(rectB.top - bottom)
-      );
-      if (minA < minB) {
+      const rectACenter = rectA.top + rectA.height / 2;
+      const rectBCenter = rectB.top + rectB.height / 2;
+      const absA = Math.abs(center - rectACenter);
+      const absB = Math.abs(center - rectBCenter);
+      if (absA < absB) {
         return -1;
       }
       return 1;
