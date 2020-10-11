@@ -51,12 +51,18 @@ export const Preview: React.FC<Props> = ({
     if (!child) {
       return;
     }
+    const targetTop = event.target.top;
+    const {
+      top: childTop,
+      height: childHeight,
+    } = child.getBoundingClientRect();
     parent.scrollTo(
       0,
       parent.scrollTop +
-        child.getBoundingClientRect().top -
+        childTop +
+        childHeight / 2 -
         parent.getBoundingClientRect().top -
-        event.target.top
+        targetTop
     );
   });
 

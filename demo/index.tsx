@@ -72,53 +72,57 @@ const Main = () => {
 
   return (
     <Provider>
-      <button type="button" onClick={handleYouTubeClick}>
-        YouTube挿入
-      </button>
-      <button type="button" onClick={handleTwitterClick}>
-        Twitter挿入
-      </button>
-      <input type="file" onChange={handleImageUpload} />
-      <Editor
-        previewClassName="znc"
-        previewCallback={{
-          onBeforeNodeDiscarded(node: any) {
-            if (
-              node.closest &&
-              !node.classList.contains("embed-tweet") &&
-              node.closest(".embed-tweet")
-            ) {
+      <div className="tool">
+        <button type="button" onClick={handleYouTubeClick}>
+          YouTube挿入
+        </button>
+        <button type="button" onClick={handleTwitterClick}>
+          Twitter挿入
+        </button>
+        <input type="file" onChange={handleImageUpload} />
+      </div>
+      <div className="demo">
+        <Editor
+          previewClassName="znc"
+          previewCallback={{
+            onBeforeNodeDiscarded(node: any) {
               if (
-                node.tagName === "IFRAME" ||
-                node.classList.contains("twitter-tweet")
+                node.closest &&
+                !node.classList.contains("embed-tweet") &&
+                node.closest(".embed-tweet")
               ) {
-                return false;
-              }
-            }
-            return true;
-          },
-          onNodeAdded(node: any) {
-            if (node.classList && node.classList.contains("embed-tweet")) {
-              loadScript({
-                src: "https://platform.twitter.com/widgets.js",
-                id: "embed-tweet",
-                refreshIfExist: true,
-              }).then(() => {
-                const znc = node.closest(".znc");
-                if (znc) {
-                  const extraTweets = znc.querySelectorAll(
-                    ".twitter-tweet + .twitter-tweet"
-                  );
-                  extraTweets.forEach((tweet) => tweet.remove());
+                if (
+                  node.tagName === "IFRAME" ||
+                  node.classList.contains("twitter-tweet")
+                ) {
+                  return false;
                 }
-              });
-            }
-          },
-        }}
-        value={value}
-        onChange={handleValueChange}
-        parser={handleMarkdown}
-      />
+              }
+              return true;
+            },
+            onNodeAdded(node: any) {
+              if (node.classList && node.classList.contains("embed-tweet")) {
+                loadScript({
+                  src: "https://platform.twitter.com/widgets.js",
+                  id: "embed-tweet",
+                  refreshIfExist: true,
+                }).then(() => {
+                  const znc = node.closest(".znc");
+                  if (znc) {
+                    const extraTweets = znc.querySelectorAll(
+                      ".twitter-tweet + .twitter-tweet"
+                    );
+                    extraTweets.forEach((tweet) => tweet.remove());
+                  }
+                });
+              }
+            },
+          }}
+          value={value}
+          onChange={handleValueChange}
+          parser={handleMarkdown}
+        />
+      </div>
     </Provider>
   );
 };

@@ -38,6 +38,7 @@
     "markdown-tree-parser": "^0.12.4",
     "morphdom": "^2.6.1",
     "react-lowlight": "^2.0.0",
+    "scrollto-with-animation": "^3.0.4",
     "use-eventmit": "^1.0.3",
     "xss": "^1.0.8"
   },
