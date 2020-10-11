@@ -1,5 +1,3 @@
-import highlight from "highlight.js/lib/core";
-import md from "highlight.js/lib/languages/markdown";
 import React, {
   createRef,
   useCallback,
@@ -12,15 +10,12 @@ import { Command, Decoration } from "../types";
 import { getCurrentLine, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
 import { useEmitter, useSubscriber } from "../hooks";
-
 import { UndoRedo } from "../utils/undo-redo";
-
-highlight.registerLanguage("markdown", md);
+import { decorationCode } from "../decoration";
 
 type Props = {
   onChange: (value: string) => void;
   commands: Command[];
-  decorations: Decoration[];
   value: string;
   scrollMapping: Record<string, string>;
 };
@@ -29,25 +24,6 @@ const xssAllowOption = {
   whiteList: {
     span: ["class"],
   },
-};
-
-const convertMarkdown = (beforeMd: string, decorations: Decoration[]) => {
-  let text = beforeMd;
-  if (text.endsWith("\n")) {
-    text = `${text} `;
-  }
-  const { value: result } = highlight.highlight("markdown", text);
-  return result.replace(
-    /(<\s*span[^>]*>)(([\n\r\t]|.)*?)(<\s*\/\s*span>)/g,
-    (_match, p1, p2, _p3, p4) => {
-      let value = p2;
-      const [_, className] = p1.match(/class="(.*)?"/);
-      decorations.forEach((decoration) => {
-        value = decoration(value, className);
-      });
-      return `${p1}${value}${p4}`;
-    }
-  );
 };
 
 export const convertElementToTarget = ({
@@ -101,7 +77,6 @@ export const getTargetElement = (
 export const Textarea: React.FC<Props> = ({
   onChange,
   commands,
-  decorations,
   value: markdown,
   scrollMapping,
 }) => {
@@ -253,7 +228,7 @@ export const Textarea: React.FC<Props> = ({
         ref={psudoRef}
         className="zenn-mde-psudo"
         tagName="pre"
-        html={convertMarkdown(markdown, decorations)}
+        html={decorationCode(markdown)}
       />
       <textarea
         ref={htmlRef}

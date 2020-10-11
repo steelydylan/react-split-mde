@@ -60,6 +60,12 @@
   margin: 0;
   line-height: 1.6;
   overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.zenn-mde-psudo::-webkit-scrollbar {
+  display: none;
 }
 
 .zenn-mde-textarea,

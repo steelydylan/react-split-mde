@@ -8,7 +8,6 @@ import { scrollMapping as defaultScrollMapping } from "../utils";
 
 type Props = {
   commands?: Record<string, Command>;
-  decorations?: Record<string, Decoration>;
   previewClassName?: string;
   previewCallback?: Record<string, (node: any) => any>;
   parser?: (text: string) => Promise<string>;
@@ -23,15 +22,8 @@ const getCommands = (commands: Record<string, Command>) => {
   );
 };
 
-const getDecorations = (decorations: Record<string, Decoration>) => {
-  return Object.keys(decorations || defaultDecorations).map(
-    (key: keyof typeof defaultDecorations) => defaultDecorations[key]
-  );
-};
-
 export const Editor: React.FC<Props> = ({
   commands,
-  decorations,
   previewClassName,
   previewCallback = {},
   parser,
@@ -50,7 +42,6 @@ export const Editor: React.FC<Props> = ({
           scrollMapping={scrollMapping || defaultScrollMapping}
           onChange={handleTextareaChange}
           commands={getCommands(commands)}
-          decorations={getDecorations(decorations)}
           value={value}
         />
       </div>

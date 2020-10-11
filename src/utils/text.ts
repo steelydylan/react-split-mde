@@ -50,7 +50,7 @@ export const scrollMapping = {
   ".title-5": "h5",
   ".title-6": "h6",
   ".hljs-bullet": "li",
-  ".youtube": ".embed-youtube",
-  ".tweet": ".embed-tweet",
-  ".image": "img",
+  ".hljs-youtube": ".embed-youtube",
+  ".hljs-tweet": ".embed-tweet",
+  ".hljs-image": "img",
 };
