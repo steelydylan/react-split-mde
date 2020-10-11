@@ -209,6 +209,8 @@ $$
 
 「twitter」ではなく「tweet」であることにご注意ください。
 
+@[tweet](https://twitter.com/catnose99/status/1309382877272879110)
+
 
 ### YouTube
 
@@ -216,6 +218,8 @@ $$
 @[youtube](動画のID)
 ```
 URLに含まれる英数字の組み合わせを入力します。たとえばURLが`https://youtube.com/watch?v=ApXoWvfEYVU`の場合、`@[youtube](ApXoWvfEYVU)`と指定します。
+
+@[youtube](ApXoWvfEYVU)
 
 
 ### CodePen
