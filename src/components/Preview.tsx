@@ -8,7 +8,47 @@ type Props = {
   className?: string;
   parser: (text: string) => Promise<string>;
   callback: Record<string, (node: any) => any>;
-  scrollMapping: Record<string, string>;
+};
+
+const buildScrollMap = (lineHeightMap: number[], target: HTMLElement) => {
+  const nonEmptyList: number[] = [];
+  const linesCount = lineHeightMap[lineHeightMap.length - 1];
+  const scrollMap: number[] = [];
+  for (let i = 0; i < linesCount; i += 1) {
+    scrollMap.push(-1);
+  }
+  nonEmptyList.push(0);
+  scrollMap[0] = 0;
+  const lines = target.querySelectorAll(".line");
+  const offset = target.scrollTop - target.offsetTop;
+  Array.from(lines).forEach((l: HTMLElement) => {
+    const { line } = l.dataset;
+    if (!line) {
+      return;
+    }
+    const index = lineHeightMap[parseInt(line, 10)];
+    if (index !== 0) {
+      nonEmptyList.push(index);
+    }
+    scrollMap[index] = Math.round(l.offsetTop + offset);
+  });
+  nonEmptyList.push(linesCount);
+  scrollMap[linesCount] = target.scrollHeight;
+  let pos = 0;
+  for (let i = 1; i < linesCount; i += 1) {
+    if (scrollMap[i] !== -1) {
+      pos += 1;
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    const a = nonEmptyList[pos];
+    const b = nonEmptyList[pos + 1];
+    scrollMap[i] = Math.round(
+      (scrollMap[b] * (i - a) + scrollMap[a] * (b - i)) / (b - a)
+    );
+  }
+  return scrollMap;
 };
 
 export const Preview: React.FC<Props> = ({
@@ -16,7 +56,6 @@ export const Preview: React.FC<Props> = ({
   className,
   parser,
   callback,
-  scrollMapping,
 }) => {
   const ref = React.useRef<HTMLDivElement>(null);
 
@@ -24,46 +63,10 @@ export const Preview: React.FC<Props> = ({
     if (event.type !== "scroll") {
       return;
     }
-    if (!event.target) {
-      return;
-    }
-    const ratio = ref.current.scrollHeight / event.scrollHeight;
     const parent = ref.current.parentNode as HTMLElement;
-    if (event.scrollTop < 50) {
-      parent.scrollTo(0, ratio * event.scrollTop);
-      return;
-    }
-    const bottomOffset =
-      event.scrollHeight - event.scrollTop - event.offsetHeight;
-    if (bottomOffset < 50) {
-      parent.scrollTo(
-        0,
-        parent.scrollHeight - parent.offsetHeight - bottomOffset * ratio
-      );
-      return;
-    }
-    const selector = scrollMapping[event.target.selector];
-    if (!selector) {
-      return;
-    }
-    const children = ref.current.querySelectorAll(`${selector}`);
-    const child = children[event.target.index] as HTMLElement;
-    if (!child) {
-      return;
-    }
-    const targetTop = event.target.top;
-    const {
-      top: childTop,
-      height: childHeight,
-    } = child.getBoundingClientRect();
-    parent.scrollTo(
-      0,
-      parent.scrollTop +
-        childTop +
-        childHeight / 2 -
-        parent.getBoundingClientRect().top -
-        targetTop
-    );
+    const scrollMap = buildScrollMap(event.lineHeightMap, ref.current);
+    const posTo = scrollMap[event.lineNo];
+    parent.scrollTo(0, posTo);
   });
 
   React.useEffect(() => {

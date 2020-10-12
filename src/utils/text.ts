@@ -41,16 +41,3 @@ export function removeTextAtFirstLine(
   target.value = final;
   target.setSelectionRange(savedSelection, savedSelection);
 }
-
-export const scrollMapping = {
-  ".title-1": "h1",
-  ".title-2": "h2",
-  ".title-3": "h3",
-  ".title-4": "h4",
-  ".title-5": "h5",
-  ".title-6": "h6",
-  ".hljs-bullet": "li",
-  ".hljs-youtube": ".embed-youtube",
-  ".hljs-tweet": ".embed-tweet",
-  ".hljs-image": "img",
-};

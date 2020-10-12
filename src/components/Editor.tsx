@@ -2,9 +2,7 @@ import React from "react";
 import { Preview } from "./Preview";
 import { Textarea } from "./Textarea";
 import * as defaultCommands from "../commands";
-import * as defaultDecorations from "../decorations";
-import { Command, Decoration } from "../types";
-import { scrollMapping as defaultScrollMapping } from "../utils";
+import { Command } from "../types";
 
 type Props = {
   commands?: Record<string, Command>;
@@ -39,7 +37,6 @@ export const Editor: React.FC<Props> = ({
     <div className="zenn-mde-wrap">
       <div className="zenn-mde zenn-mde-box">
         <Textarea
-          scrollMapping={scrollMapping || defaultScrollMapping}
           onChange={handleTextareaChange}
           commands={getCommands(commands)}
           value={value}
@@ -51,7 +48,6 @@ export const Editor: React.FC<Props> = ({
           className={previewClassName}
           callback={previewCallback}
           parser={parser}
-          scrollMapping={scrollMapping || defaultScrollMapping}
         />
       </div>
     </div>

@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Command, Decoration } from "../types";
+import { Command } from "../types";
 import { getCurrentLine, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
 import { useEmitter, useSubscriber } from "../hooks";
@@ -26,60 +26,33 @@ const xssAllowOption = {
   },
 };
 
-export const convertElementToTarget = ({
-  result,
-  target,
-  top,
-}: {
-  result: HTMLElement;
-  target: HTMLPreElement;
-  top: number;
-}) => {
-  const elements = Array.from(target.querySelectorAll(`.${result.className}`));
-  return {
-    selector: `.${result.className}`,
-    text: result.textContent,
-    index: elements.indexOf(result),
-    top: result.getBoundingClientRect().top - top,
-  };
-};
-
-export const getTargetElement = (
-  target: HTMLPreElement,
-  scrollMapping: Record<string, string>
+const buildLineHeightMap = (
+  markdown: string,
+  textarea: HTMLTextAreaElement
 ) => {
-  const targetRect = target.getBoundingClientRect();
-  const { top, bottom } = targetRect;
-  const children = target.querySelectorAll("span");
-  const results = Array.from(children)
-    .filter((child) =>
-      Object.keys(scrollMapping).some((key) => child.matches(key))
-    )
-    .sort((a: HTMLElement, b: HTMLElement) => {
-      const rectA = a.getBoundingClientRect();
-      const rectB = b.getBoundingClientRect();
-      const rectABottom = rectA.top + rectA.height;
-      const rectBBottom = rectB.top + rectB.height;
-      const absA = Math.min(
-        Math.abs(top - rectABottom),
-        Math.abs(top - rectA.top)
-      );
-      const absB = Math.min(
-        Math.abs(top - rectBBottom),
-        Math.abs(top - rectB.top)
-      );
-      if (rectABottom < bottom && rectA.top > top) {
-        return 1;
-      }
-      if (absA < absB) {
-        return -1;
-      }
-      return 1;
-    });
-  if (results[0]) {
-    return convertElementToTarget({ result: results[0], target, top });
-  }
-  return null;
+  const div = document.createElement("div");
+  div.classList.add("zenn-mde-psudo");
+  div.style.position = "absolute";
+  div.style.visibility = "hidden";
+  div.style.height = "auto";
+  const computedStyle = window.getComputedStyle(textarea);
+  const lineHeightMap: number[] = [];
+  let acc = 0;
+  textarea.parentElement.appendChild(div);
+  const lh = parseFloat(computedStyle.lineHeight);
+  markdown.split("\n").forEach((str) => {
+    lineHeightMap.push(acc);
+    if (str.length === 0) {
+      acc += 1;
+      return;
+    }
+    div.innerText = str;
+    const h = div.offsetHeight;
+    acc += Math.round(h / lh);
+  });
+  textarea.parentElement.removeChild(div);
+  lineHeightMap.push(acc);
+  return lineHeightMap;
 };
 
 export const Textarea: React.FC<Props> = ({
@@ -89,6 +62,7 @@ export const Textarea: React.FC<Props> = ({
   scrollMapping,
 }) => {
   // const [markdown, setMarkdown] = React.useState(value);
+  const [lineHeightMap, setLineHeightMap] = useState<number[]>([]);
   const [composing, setComposing] = useState(false);
   const htmlRef = useRef<HTMLTextAreaElement>();
   const oldScrollRef = useRef<number>(0);
@@ -102,20 +76,18 @@ export const Textarea: React.FC<Props> = ({
   const psudoRef = useMemo(() => createRef<HTMLPreElement>(), []);
   const emit = useEmitter();
   const handleTextareaScroll = useCallback(() => {
-    const { offsetHeight, scrollHeight, scrollTop } = htmlRef.current;
-    const scrollDiff = scrollTop - oldScrollRef.current;
+    const { scrollTop } = htmlRef.current;
+    const computedStyle = window.getComputedStyle(htmlRef.current);
+    const lineHeight = parseFloat(computedStyle.lineHeight);
+    const lineNo = Math.floor(scrollTop / lineHeight);
     oldScrollRef.current = scrollTop;
     psudoRef.current.scrollTo(0, scrollTop);
-    const result = getTargetElement(psudoRef.current, scrollMapping);
     emit({
       type: "scroll",
-      target: result,
-      scrollDiff,
-      scrollTop,
-      scrollHeight,
-      offsetHeight,
+      lineNo,
+      lineHeightMap,
     });
-  }, []);
+  }, [lineHeightMap]);
 
   const handleTextChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -227,6 +199,8 @@ export const Textarea: React.FC<Props> = ({
       selectionStart: htmlRef.current.selectionStart,
       selectionEnd: htmlRef.current.selectionStart,
     });
+    const newLineHeightMap = buildLineHeightMap(markdown, htmlRef.current);
+    setLineHeightMap(newLineHeightMap);
   }, [markdown]);
 
   return (
