@@ -76,16 +76,18 @@ export const Textarea: React.FC<Props> = ({
   const psudoRef = useMemo(() => createRef<HTMLPreElement>(), []);
   const emit = useEmitter();
   const handleTextareaScroll = useCallback(() => {
-    const { scrollTop } = htmlRef.current;
+    const { offsetHeight, scrollHeight, scrollTop } = htmlRef.current;
     const computedStyle = window.getComputedStyle(htmlRef.current);
     const lineHeight = parseFloat(computedStyle.lineHeight);
     const lineNo = Math.floor(scrollTop / lineHeight);
+
     oldScrollRef.current = scrollTop;
     psudoRef.current.scrollTo(0, scrollTop);
     emit({
       type: "scroll",
       lineNo,
       lineHeightMap,
+      remaining: scrollHeight - offsetHeight - scrollTop,
     });
   }, [lineHeightMap]);
 

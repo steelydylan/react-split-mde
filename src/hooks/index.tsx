@@ -27,6 +27,7 @@ export type EmitEvent =
       type: "scroll";
       lineNo: number;
       lineHeightMap: number[];
+      remaining: number;
     }
   | {
       type: "replace";

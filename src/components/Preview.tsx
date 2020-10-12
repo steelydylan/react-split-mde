@@ -64,6 +64,13 @@ export const Preview: React.FC<Props> = ({
       return;
     }
     const parent = ref.current.parentNode as HTMLElement;
+    if (event.remaining < 50) {
+      parent.scrollTo(
+        0,
+        parent.scrollHeight - parent.offsetHeight - event.remaining
+      );
+      return;
+    }
     const scrollMap = buildScrollMap(event.lineHeightMap, ref.current);
     const posTo = scrollMap[event.lineNo];
     parent.scrollTo(0, posTo);
