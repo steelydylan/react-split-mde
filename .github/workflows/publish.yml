@@ -1,11 +1,11 @@
-name: publish
+name: Publish
 env:
   CI: true
 # masterブランチにpushした時のみ実行するワークフロー
 on:
   push:
     branches:
-      - master
+      - main
     tags:
       - "!*"
 
@@ -23,26 +23,26 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
       - name: install
         run: npm install
-#       # まだtagがないバージョンなら、Git Tagをpushする
-#       - name: package-version-to-git-tag
-#         uses: pkgdeps/action-package-version-to-git-tag@v1
-#         with:
-#           github_token: ${{ secrets.GITHUB_TOKEN }}
-#           github_repo: ${{ github.repository }}
-#           git_commit_sha: ${{ github.sha }}
-#           git_tag_prefix: ""
-#       - name: get-npm-version
-#         id: package-version
-#         uses: martinbeentjes/npm-get-version-action@master
-#       - name: create draft
-#         uses: release-drafter/release-drafter@v5
-#         with:
-#           version: ${{ steps.package-version.outputs.current-version }}
-#           name: ${{ steps.package-version.outputs.current-version }}
-#           tag: ${{ steps.package-version.outputs.current-version }}
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       - name: publish to npm
-#         run: npm publish
-#         env:
-#           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # まだtagがないバージョンなら、Git Tagをpushする
+      - name: package-version-to-git-tag
+        uses: pkgdeps/action-package-version-to-git-tag@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_repo: ${{ github.repository }}
+          git_commit_sha: ${{ github.sha }}
+          git_tag_prefix: ""
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+      - name: create draft
+        uses: release-drafter/release-drafter@v5
+        with:
+          version: ${{ steps.package-version.outputs.current-version }}
+          name: ${{ steps.package-version.outputs.current-version }}
+          tag: ${{ steps.package-version.outputs.current-version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: publish to npm
+        run: npm publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
