@@ -1,4 +1,4 @@
-name: deployment
+name: PR
 env:
   CI: true
 # preview環境更新および、stage環境やproduction環境の更新を行うworkflow

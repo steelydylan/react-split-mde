@@ -1,4 +1,4 @@
-name: publish
+name: Publish
 env:
   CI: true
 # masterブランチにpushした時のみ実行するワークフロー
