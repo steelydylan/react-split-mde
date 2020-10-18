@@ -5,5 +5,6 @@ declare module "xss" {
     stripIgnoreTagBody?: string[];
   };
   const xss: (html: string, option?: Option) => string;
+  // @ts-ignore
   export = xss;
 }

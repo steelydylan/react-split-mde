@@ -8,9 +8,9 @@
     "dev": "webpack-dev-server --config webpack.config.js --host 0.0.0.0 --port 3031",
     "build": "webpack --mode production && cp index.html ./dist/index.html",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint 'src/**/*.{ts,tsx}' --fix",
+    "lint": "eslint 'src/**/**.{ts,tsx}' --fix",
     "clean": "rm -rf ./lib",
-    "tsc": "npm run clean && tsc",
+    "tsc": "npm run clean && tsc --project ./tsconfig.prod.json",
     "patch": "npm run tsc && npm version patch && npm publish && npm run clean",
     "minor": "npm run tsc && npm version minor && npm publish && npm run clean",
     "major": "npm run tsc && npm version minor && npm publish && npm run clean"
