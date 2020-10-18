@@ -20,7 +20,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-          registry-url: 'https://npm.pkg.github.com'
       - name: install
         run: npm install
       # まだtagがないバージョンなら、Git Tagをpushする
@@ -44,9 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: build lib
         run: npm run tsc
-      - name: authenticate repo
-        run: echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" > ~/.npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: publish to npm
         run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
