@@ -17,7 +17,6 @@ type Props = {
   onChange: (value: string) => void;
   commands: Command[];
   value: string;
-  scrollMapping: Record<string, string>;
 };
 
 const xssAllowOption = {
@@ -59,7 +58,6 @@ export const Textarea: React.FC<Props> = ({
   onChange,
   commands,
   value: markdown,
-  scrollMapping,
 }) => {
   // const [markdown, setMarkdown] = React.useState(value);
   const [lineHeightMap, setLineHeightMap] = useState<number[]>([]);

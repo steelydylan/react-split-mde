@@ -193,7 +193,7 @@ export default function (hljs) {
   BOLD.contains = BOLD.contains.concat(CONTAINABLE);
   ITALIC.contains = ITALIC.contains.concat(CONTAINABLE);
 
-  CONTAINABLE = CONTAINABLE.concat(BOLD, ITALIC);
+  CONTAINABLE = CONTAINABLE.concat(BOLD as any, ITALIC as any);
 
   const HEADER = {
     className: "section",
