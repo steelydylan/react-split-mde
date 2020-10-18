@@ -1,9 +1,7 @@
-import MarkdownIt from "markdown-it";
-import { lineNumber } from "./line-number";
+import markdownHTML, { enablePreview } from "zenn-markdown-html";
 
-const md = new MarkdownIt();
-lineNumber(md);
+enablePreview();
 
 export const parser = (value: string) => {
-  return md.render(value);
+  return markdownHTML(value);
 };
