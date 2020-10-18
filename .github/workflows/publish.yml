@@ -45,6 +45,6 @@ jobs:
       - name: build lib
         run: npm run tsc
       - name: publish to npm
-        run: npm publish
+        run: npm publish --access=public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
