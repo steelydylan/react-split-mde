@@ -11,7 +11,6 @@ type Props = {
   parser?: (text: string) => Promise<string>;
   value: string;
   onChange?: (value: string) => void;
-  scrollMapping?: Record<string, string>;
 };
 
 const getCommands = (commands: Record<string, Command>) => {
@@ -27,7 +26,6 @@ export const Editor: React.FC<Props> = ({
   parser,
   value,
   onChange,
-  scrollMapping,
 }) => {
   const handleTextareaChange = React.useCallback((text: string) => {
     onChange(text);
