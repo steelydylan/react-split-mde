@@ -25,11 +25,11 @@
     "highlightjs-line-numbers.js": "^2.8.0",
     "katex": "^0.12.0",
     "lowlight": "^1.15.0",
-    "morphdom": "^2.6.1",
     "markdown-it": "^11.0.1",
+    "morphdom": "^2.6.1",
     "use-eventmit": "^1.0.3",
     "xss": "^1.0.8",
-    "zenn-markdown-html": "^0.1.47"
+    "zenn-markdown-html": "^0.1.51"
   },
   "devDependencies": {
     "@types/react": "^16.9.35",
