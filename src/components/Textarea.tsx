@@ -17,6 +17,7 @@ type Props = {
   onChange: (value: string) => void;
   commands: Command[];
   value: string;
+  psudoMode: boolean;
 };
 
 const xssAllowOption = {
@@ -58,6 +59,7 @@ export const Textarea: React.FC<Props> = ({
   onChange,
   commands,
   value: markdown,
+  psudoMode = false,
 }) => {
   // const [markdown, setMarkdown] = React.useState(value);
   const [lineHeightMap, setLineHeightMap] = useState<number[]>([]);
@@ -78,9 +80,10 @@ export const Textarea: React.FC<Props> = ({
     const computedStyle = window.getComputedStyle(htmlRef.current);
     const lineHeight = parseFloat(computedStyle.lineHeight);
     const lineNo = Math.floor(scrollTop / lineHeight);
-
     oldScrollRef.current = scrollTop;
-    psudoRef.current.scrollTo(0, scrollTop);
+    if (psudoRef.current) {
+      psudoRef.current.scrollTo(0, scrollTop);
+    }
     emit({
       type: "scroll",
       lineNo,
@@ -205,23 +208,29 @@ export const Textarea: React.FC<Props> = ({
 
   return (
     <div className="zenn-mde-textarea-wrap">
-      <SafeHTML
-        options={xssAllowOption}
-        ref={psudoRef}
-        className="zenn-mde-psudo"
-        tagName="pre"
-        html={decorationCode(markdown)}
-      />
+      {psudoMode && (
+        <SafeHTML
+          options={xssAllowOption}
+          ref={psudoRef}
+          className="zenn-mde-psudo"
+          tagName="pre"
+          html={decorationCode(markdown)}
+        />
+      )}
       <textarea
         ref={htmlRef}
-        className="zenn-mde-textarea"
+        className={
+          psudoMode
+            ? "zenn-mde-textarea zenn-mde-textarea-with-psudo"
+            : "zenn-mde-textarea"
+        }
         spellCheck={false}
         onScroll={handleTextareaScroll}
         onChange={handleTextChange}
         onKeyDown={handleKeyDown}
         onCompositionStart={handleCompositionStart}
         onCompositionEnd={handleCompositionEnd}
-        value={markdown}
+        defaultValue={markdown}
       />
     </div>
   );

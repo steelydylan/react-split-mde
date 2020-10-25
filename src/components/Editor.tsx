@@ -3,6 +3,7 @@ import { Preview } from "./Preview";
 import { Textarea } from "./Textarea";
 import * as defaultCommands from "../commands";
 import { Command } from "../types";
+import { useDebounce } from "../hooks/debounce";
 
 type Props = {
   commands?: Record<string, Command>;
@@ -11,6 +12,7 @@ type Props = {
   parser?: (text: string) => Promise<string>;
   value: string;
   onChange?: (value: string) => void;
+  psudoMode?: boolean;
 };
 
 const getCommands = (commands: Record<string, Command>) => {
@@ -26,15 +28,19 @@ export const Editor: React.FC<Props> = ({
   parser,
   value,
   onChange,
+  psudoMode = false,
 }) => {
   const handleTextareaChange = React.useCallback((text: string) => {
     onChange(text);
   }, []);
 
+  const debouncedValue = useDebounce(value, 1000);
+
   return (
     <div className="zenn-mde-wrap">
       <div className="zenn-mde zenn-mde-box">
         <Textarea
+          psudoMode={psudoMode}
           onChange={handleTextareaChange}
           commands={getCommands(commands)}
           value={value}
@@ -42,7 +48,7 @@ export const Editor: React.FC<Props> = ({
       </div>
       <div className="zenn-mde-box">
         <Preview
-          value={value}
+          value={debouncedValue}
           className={previewClassName}
           callback={previewCallback}
           parser={parser}
