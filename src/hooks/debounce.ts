@@ -15,3 +15,19 @@ export function useDebounce<T>(value: T, delay: number) {
 
   return debouncedValue;
 }
+
+export function useDebounceCallback<T>(
+  value: T,
+  callback: (newValue: T) => void,
+  delay: number
+) {
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      callback(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value]);
+}
