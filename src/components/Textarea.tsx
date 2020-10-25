@@ -12,6 +12,7 @@ import { SafeHTML } from "./SafeHTML";
 import { useEmitter, useSubscriber } from "../hooks";
 import { UndoRedo } from "../utils/undo-redo";
 import { decorationCode } from "../decoration";
+import { useDebounceCallback } from "../hooks/debounce";
 
 type Props = {
   onChange: (value: string) => void;
@@ -61,8 +62,7 @@ export const Textarea: React.FC<Props> = ({
   value: markdown,
   psudoMode = false,
 }) => {
-  // const [markdown, setMarkdown] = React.useState(value);
-  const [lineHeightMap, setLineHeightMap] = useState<number[]>([]);
+  const [lineHeightMap, setLineHeightMap] = useState<number[]>([])
   const [composing, setComposing] = useState(false);
   const htmlRef = useRef<HTMLTextAreaElement>();
   const oldScrollRef = useRef<number>(0);
@@ -202,9 +202,18 @@ export const Textarea: React.FC<Props> = ({
       selectionStart: htmlRef.current.selectionStart,
       selectionEnd: htmlRef.current.selectionStart,
     });
-    const newLineHeightMap = buildLineHeightMap(markdown, htmlRef.current);
-    setLineHeightMap(newLineHeightMap);
   }, [markdown]);
+
+  useDebounceCallback(
+    markdown,
+    (newValue) => {
+      requestAnimationFrame(() => {
+        const newLineHeightMap = buildLineHeightMap(newValue, htmlRef.current);
+        setLineHeightMap(newLineHeightMap);
+      });
+    },
+    300
+  );
 
   return (
     <div className="zenn-mde-textarea-wrap">
