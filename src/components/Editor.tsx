@@ -13,6 +13,7 @@ type Props = {
   value: string;
   onChange?: (value: string) => void;
   psudoMode?: boolean;
+  debounceTime?: number;
 };
 
 const getCommands = (commands: Record<string, Command>) => {
@@ -29,12 +30,13 @@ export const Editor: React.FC<Props> = ({
   value,
   onChange,
   psudoMode = false,
+  debounceTime = 300,
 }) => {
   const handleTextareaChange = React.useCallback((text: string) => {
     onChange(text);
   }, []);
 
-  const debouncedValue = useDebounce(value, 1000);
+  const debouncedValue = useDebounce(value, debounceTime);
 
   return (
     <div className="zenn-mde-wrap">
