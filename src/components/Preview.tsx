@@ -86,7 +86,7 @@ export const Preview: React.FC<Props> = ({
           callback
         );
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     })();
   }, [value]);
