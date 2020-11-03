@@ -1,8 +1,8 @@
 # Zenn MDE 
 
 ![](https://github.com/zenn-dev/zenn-mde/workflows/Node%20CI/badge.svg)
-[![npm version](https://badge.fury.io/js/smartblock.svg)](https://badge.fury.io/js/zenn-mde)
-[![npm download](http://img.shields.io/npm/dm/smartblock.svg)](https://www.npmjs.com/package/zenn-mde)
+[![npm version](https://badge.fury.io/js/zenn-mde.svg)](https://badge.fury.io/js/zenn-mde)
+[![npm download](http://img.shields.io/npm/dm/zenn-mde.svg)](https://www.npmjs.com/package/zenn-mde)
 [![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://raw.githubusercontent.com/zenn-dev/zenn-mde/master/LICENSE)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Awesome%20Markdown%20Editor%20JavaScript%20%Editor&url=https://github.com/zenn-dev/zenn-mde&via=zenn_dev&hashtags=zenn)
 
