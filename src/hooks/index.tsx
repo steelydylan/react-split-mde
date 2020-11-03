@@ -1,6 +1,5 @@
 import React from "react";
 import { eventmit, EventmitHandler } from "eventmit";
-import { Target } from "../types";
 
 const { useRef, useContext, useEffect, useMemo } = React;
 const EmitterContext = React.createContext(eventmit());
