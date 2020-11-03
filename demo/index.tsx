@@ -92,7 +92,7 @@ const Main = () => {
                 node.closest(".embed-tweet")
               ) {
                 if (
-                  node.tagName === "IFRAME" ||
+                  node.tagName === "IFRAME" &&
                   node.classList.contains("twitter-tweet")
                 ) {
                   return false;
