@@ -91,8 +91,9 @@ const Main = () => {
                 !node.classList.contains("embed-tweet") &&
                 node.closest(".embed-tweet")
               ) {
+                const id = node.getAttribute("id") ?? "";
                 if (
-                  node.tagName === "IFRAME" &&
+                  (node.tagName === "IFRAME" && id.indexOf("twitter") >= 0) ||
                   node.classList.contains("twitter-tweet")
                 ) {
                   return false;
