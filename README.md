@@ -34,6 +34,7 @@ $ npm install zenn-mde --save
 import React, { useCallback, useState } from 'react';
 import { render } from 'react-dom';
 import { Editor, useProvider } from 'zenn-mde';
+import markdownToHtml from "zenn-markdown-html";
 import 'zenn-mde/css/editor.css';
 
 const MDE = () => {
@@ -48,6 +49,7 @@ const MDE = () => {
         previewClassName="znc"
         value={markdown}
         onChange={handleValueChange}
+        parser={markdownToHtml}
       />
     </Provider>
   )
