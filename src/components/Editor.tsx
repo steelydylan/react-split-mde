@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Preview } from "./Preview";
 import { Textarea } from "./Textarea";
 import * as defaultCommands from "../commands";
@@ -8,12 +8,14 @@ import { useDebounce } from "../hooks/debounce";
 type Props = {
   commands?: Record<string, Command>;
   previewClassName?: string;
+  textareaClassName?: string;
   previewCallback?: Record<string, (node: any) => any>;
-  parser?: (text: string) => Promise<string>;
+  parser: (text: string) => Promise<string>;
   value: string;
   onChange?: (value: string) => void;
   psudoMode?: boolean;
   debounceTime?: number;
+  scrollSync?: boolean;
 };
 
 const getCommands = (commands: Record<string, Command>) => {
@@ -24,6 +26,7 @@ const getCommands = (commands: Record<string, Command>) => {
 
 export const Editor: React.FC<Props> = ({
   commands,
+  textareaClassName,
   previewClassName,
   previewCallback = {},
   parser,
@@ -31,7 +34,9 @@ export const Editor: React.FC<Props> = ({
   onChange,
   psudoMode = false,
   debounceTime = 300,
+  scrollSync = true,
 }) => {
+  const ref = useRef<HTMLTextAreaElement>(null);
   const handleTextareaChange = React.useCallback((text: string) => {
     onChange(text);
   }, []);
@@ -42,6 +47,9 @@ export const Editor: React.FC<Props> = ({
     <div className="zenn-mde-wrap">
       <div className="zenn-mde zenn-mde-box">
         <Textarea
+          ref={ref}
+          scrollSync={scrollSync}
+          className={textareaClassName}
           psudoMode={psudoMode}
           onChange={handleTextareaChange}
           commands={getCommands(commands)}

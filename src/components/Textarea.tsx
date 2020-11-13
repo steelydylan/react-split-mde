@@ -2,6 +2,7 @@ import React, {
   createRef,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
@@ -16,9 +17,11 @@ import { useDebounceCallback } from "../hooks/debounce";
 
 type Props = {
   onChange: (value: string) => void;
+  className: string;
   commands: Command[];
   value: string;
   psudoMode: boolean;
+  scrollSync: boolean;
 };
 
 const xssAllowOption = {
@@ -56,191 +59,206 @@ const buildLineHeightMap = (
   return lineHeightMap;
 };
 
-export const Textarea: React.FC<Props> = ({
-  onChange,
-  commands,
-  value: markdown,
-  psudoMode = false,
-}) => {
-  const [lineHeightMap, setLineHeightMap] = useState<number[]>([])
-  const [composing, setComposing] = useState(false);
-  const htmlRef = useRef<HTMLTextAreaElement>();
-  const oldScrollRef = useRef<number>(0);
-  const historyManager = useRef(
-    new UndoRedo({
-      markdown,
-      selectionStart: 0,
-      selectionEnd: 0,
-    })
-  );
-  const psudoRef = useMemo(() => createRef<HTMLPreElement>(), []);
-  const emit = useEmitter();
-  const handleTextareaScroll = useCallback(() => {
-    const { offsetHeight, scrollHeight, scrollTop } = htmlRef.current;
-    const computedStyle = window.getComputedStyle(htmlRef.current);
-    const lineHeight = parseFloat(computedStyle.lineHeight);
-    const lineNo = Math.floor(scrollTop / lineHeight);
-    oldScrollRef.current = scrollTop;
-    if (psudoRef.current) {
-      psudoRef.current.scrollTo(0, scrollTop);
-    }
-    emit({
-      type: "scroll",
-      lineNo,
-      lineHeightMap,
-      remaining: scrollHeight - offsetHeight - scrollTop,
-    });
-  }, [lineHeightMap]);
+export const Textarea = React.forwardRef(
+  (
+    {
+      onChange,
+      commands,
+      value: markdown,
+      className,
+      psudoMode = false,
+      scrollSync = true,
+    }: Props,
+    ref
+  ) => {
+    const [lineHeightMap, setLineHeightMap] = useState<number[]>([]);
+    const [composing, setComposing] = useState(false);
+    const htmlRef = useRef<HTMLTextAreaElement>();
+    const oldScrollRef = useRef<number>(0);
+    const historyManager = useRef(
+      new UndoRedo({
+        markdown,
+        selectionStart: 0,
+        selectionEnd: 0,
+      })
+    );
+    const psudoRef = useMemo(() => createRef<HTMLPreElement>(), []);
+    const emit = useEmitter();
+    const handleTextareaScroll = useCallback(() => {
+      const { offsetHeight, scrollHeight, scrollTop } = htmlRef.current;
+      const computedStyle = window.getComputedStyle(htmlRef.current);
+      const lineHeight = parseFloat(computedStyle.lineHeight);
+      const lineNo = Math.floor(scrollTop / lineHeight);
+      oldScrollRef.current = scrollTop;
+      if (psudoRef.current) {
+        psudoRef.current.scrollTo(0, scrollTop);
+      }
+      emit({
+        type: "scroll",
+        lineNo,
+        lineHeightMap,
+        remaining: scrollHeight - offsetHeight - scrollTop,
+      });
+    }, [lineHeightMap]);
 
-  const handleTextChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      e.target.scrollTo(0, oldScrollRef.current);
-      onChange(e.target.value);
-    },
-    []
-  );
+    const handleTextChange = useCallback(
+      (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        e.target.scrollTo(0, oldScrollRef.current);
+        onChange(e.target.value);
+      },
+      []
+    );
 
-  const handleCompositionStart = useCallback(() => {
-    setComposing(true);
-  }, []);
+    const handleCompositionStart = useCallback(() => {
+      setComposing(true);
+    }, []);
 
-  const handleCompositionEnd = useCallback(() => {
-    setComposing(false);
-  }, []);
+    const handleCompositionEnd = useCallback(() => {
+      setComposing(false);
+    }, []);
 
-  const undo = () => {
-    if (!historyManager.current.canUndo()) {
-      return;
-    }
-    historyManager.current.undo();
-    const {
-      markdown: undoMarkdown,
-      selectionStart,
-      selectionEnd,
-    } = historyManager.current.getValue();
-    htmlRef.current.value = undoMarkdown;
-    htmlRef.current.setSelectionRange(selectionStart, selectionEnd);
-    onChange(undoMarkdown);
-  };
+    const undo = () => {
+      if (!historyManager.current.canUndo()) {
+        return;
+      }
+      historyManager.current.undo();
+      const {
+        markdown: undoMarkdown,
+        selectionStart,
+        selectionEnd,
+      } = historyManager.current.getValue();
+      htmlRef.current.value = undoMarkdown;
+      htmlRef.current.setSelectionRange(selectionStart, selectionEnd);
+      onChange(undoMarkdown);
+    };
 
-  const redo = () => {
-    if (!historyManager.current.canRedo()) {
-      return;
-    }
-    historyManager.current.redo();
-    const {
-      markdown: redoMarkdown,
-      selectionStart,
-      selectionEnd,
-    } = historyManager.current.getValue();
-    htmlRef.current.value = redoMarkdown;
-    htmlRef.current.setSelectionRange(selectionStart, selectionEnd);
-    onChange(redoMarkdown);
-  };
+    const redo = () => {
+      if (!historyManager.current.canRedo()) {
+        return;
+      }
+      historyManager.current.redo();
+      const {
+        markdown: redoMarkdown,
+        selectionStart,
+        selectionEnd,
+      } = historyManager.current.getValue();
+      htmlRef.current.value = redoMarkdown;
+      htmlRef.current.setSelectionRange(selectionStart, selectionEnd);
+      onChange(redoMarkdown);
+    };
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      const textarea = e.target as HTMLTextAreaElement;
-      const line = getCurrentLine(textarea);
-      const { value } = textarea;
-      const code = e.key;
-      const { shiftKey, metaKey, ctrlKey } = e;
-      const start = textarea.selectionStart!;
-      const end = textarea.selectionEnd!;
-      commands.forEach((command) => {
-        const result = command(textarea, {
-          line,
-          value,
-          code,
-          shiftKey,
-          start,
-          end,
-          composing,
-          metaKey,
-          ctrlKey,
-          emit,
+    const handleKeyDown = useCallback(
+      (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        const textarea = e.target as HTMLTextAreaElement;
+        const line = getCurrentLine(textarea);
+        const { value } = textarea;
+        const code = e.key;
+        const { shiftKey, metaKey, ctrlKey } = e;
+        const start = textarea.selectionStart!;
+        const end = textarea.selectionEnd!;
+        commands.forEach((command) => {
+          const result = command(textarea, {
+            line,
+            value,
+            code,
+            shiftKey,
+            start,
+            end,
+            composing,
+            metaKey,
+            ctrlKey,
+            emit,
+          });
+          if (result?.stop) {
+            e.preventDefault();
+          }
+          if (result?.change) {
+            onChange(textarea.value);
+          }
         });
-        if (result?.stop) {
-          e.preventDefault();
-        }
-        if (result?.change) {
-          onChange(textarea.value);
-        }
-      });
-    },
-    [composing]
-  );
+      },
+      [composing]
+    );
 
-  useSubscriber((event) => {
-    const target = htmlRef.current;
-    if (event.type === "insert") {
-      const { text } = event;
-      const start = target.selectionStart!;
-      insertTextAtCursor(htmlRef.current, text);
-      target.setSelectionRange(start + text.length, start + text.length);
-      onChange(target.value);
-    } else if (event.type === "replace") {
-      const { text, targetText } = event;
-      const currentSelection = target.selectionStart;
-      const offset = targetText.length - text.length;
-      target.value = target.value.replace(targetText, text);
-      target.setSelectionRange(
-        currentSelection + offset,
-        currentSelection + offset
-      );
-      onChange(target.value);
-    } else if (event.type === "undo") {
-      undo();
-    } else if (event.type === "redo") {
-      redo();
-    }
-  });
+    useImperativeHandle(ref, () => htmlRef.current);
 
-  useEffect(() => {
-    historyManager.current.push({
-      markdown,
-      selectionStart: htmlRef.current.selectionStart,
-      selectionEnd: htmlRef.current.selectionStart,
+    useSubscriber((event) => {
+      const target = htmlRef.current;
+      if (event.type === "insert") {
+        const { text } = event;
+        const start = target.selectionStart!;
+        insertTextAtCursor(htmlRef.current, text);
+        target.setSelectionRange(start + text.length, start + text.length);
+        onChange(target.value);
+      } else if (event.type === "replace") {
+        const { text, targetText } = event;
+        const currentSelection = target.selectionStart;
+        const offset = targetText.length - text.length;
+        target.value = target.value.replace(targetText, text);
+        target.setSelectionRange(
+          currentSelection + offset,
+          currentSelection + offset
+        );
+        onChange(target.value);
+      } else if (event.type === "undo") {
+        undo();
+      } else if (event.type === "redo") {
+        redo();
+      }
     });
-  }, [markdown]);
 
-  useDebounceCallback(
-    markdown,
-    (newValue) => {
-      requestAnimationFrame(() => {
-        const newLineHeightMap = buildLineHeightMap(newValue, htmlRef.current);
-        setLineHeightMap(newLineHeightMap);
+    useEffect(() => {
+      historyManager.current.push({
+        markdown,
+        selectionStart: htmlRef.current.selectionStart,
+        selectionEnd: htmlRef.current.selectionStart,
       });
-    },
-    300
-  );
+    }, [markdown]);
 
-  return (
-    <div className="zenn-mde-textarea-wrap">
-      {psudoMode && (
-        <SafeHTML
-          options={xssAllowOption}
-          ref={psudoRef}
-          className="zenn-mde-psudo"
-          tagName="pre"
-          html={decorationCode(markdown)}
+    useDebounceCallback(
+      markdown,
+      (newValue) => {
+        requestAnimationFrame(() => {
+          if (!scrollSync) {
+            return;
+          }
+          const newLineHeightMap = buildLineHeightMap(
+            newValue,
+            htmlRef.current
+          );
+          setLineHeightMap(newLineHeightMap);
+        });
+      },
+      300
+    );
+
+    return (
+      <div className="zenn-mde-textarea-wrap">
+        {psudoMode && (
+          <SafeHTML
+            options={xssAllowOption}
+            ref={psudoRef}
+            className="zenn-mde-psudo"
+            tagName="pre"
+            html={decorationCode(markdown)}
+          />
+        )}
+        <textarea
+          ref={htmlRef}
+          className={
+            psudoMode
+              ? `zenn-mde-textarea zenn-mde-textarea-with-psudo ${className}`
+              : `zenn-mde-textarea ${className}`
+          }
+          spellCheck={false}
+          onKeyDown={handleKeyDown}
+          onCompositionStart={handleCompositionStart}
+          onCompositionEnd={handleCompositionEnd}
+          defaultValue={markdown}
+          onChange={handleTextChange}
+          {...(scrollSync ? { onScroll: handleTextareaScroll } : {})}
         />
-      )}
-      <textarea
-        ref={htmlRef}
-        className={
-          psudoMode
-            ? "zenn-mde-textarea zenn-mde-textarea-with-psudo"
-            : "zenn-mde-textarea"
-        }
-        spellCheck={false}
-        onScroll={handleTextareaScroll}
-        onChange={handleTextChange}
-        onKeyDown={handleKeyDown}
-        onCompositionStart={handleCompositionStart}
-        onCompositionEnd={handleCompositionEnd}
-        defaultValue={markdown}
-      />
-    </div>
-  );
-};
+      </div>
+    );
+  }
+);

@@ -1,6 +1,5 @@
 import React from "react";
 import morphdom from "morphdom";
-import { parser as defaultParser } from "../parser";
 import { useSubscriber } from "../hooks";
 
 type Props = {
@@ -79,7 +78,7 @@ export const Preview: React.FC<Props> = ({
   React.useEffect(() => {
     (async () => {
       try {
-        const html = parser ? await parser(value) : await defaultParser(value);
+        const html = await parser(value);
         morphdom(
           ref.current,
           `<div class="${className}">${html}</div>`,

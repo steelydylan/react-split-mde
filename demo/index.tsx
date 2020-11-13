@@ -13,6 +13,12 @@ import "../css/editor.css";
 import { Editor } from "../src";
 import markdown from "./markdown.txt";
 
+declare global {
+  interface Window {
+    twttr: any;
+  }
+}
+
 loadStylesheet({
   id: "katex-css",
   href: "https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css",
@@ -91,8 +97,9 @@ const Main = () => {
                 !node.classList.contains("embed-tweet") &&
                 node.closest(".embed-tweet")
               ) {
+                const id = node.getAttribute("id") ?? "";
                 if (
-                  node.tagName === "IFRAME" &&
+                  (node.tagName === "IFRAME" && id.indexOf("twitter") >= 0) ||
                   node.classList.contains("twitter-tweet")
                 ) {
                   return false;
@@ -102,19 +109,15 @@ const Main = () => {
             },
             onNodeAdded(node: any) {
               if (node.classList && node.classList.contains("embed-tweet")) {
-                loadScript({
-                  src: "https://platform.twitter.com/widgets.js",
-                  id: "embed-tweet",
-                  refreshIfExist: true,
-                }).then(() => {
-                  const znc = node.closest(".znc");
-                  if (znc) {
-                    const extraTweets = znc.querySelectorAll(
-                      ".twitter-tweet + .twitter-tweet"
-                    );
-                    extraTweets.forEach((tweet) => tweet.remove());
-                  }
-                });
+                window.twttr.widgets.load();
+                const znc = node.closest(".znc");
+                if (znc) {
+                  const extraTweets = znc.querySelectorAll(
+                    ".twitter-tweet + .twitter-tweet"
+                  );
+                  extraTweets.forEach((tweet) => tweet.remove());
+                }
+                // });
               }
             },
           }}
@@ -127,4 +130,10 @@ const Main = () => {
   );
 };
 
-render(<Main />, document.getElementById("main"));
+loadScript({
+  src: "https://platform.twitter.com/widgets.js",
+  id: "embed-tweet",
+  refreshIfExist: true,
+}).then(() => {
+  render(<Main />, document.getElementById("main"));
+});
