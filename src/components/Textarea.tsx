@@ -17,11 +17,12 @@ import { useDebounceCallback } from "../hooks/debounce";
 
 type Props = {
   onChange: (value: string) => void;
-  className: string;
+  className?: string;
   commands: Command[];
   value: string;
   psudoMode: boolean;
   scrollSync: boolean;
+  placeholder?: string;
 };
 
 const xssAllowOption = {
@@ -68,6 +69,7 @@ export const Textarea = React.forwardRef(
       className,
       psudoMode = false,
       scrollSync = true,
+      placeholder = "",
     }: Props,
     ref
   ) => {
@@ -250,6 +252,7 @@ export const Textarea = React.forwardRef(
               ? `zenn-mde-textarea zenn-mde-textarea-with-psudo ${className}`
               : `zenn-mde-textarea ${className}`
           }
+          placeholder={placeholder}
           spellCheck={false}
           onKeyDown={handleKeyDown}
           onCompositionStart={handleCompositionStart}
