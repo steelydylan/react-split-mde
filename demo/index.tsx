@@ -72,6 +72,10 @@ const Main = () => {
     return e.data;
   };
 
+  const handleClear = () => {
+    setValue("");
+  };
+
   // const handleMarkdown = async (str: string) => {
   //   return markdownToHtml(str);
   // };
@@ -86,6 +90,7 @@ const Main = () => {
           Twitter挿入
         </button>
         <input type="file" onChange={handleImageUpload} />
+        <button type="button" onClick={handleClear}>clear</button>
       </div>
       <div className="demo">
         <Editor
