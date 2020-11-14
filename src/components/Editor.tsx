@@ -16,6 +16,7 @@ type Props = {
   psudoMode?: boolean;
   debounceTime?: number;
   scrollSync?: boolean;
+  placeholder?: string;
 };
 
 const getCommands = (commands: Record<string, Command>) => {
@@ -35,6 +36,7 @@ export const Editor: React.FC<Props> = ({
   psudoMode = false,
   debounceTime = 300,
   scrollSync = true,
+  placeholder = "",
 }) => {
   const ref = useRef<HTMLTextAreaElement>(null);
   const handleTextareaChange = React.useCallback((text: string) => {
@@ -48,6 +50,7 @@ export const Editor: React.FC<Props> = ({
       <div className="zenn-mde zenn-mde-box">
         <Textarea
           ref={ref}
+          placeholder={placeholder}
           scrollSync={scrollSync}
           className={textareaClassName}
           psudoMode={psudoMode}
