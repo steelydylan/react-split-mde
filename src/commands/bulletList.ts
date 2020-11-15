@@ -42,6 +42,16 @@ export const bulletList: Command = (target, option) => {
     );
     return { stop: true, change: true };
   }
+  if (
+    option.code === EnterKey &&
+    !option.composing &&
+    lineWithoutSpace.length === 2
+  ) {
+    removeTextAtFirstLine(target, line.length);
+    insertTextAtCursor(target, "\n");
+    return { stop: false, change: true };
+  }
+
   if (option.code === TabKey && option.shiftKey) {
     removeTextAtFirstLine(target, 2);
     return { stop: true, change: true };

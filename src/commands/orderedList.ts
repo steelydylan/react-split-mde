@@ -32,7 +32,9 @@ export const orderedList: Command = (target, option) => {
   if (option.code === EnterKey && !option.composing) {
     const [_, number] = lineWithoutSpace.match(/^(\d+)/);
     if (lineWithoutSpace.length - number.length <= 2) {
-      return { stop: false, change: false };
+      removeTextAtFirstLine(target, line.length);
+      insertTextAtCursor(target, "\n");
+      return { stop: false, change: true };
     }
     const text = `\n${generateSpace(spaceLength)}${parseInt(number, 10) + 1}. `;
     insertTextAtCursor(target, text);
@@ -41,6 +43,14 @@ export const orderedList: Command = (target, option) => {
       option.start + text.length
     );
     return { stop: true, change: true };
+  }
+  if (
+    option.code === EnterKey &&
+    !option.composing &&
+    lineWithoutSpace.length === 2
+  ) {
+    removeTextAtFirstLine(target, line.length);
+    insertTextAtCursor(target, "\n");
   }
   if (option.code === TabKey && option.shiftKey) {
     removeTextAtFirstLine(target, 2);
