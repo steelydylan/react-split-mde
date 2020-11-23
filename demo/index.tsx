@@ -76,6 +76,10 @@ const Main = () => {
     emit({ type: "clear" });
   };
 
+  const handleFocus = () => {
+    emit({ type: "focus" });
+  };
+
   // const handleMarkdown = async (str: string) => {
   //   return markdownToHtml(str);
   // };
@@ -91,6 +95,7 @@ const Main = () => {
         </button>
         <input type="file" onChange={handleImageUpload} />
         <button type="button" onClick={handleClear}>clear</button>
+        <button type="button" onClick={handleFocus}>focus</button>
       </div>
       <div className="demo">
         <Editor
