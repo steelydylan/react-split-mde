@@ -171,6 +171,9 @@ export const Textarea = React.forwardRef(
             ctrlKey,
             emit,
           });
+          if (!result) {
+            return;
+          }
           if (result?.stop) {
             e.preventDefault();
           }
@@ -206,6 +209,11 @@ export const Textarea = React.forwardRef(
         undo();
       } else if (event.type === "redo") {
         redo();
+      } else if (event.type === "focus") {
+        htmlRef.current.focus();
+      } else if (event.type === "clear") {
+        htmlRef.current.value = "";
+        onChange("");
       }
     });
 

@@ -20,4 +20,4 @@ export const TabKey = "Tab";
 export type Command = (
   target: HTMLTextAreaElement,
   option: CommandOption
-) => { stop: boolean; change: boolean } | undefined;
+) => { stop: boolean; change: boolean } | void;

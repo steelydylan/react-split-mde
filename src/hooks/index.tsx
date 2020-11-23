@@ -38,6 +38,12 @@ export type EmitEvent =
     }
   | {
       type: "redo";
+    }
+  | {
+      type: "focus";
+    }
+  | {
+      type: "clear";
     };
 
 export const useProvider = <T extends EmitEvent>() => {
