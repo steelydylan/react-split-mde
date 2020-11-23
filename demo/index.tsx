@@ -73,7 +73,7 @@ const Main = () => {
   };
 
   const handleClear = () => {
-    setValue("");
+    emit({ type: "clear" });
   };
 
   // const handleMarkdown = async (str: string) => {
