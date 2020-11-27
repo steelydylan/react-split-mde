@@ -19,7 +19,7 @@ import { useDebounceCallback } from "../hooks/debounce";
 type Props = {
   onChange: (value: string) => void;
   className?: string;
-  commands: Command[];
+  commands: Record<string, Command>;
   value: string;
   psudoMode: boolean;
   scrollSync: boolean;
@@ -61,6 +61,7 @@ const buildLineHeightMap = (
   lineHeightMap.push(acc);
   return lineHeightMap;
 };
+
 
 export const Textarea = React.forwardRef(
   (
@@ -161,7 +162,8 @@ export const Textarea = React.forwardRef(
         const { shiftKey, metaKey, ctrlKey } = e;
         const start = textarea.selectionStart!;
         const end = textarea.selectionEnd!;
-        commands.forEach((command) => {
+        Object.keys(commands).forEach((key) => {
+          const command = commands[key];
           const result = command(textarea, {
             line,
             value,

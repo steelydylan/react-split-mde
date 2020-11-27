@@ -10,7 +10,7 @@ import pEvent from "p-event";
 import Worker from "worker-loader!./worker";
 import { useProvider } from "../src/hooks";
 import "../css/editor.css";
-import { Editor } from "../src";
+import { Editor, defaultCommands, EnterKey } from "../src";
 import markdown from "./markdown.txt";
 
 declare global {
@@ -134,6 +134,19 @@ const Main = () => {
           value={value}
           onChange={handleValueChange}
           parser={handleMarkdown}
+          commands={{ 
+            ...defaultCommands,
+            save: (textarea, option) => {
+              const { composing, code, shiftKey, metaKey, ctrlKey } = option;
+              if ((metaKey || ctrlKey) && !shiftKey) {
+                // + Enterで送信
+                if (!composing && code === EnterKey) {
+                  alert('command test')
+                  return { stop: true, change: false };
+                }
+              }
+            },
+          }}
         />
       </div>
     </Provider>
