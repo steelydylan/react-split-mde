@@ -1,6 +1,6 @@
 {
   "name": "zenn-mde",
-  "version": "1.3.5",
+  "version": "1.4.0",
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -27,6 +27,7 @@
     "lowlight": "^1.15.0",
     "markdown-it": "^11.0.1",
     "morphdom": "^2.6.1",
+    "react-textarea-autosize": "^8.3.0",
     "use-eventmit": "^1.0.3",
     "xss": "^1.0.8"
   },

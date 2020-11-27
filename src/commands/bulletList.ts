@@ -29,11 +29,15 @@ export const bulletList: Command = (target, option) => {
       spaceLength = space.length;
     }
   }
-  if (!lineWithoutSpace.startsWith("-")) {
+  const startWithHyphen = lineWithoutSpace.startsWith("-");
+  const startWithAsterisk = lineWithoutSpace.startsWith("*");
+  if (!startWithHyphen && !startWithAsterisk) {
     return { stop: false, change: false };
   }
   if (option.code === EnterKey && lineWithoutSpace.length > 2) {
-    const text = `\n${generateSpace(spaceLength)}- `;
+    const text = startWithHyphen
+      ? `\n${generateSpace(spaceLength)}- `
+      : `\n${generateSpace(spaceLength)}* `;
     insertTextAtCursor(target, text);
     target.setSelectionRange(
       option.start + text.length,
