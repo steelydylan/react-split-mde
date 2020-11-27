@@ -20,6 +20,9 @@ export const orderedList: Command = (target, option) => {
   const lineWithoutSpace = line.replace(/^(\s*)/g, "");
   const spaces = line.match(/^(\s*)/);
   let spaceLength = 0;
+  if (option.composing) {
+    return { stop: false, change: false };
+  }
   if (spaces.length) {
     const [_, space] = spaces;
     if (space) {
@@ -29,7 +32,7 @@ export const orderedList: Command = (target, option) => {
   if (!/^(\d+)/.test(lineWithoutSpace)) {
     return { stop: false, change: false };
   }
-  if (option.code === EnterKey && !option.composing) {
+  if (option.code === EnterKey) {
     const [_, number] = lineWithoutSpace.match(/^(\d+)/);
     if (lineWithoutSpace.length - number.length <= 2) {
       removeTextAtFirstLine(target, line.length);
@@ -44,11 +47,7 @@ export const orderedList: Command = (target, option) => {
     );
     return { stop: true, change: true };
   }
-  if (
-    option.code === EnterKey &&
-    !option.composing &&
-    lineWithoutSpace.length === 2
-  ) {
+  if (option.code === EnterKey && lineWithoutSpace.length === 2) {
     removeTextAtFirstLine(target, line.length);
     insertTextAtCursor(target, "\n");
   }
