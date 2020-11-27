@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 import { Command } from "../types";
 import { getCurrentLine, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
@@ -23,6 +24,7 @@ type Props = {
   psudoMode: boolean;
   scrollSync: boolean;
   placeholder?: string;
+  autosize?: boolean;
 };
 
 const xssAllowOption = {
@@ -67,6 +69,7 @@ export const Textarea = React.forwardRef(
       commands,
       value: markdown,
       className,
+      autosize = false,
       psudoMode = false,
       scrollSync = true,
       placeholder = "",
@@ -242,6 +245,21 @@ export const Textarea = React.forwardRef(
       300
     );
 
+    const textareaProps = {
+      ref: htmlRef,
+      className: psudoMode
+        ? `zenn-mde-textarea zenn-mde-textarea-with-psudo ${className}`
+        : `zenn-mde-textarea ${className}`,
+      placeholder,
+      spellCheck: false,
+      onKeyDown: handleKeyDown,
+      onCompositionStart: handleCompositionStart,
+      onCompositionEnd: handleCompositionEnd,
+      defaultValue: markdown,
+      onChange: handleTextChange,
+      ...(scrollSync ? { onScroll: handleTextareaScroll } : {}),
+    };
+
     return (
       <div className="zenn-mde-textarea-wrap">
         {psudoMode && (
@@ -253,22 +271,11 @@ export const Textarea = React.forwardRef(
             html={decorationCode(markdown)}
           />
         )}
-        <textarea
-          ref={htmlRef}
-          className={
-            psudoMode
-              ? `zenn-mde-textarea zenn-mde-textarea-with-psudo ${className}`
-              : `zenn-mde-textarea ${className}`
-          }
-          placeholder={placeholder}
-          spellCheck={false}
-          onKeyDown={handleKeyDown}
-          onCompositionStart={handleCompositionStart}
-          onCompositionEnd={handleCompositionEnd}
-          defaultValue={markdown}
-          onChange={handleTextChange}
-          {...(scrollSync ? { onScroll: handleTextareaScroll } : {})}
-        />
+        {autosize ? (
+          <TextareaAutosize {...textareaProps} />
+        ) : (
+          <textarea {...textareaProps} />
+        )}
       </div>
     );
   }
