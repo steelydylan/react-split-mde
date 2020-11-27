@@ -19,14 +19,8 @@ type Props = {
   placeholder?: string;
 };
 
-const getCommands = (commands: Record<string, Command>) => {
-  return Object.keys(commands || defaultCommands).map(
-    (key: keyof typeof defaultCommands) => defaultCommands[key]
-  );
-};
-
 export const Editor: React.FC<Props> = ({
-  commands,
+  commands = defaultCommands,
   textareaClassName,
   previewClassName,
   previewCallback = {},
@@ -55,7 +49,7 @@ export const Editor: React.FC<Props> = ({
           className={textareaClassName}
           psudoMode={psudoMode}
           onChange={handleTextareaChange}
-          commands={getCommands(commands)}
+          commands={commands}
           value={value}
         />
       </div>
