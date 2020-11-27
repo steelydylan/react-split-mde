@@ -20,20 +20,25 @@ export const bulletList: Command = (target, option) => {
   const lineWithoutSpace = line.replace(/^(\s*)/g, "");
   const spaces = line.match(/^(\s*)/);
   let spaceLength = 0;
-  if (option.composing) {
-    return { stop: false, change: false };
-  }
   if (spaces.length) {
     const [_, space] = spaces;
     if (space) {
       spaceLength = space.length;
     }
   }
-  if (!lineWithoutSpace.startsWith("-")) {
+  const startWithHyphen = lineWithoutSpace.startsWith("-");
+  const startWithAsterisk = lineWithoutSpace.startsWith("*");
+  if (!startWithHyphen && !startWithAsterisk) {
     return { stop: false, change: false };
   }
-  if (option.code === EnterKey && lineWithoutSpace.length > 2) {
-    const text = `\n${generateSpace(spaceLength)}- `;
+  if (
+    option.code === EnterKey &&
+    !option.composing &&
+    lineWithoutSpace.length > 2
+  ) {
+    const text = startWithHyphen
+      ? `\n${generateSpace(spaceLength)}- `
+      : `\n${generateSpace(spaceLength)}* `;
     insertTextAtCursor(target, text);
     target.setSelectionRange(
       option.start + text.length,
@@ -41,7 +46,11 @@ export const bulletList: Command = (target, option) => {
     );
     return { stop: true, change: true };
   }
-  if (option.code === EnterKey && lineWithoutSpace.length === 2) {
+  if (
+    option.code === EnterKey &&
+    !option.composing &&
+    lineWithoutSpace.length === 2
+  ) {
     removeTextAtFirstLine(target, line.length);
     insertTextAtCursor(target, "\n");
     return { stop: false, change: true };
