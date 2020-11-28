@@ -62,7 +62,6 @@ const buildLineHeightMap = (
   return lineHeightMap;
 };
 
-
 export const Textarea = React.forwardRef(
   (
     {
@@ -246,22 +245,6 @@ export const Textarea = React.forwardRef(
       },
       300
     );
-
-    const textareaProps = {
-      ref: htmlRef,
-      className: psudoMode
-        ? `zenn-mde-textarea zenn-mde-textarea-with-psudo ${className}`
-        : `zenn-mde-textarea ${className}`,
-      placeholder,
-      spellCheck: false,
-      onKeyDown: handleKeyDown,
-      onCompositionStart: handleCompositionStart,
-      onCompositionEnd: handleCompositionEnd,
-      defaultValue: markdown,
-      onChange: handleTextChange,
-      ...(scrollSync ? { onScroll: handleTextareaScroll } : {}),
-    };
-
     return (
       <div className="zenn-mde-textarea-wrap">
         {psudoMode && (
@@ -273,11 +256,20 @@ export const Textarea = React.forwardRef(
             html={decorationCode(markdown)}
           />
         )}
-        {autosize ? (
-          <TextareaAutosize {...textareaProps} />
-        ) : (
-          <textarea {...textareaProps} />
-        )}
+        {React.createElement(autosize ? TextareaAutosize : "textarea", {
+          ref: htmlRef,
+          className: psudoMode
+            ? `zenn-mde-textarea zenn-mde-textarea-with-psudo ${className}`
+            : `zenn-mde-textarea ${className}`,
+          placeholder,
+          spellCheck: false,
+          onKeyDown: handleKeyDown,
+          onCompositionStart: handleCompositionStart,
+          onCompositionEnd: handleCompositionEnd,
+          defaultValue: markdown,
+          onChange: handleTextChange,
+          ...(scrollSync ? { onScroll: handleTextareaScroll } : {}),
+        })}
       </div>
     );
   }

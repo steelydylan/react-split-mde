@@ -1,6 +1,6 @@
 {
   "name": "zenn-mde",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
