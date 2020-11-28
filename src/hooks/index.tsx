@@ -41,6 +41,7 @@ export type EmitEvent =
     }
   | {
       type: "focus";
+      last?: boolean;
     }
   | {
       type: "clear";
