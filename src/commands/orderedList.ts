@@ -32,10 +32,10 @@ export const orderedList: Command = (target, option) => {
   if (!/^(\d+)/.test(lineWithoutSpace)) {
     return { stop: false, change: false };
   }
-  if (option.code === EnterKey && (option.ctrlKey || option.metaKey)) {
-    return { stop: true, change: false };
-  }
   if (option.code === EnterKey) {
+    if (option.ctrlKey || option.metaKey) {
+      return { stop: true, change: false };
+    }
     const [_, number] = lineWithoutSpace.match(/^(\d+)/);
     if (lineWithoutSpace.length - number.length <= 2) {
       removeTextAtFirstLine(target, line.length);
