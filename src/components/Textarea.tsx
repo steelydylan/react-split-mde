@@ -214,6 +214,11 @@ export const Textarea = React.forwardRef(
       } else if (event.type === "redo") {
         redo();
       } else if (event.type === "focus") {
+        if (event.last) {
+          const { length } = htmlRef.current.value;
+          htmlRef.current.selectionStart = length;
+          htmlRef.current.selectionEnd = length;
+        }
         htmlRef.current.focus();
       } else if (event.type === "clear") {
         htmlRef.current.value = "";

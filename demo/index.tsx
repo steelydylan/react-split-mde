@@ -77,7 +77,7 @@ const Main = () => {
   };
 
   const handleFocus = () => {
-    emit({ type: "focus" });
+    emit({ type: "focus", last: true });
   };
 
   // const handleMarkdown = async (str: string) => {
