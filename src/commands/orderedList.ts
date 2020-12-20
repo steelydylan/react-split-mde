@@ -29,7 +29,7 @@ export const orderedList: Command = (target, option) => {
       spaceLength = space.length;
     }
   }
-  if (!/^(\d+)/.test(lineWithoutSpace)) {
+  if (!/^(\d+)\./.test(lineWithoutSpace)) {
     return { stop: false, change: false };
   }
   if (option.code === EnterKey) {

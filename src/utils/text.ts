@@ -40,7 +40,9 @@ export function removeTextAtFirstLine(
   const savedSelection = target.selectionStart - count;
   const starVal = target.value.substr(0, target.selectionStart);
   const valArr = starVal.split("\n");
-  let currentLine = valArr[valArr.length - 1];
+  const currentLineNum = valArr.length - 1;
+  const allLine = target.value.split("\n");
+  let currentLine = allLine[currentLineNum];
   currentLine = currentLine.substr(count);
   const lines = target.value.split("\n");
   lines[valArr.length - 1] = currentLine;
