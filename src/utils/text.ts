@@ -5,6 +5,14 @@ export function getCurrentLine(target: HTMLTextAreaElement) {
   return currentLineStr;
 }
 
+export function getCurrentLineAll(target: HTMLTextAreaElement) {
+  const starVal = target.value.substr(0, target.selectionStart);
+  const valArr = starVal.split("\n");
+  const currentLineNum = valArr.length - 1;
+  const allLine = target.value.split("\n");
+  return allLine[currentLineNum];
+}
+
 export function insertTextAtCursor(target: HTMLTextAreaElement, text: string) {
   target.setRangeText(text);
 }

@@ -2,6 +2,7 @@ import { EmitEvent } from "../hooks";
 
 export type CommandOption = {
   line: string;
+  lineAll: string;
   value: string;
   code: string;
   shiftKey: boolean;

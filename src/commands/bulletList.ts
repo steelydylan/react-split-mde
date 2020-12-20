@@ -16,9 +16,9 @@ const generateSpace = (count: number) => {
 };
 
 export const bulletList: Command = (target, option) => {
-  const { line } = option;
-  const lineWithoutSpace = line.replace(/^(\s*)/g, "");
-  const spaces = line.match(/^(\s*)/);
+  const { lineAll } = option;
+  const lineWithoutSpace = lineAll.replace(/^(\s*)/g, "");
+  const spaces = lineAll.match(/^(\s*)/);
   let spaceLength = 0;
   if (option.composing) {
     return { stop: false, change: false };
@@ -50,7 +50,7 @@ export const bulletList: Command = (target, option) => {
       return { stop: true, change: true };
     }
     if (lineWithoutSpace.length === 2) {
-      removeTextAtFirstLine(target, line.length);
+      removeTextAtFirstLine(target, lineAll.length);
       insertTextAtCursor(target, "\n");
       return { stop: false, change: true };
     }

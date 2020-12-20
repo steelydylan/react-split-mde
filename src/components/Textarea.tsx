@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { Command } from "../types";
-import { getCurrentLine, insertTextAtCursor } from "../utils";
+import { getCurrentLine, getCurrentLineAll, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
 import { useEmitter, useSubscriber } from "../hooks";
 import { UndoRedo } from "../utils/undo-redo";
@@ -156,6 +156,7 @@ export const Textarea = React.forwardRef(
       (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         const textarea = e.target as HTMLTextAreaElement;
         const line = getCurrentLine(textarea);
+        const lineAll = getCurrentLineAll(textarea);
         const { value } = textarea;
         const code = e.key;
         const { shiftKey, metaKey, ctrlKey } = e;
@@ -165,6 +166,7 @@ export const Textarea = React.forwardRef(
           const command = commands[key];
           const result = command(textarea, {
             line,
+            lineAll,
             value,
             code,
             shiftKey,
