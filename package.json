@@ -1,6 +1,6 @@
 {
   "name": "react-split-mde",
-  "version": "1.4.3",
+  "version": "0.1.0",
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
