@@ -1,4 +1,4 @@
-# Zenn MDE 
+# React Split MDE
 
 ![](https://github.com/steelydylan/react-split-mde/workflows/Node%20CI/badge.svg)
 [![npm version](https://badge.fury.io/js/react-split-mde.svg)](https://badge.fury.io/js/react-split-mde)
