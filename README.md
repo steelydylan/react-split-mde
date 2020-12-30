@@ -1,10 +1,10 @@
 # Zenn MDE 
 
-![](https://github.com/zenn-dev/zenn-mde/workflows/Node%20CI/badge.svg)
-[![npm version](https://badge.fury.io/js/zenn-mde.svg)](https://badge.fury.io/js/zenn-mde)
-[![npm download](http://img.shields.io/npm/dm/zenn-mde.svg)](https://www.npmjs.com/package/zenn-mde)
-[![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://raw.githubusercontent.com/zenn-dev/zenn-mde/master/LICENSE)
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Awesome%20Markdown%20Editor%20JavaScript%20%Editor&url=https://github.com/zenn-dev/zenn-mde&via=zenn_dev&hashtags=zenn)
+![](https://github.com/steelydylan/react-split-mde/workflows/Node%20CI/badge.svg)
+[![npm version](https://badge.fury.io/js/react-split-mde.svg)](https://badge.fury.io/js/react-split-mde)
+[![npm download](http://img.shields.io/npm/dm/react-split-mde.svg)](https://www.npmjs.com/package/react-split-mde)
+[![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://raw.githubusercontent.com/steelydylan/react-split-mde/master/LICENSE)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Awesome%20Markdown%20Editor%20JavaScript%20%Editor&url=https://github.com/steelydylan/react-split-mde&via=zenn_dev&hashtags=zenn)
 
 
 ZennMDE is a Markdown Editor which enables you to write contents smoothly even with a large amount of content.
@@ -25,7 +25,7 @@ Not Yet
 ## Install
 
 ```sh
-$ npm install zenn-mde --save
+$ npm install react-split-mde --save
 ```
 
 ## Usage
@@ -33,9 +33,9 @@ $ npm install zenn-mde --save
 ```js
 import React, { useCallback, useState } from 'react';
 import { render } from 'react-dom';
-import { Editor, useProvider } from 'zenn-mde';
+import { Editor, useProvider } from 'react-split-mde';
 import markdownToHtml from "zenn-markdown-html";
-import 'zenn-mde/css/editor.css';
+import 'react-split-mde/css/editor.css';
 
 const MDE = () => {
   const [markdown, setMarkdown] = useState('')
@@ -76,13 +76,13 @@ Not yet...
 | debounceTime     | debounced time to apply markdown result to preview area | number                                      | 3000    |
 
 ## Download
-[Download ZIP](https://github.com/zenn-dev/zenn-mde/archive/master.zip)
+[Download ZIP](https://github.com/steelydylan/react-split-mde/archive/master.zip)
 
 ## Github
-[https://github.com/zenn-dev/zenn-mde](https://github.com/zenn-dev/zenn-mde)
+[https://github.com/steelydylan/react-split-mde](https://github.com/steelydylan/react-split-mde)
 
 ## Contributor
 [@steelydylan](https://github.com/steelydylan)
 
 ## License
-Code and documentation copyright 2020 by zenn-dev, Inc. Code released under the [MIT License](https://github.com/zenn-dev/zenn-mde/blob/master/LICENSE).
+Code and documentation copyright 2020 by steelydylan, Inc. Code released under the [MIT License](https://github.com/steelydylan/react-split-mde/blob/master/LICENSE).

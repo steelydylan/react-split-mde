@@ -38,7 +38,7 @@ const buildLineHeightMap = (
   textarea: HTMLTextAreaElement
 ) => {
   const div = document.createElement("div");
-  div.classList.add("zenn-mde-psudo");
+  div.classList.add("react-split-mde-psudo");
   div.style.position = "absolute";
   div.style.visibility = "hidden";
   div.style.height = "auto";
@@ -253,12 +253,12 @@ export const Textarea = React.forwardRef(
       300
     );
     return (
-      <div className="zenn-mde-textarea-wrap">
+      <div className="react-split-mde-textarea-wrap">
         {psudoMode && (
           <SafeHTML
             options={xssAllowOption}
             ref={psudoRef}
-            className="zenn-mde-psudo"
+            className="react-split-mde-psudo"
             tagName="pre"
             html={decorationCode(markdown)}
           />
@@ -266,8 +266,8 @@ export const Textarea = React.forwardRef(
         {React.createElement(autosize ? TextareaAutosize : "textarea", {
           ref: htmlRef,
           className: psudoMode
-            ? `zenn-mde-textarea zenn-mde-textarea-with-psudo ${className}`
-            : `zenn-mde-textarea ${className}`,
+            ? `react-split-mde-textarea react-split-mde-textarea-with-psudo ${className}`
+            : `react-split-mde-textarea ${className}`,
           placeholder,
           spellCheck: false,
           onKeyDown: handleKeyDown,

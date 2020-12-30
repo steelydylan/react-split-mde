@@ -1,5 +1,5 @@
 {
-  "name": "zenn-mde",
+  "name": "react-split-mde",
   "version": "1.4.3",
   "description": "",
   "main": "./lib/index.js",

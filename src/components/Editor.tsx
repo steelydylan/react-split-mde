@@ -40,8 +40,8 @@ export const Editor: React.FC<Props> = ({
   const debouncedValue = useDebounce(value, debounceTime);
 
   return (
-    <div className="zenn-mde-wrap">
-      <div className="zenn-mde zenn-mde-box">
+    <div className="react-split-mde-wrap">
+      <div className="react-split-mde react-split-mde-box">
         <Textarea
           ref={ref}
           placeholder={placeholder}
@@ -53,7 +53,7 @@ export const Editor: React.FC<Props> = ({
           value={value}
         />
       </div>
-      <div className="zenn-mde-box">
+      <div className="react-split-mde-box">
         <Preview
           value={debouncedValue}
           className={previewClassName}
