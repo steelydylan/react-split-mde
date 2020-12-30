@@ -1,9 +1,7 @@
 import * as React from "react";
 import { render } from "react-dom";
-import "zenn-content-css";
-// eslint-disable-next-line import/no-unresolved
 import { useProvider } from "../src/hooks";
-import "../css/editor.css";
+import "../css/index.css";
 import { Editor, defaultCommands, EnterKey } from "../src";
 import markdown from "./markdown.txt";
 
@@ -68,7 +66,6 @@ const Main = () => {
       </div>
       <div className="demo">
         <Editor
-          previewClassName="znc"
           value={value}
           onChange={handleValueChange}
           commands={{ 

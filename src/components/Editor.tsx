@@ -23,7 +23,7 @@ type Props = {
 export const Editor: React.FC<Props> = ({
   commands = defaultCommands,
   textareaClassName,
-  previewClassName,
+  previewClassName = "react-split-mde-preview",
   previewCallback = {},
   parser,
   value,

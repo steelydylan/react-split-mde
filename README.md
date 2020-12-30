@@ -46,7 +46,6 @@ const MDE = () => {
   return (
     <Provider>
       <Editor
-        previewClassName="znc"
         value={markdown}
         onChange={handleValueChange}
         parser={markdownToHtml}
