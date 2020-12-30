@@ -34,8 +34,7 @@ $ npm install react-split-mde --save
 import React, { useCallback, useState } from 'react';
 import { render } from 'react-dom';
 import { Editor, useProvider } from 'react-split-mde';
-import markdownToHtml from "zenn-markdown-html";
-import 'react-split-mde/css/editor.css';
+import 'react-split-mde/css/index.css';
 
 const MDE = () => {
   const [markdown, setMarkdown] = useState('')
@@ -44,13 +43,10 @@ const MDE = () => {
   }, []);
 
   return (
-    <Provider>
-      <Editor
-        value={markdown}
-        onChange={handleValueChange}
-        parser={markdownToHtml}
-      />
-    </Provider>
+    <Editor
+      value={markdown}
+      onChange={handleValueChange}
+    />
   )
 }
 
