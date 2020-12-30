@@ -38,11 +38,6 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@catnose99/markdown-it-texmath@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@catnose99/markdown-it-texmath/-/markdown-it-texmath-1.0.0.tgz#a581e2e7ebe2051b4f8dab3060895eb6d939c5a2"
-  integrity sha512-bWh2Jn2WU21iZvCFWqskITi+E4Pi9fVy7i7VMvkaNMrxJBcGKfTAXzQN4MCoRA6Fsu07g87uN10G22hK6gpMRg==
-
 "@eslint/eslintrc@^0.2.1":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.2.1.tgz#f72069c330461a06684d119384435e12a5d76e3c"
@@ -3174,6 +3169,10 @@ markdown-it-task-lists@^2.1.1:
   resolved "https://registry.yarnpkg.com/markdown-it-task-lists/-/markdown-it-task-lists-2.1.1.tgz#f68f4d2ac2bad5a2c373ba93081a1a6848417088"
   integrity sha512-TxFAc76Jnhb2OUu+n3yz9RMu4CwGfaT788br6HhEDlvWfdeJcLUsxk1Hgw2yJio0OXsxv7pyIPmvECY7bMbluA==
 
+"markdown-it-texmath@git+https://github.com/catnose99/markdown-it-texmath.git":
+  version "0.8.0"
+  resolved "git+https://github.com/catnose99/markdown-it-texmath.git#d87ff46711573e8206296c827e66c3e97a8898c7"
+
 markdown-it@^11.0.0, markdown-it@^11.0.1:
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-11.0.1.tgz#b54f15ec2a2193efa66dda1eb4173baea08993d6"
@@ -5535,12 +5534,11 @@ zenn-init-embed@^0.1.3:
   resolved "https://registry.yarnpkg.com/zenn-init-embed/-/zenn-init-embed-0.1.58.tgz#4de4e93fc2be251e6c3b4d4ea8da4fa476517a23"
   integrity sha512-0kk0MYbp9PGzlMJThPfygZlo1kfr0rb+Cudkmv/99LgdArloGjZzrawjhbpvm3lQPyOVyWD+MDwYBuaYdYB7nQ==
 
-zenn-markdown-html@^0.1.53:
-  version "0.1.58"
-  resolved "https://registry.yarnpkg.com/zenn-markdown-html/-/zenn-markdown-html-0.1.58.tgz#d0d279fe5a86ab30d5ced3f6364140c0f3994d75"
-  integrity sha512-BUINiZJeQCPg8M9ElzQ0+YuvCITmiWk1QDZQg0Oqll/vFFyZaxF5/3/v2uQbvjwGYnRyCFKhTK3iF9dx/OVCvg==
+zenn-markdown-html@0.1.53:
+  version "0.1.53"
+  resolved "https://registry.yarnpkg.com/zenn-markdown-html/-/zenn-markdown-html-0.1.53.tgz#1067d618a161503b13d53c8a53bd445957777531"
+  integrity sha512-DN2t576JOdpY7M+Ho+/yH8+kpNoDjKhVQ0OObeMZeXBqTvN5LMDPj2XlKFIzTyiVrZnvPnRdNRWPWXmPMD0qUQ==
   dependencies:
-    "@catnose99/markdown-it-texmath" "^1.0.0"
     "@steelydylan/markdown-it-imsize" "^1.0.2"
     "@types/prismjs" "^1.16.1"
     katex "^0.11.1"
@@ -5552,4 +5550,5 @@ zenn-markdown-html@^0.1.53:
     markdown-it-inline-comments "^1.0.1"
     markdown-it-link-attributes "^3.0.0"
     markdown-it-task-lists "^2.1.1"
+    markdown-it-texmath "git+https://github.com/catnose99/markdown-it-texmath.git"
     prismjs "^1.22.0"
