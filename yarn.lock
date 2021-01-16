@@ -2947,10 +2947,10 @@ json5@^2.1.2:
     array-includes "^3.1.1"
     object.assign "^4.1.1"
 
-katex@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/katex/-/katex-0.11.1.tgz#df30ca40c565c9df01a466a00d53e079e84ffaa2"
-  integrity sha512-5oANDICCTX0NqYIyAiFCCwjQ7ERu3DQG2JFHLbYOf+fXaMoH8eg/zOq5WSYJsKMi/QebW+Eh3gSM+oss1H/bww==
+katex@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.12.0.tgz#2fb1c665dbd2b043edcf8a1f5c555f46beaa0cb9"
+  integrity sha512-y+8btoc/CK70XqcHqjxiGWBOeIL8upbS0peTPXTvgrh21n1RiWWcIpSWM+4uXq+IAgNh9YYQWdc7LVDPDAEEAg==
   dependencies:
     commander "^2.19.0"
 
@@ -3113,10 +3113,6 @@ markdown-it-container@^2.0.0:
   resolved "https://registry.yarnpkg.com/markdown-it-container/-/markdown-it-container-2.0.0.tgz#0019b43fd02eefece2f1960a2895fba81a404695"
   integrity sha1-ABm0P9Au7+zi8ZYKKJX7qBpARpU=
 
-"markdown-it-custom-block@git+https://github.com/catnose99/markdown-it-custom-block.git":
-  version "0.1.1"
-  resolved "git+https://github.com/catnose99/markdown-it-custom-block.git#7969ce2cca2fd30bd543104e45e6b67386d0743c"
-
 markdown-it-footnote@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/markdown-it-footnote/-/markdown-it-footnote-3.0.2.tgz#1575ee7a093648d4e096aa33386b058d92ac8bc1"
@@ -3136,10 +3132,6 @@ markdown-it-task-lists@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/markdown-it-task-lists/-/markdown-it-task-lists-2.1.1.tgz#f68f4d2ac2bad5a2c373ba93081a1a6848417088"
   integrity sha512-TxFAc76Jnhb2OUu+n3yz9RMu4CwGfaT788br6HhEDlvWfdeJcLUsxk1Hgw2yJio0OXsxv7pyIPmvECY7bMbluA==
-
-"markdown-it-texmath@git+https://github.com/catnose99/markdown-it-texmath.git":
-  version "0.8.0"
-  resolved "git+https://github.com/catnose99/markdown-it-texmath.git#d87ff46711573e8206296c827e66c3e97a8898c7"
 
 markdown-it@^11.0.0:
   version "11.0.1"
@@ -5492,21 +5484,19 @@ yargs@^13.3.2:
     y18n "^4.0.0"
     yargs-parser "^13.1.2"
 
-zenn-markdown-html@0.1.53:
-  version "0.1.53"
-  resolved "https://registry.yarnpkg.com/zenn-markdown-html/-/zenn-markdown-html-0.1.53.tgz#1067d618a161503b13d53c8a53bd445957777531"
-  integrity sha512-DN2t576JOdpY7M+Ho+/yH8+kpNoDjKhVQ0OObeMZeXBqTvN5LMDPj2XlKFIzTyiVrZnvPnRdNRWPWXmPMD0qUQ==
+zenn-markdown-html@^0.1.70:
+  version "0.1.70"
+  resolved "https://registry.yarnpkg.com/zenn-markdown-html/-/zenn-markdown-html-0.1.70.tgz#c54c379233821beabe3bc7a61175cc2921c800de"
+  integrity sha512-lmJylhYFivCuGcrYzHopM6gGoOkljQmbAJenzXqOeq6GlLWccm88HEkCF8JR/zN/CCeiFs2k8jstm91HAEAT9A==
   dependencies:
     "@steelydylan/markdown-it-imsize" "^1.0.2"
     "@types/prismjs" "^1.16.1"
-    katex "^0.11.1"
+    katex "^0.12.0"
     markdown-it "^11.0.0"
     markdown-it-anchor "^5.3.0"
     markdown-it-container "^2.0.0"
-    markdown-it-custom-block "git+https://github.com/catnose99/markdown-it-custom-block.git"
     markdown-it-footnote "^3.0.2"
     markdown-it-inline-comments "^1.0.1"
     markdown-it-link-attributes "^3.0.0"
     markdown-it-task-lists "^2.1.1"
-    markdown-it-texmath "git+https://github.com/catnose99/markdown-it-texmath.git"
     prismjs "^1.22.0"

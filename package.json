@@ -26,7 +26,7 @@
     "react-textarea-autosize": "^8.3.0",
     "use-eventmit": "^1.0.3",
     "xss": "^1.0.8",
-    "zenn-markdown-html": "0.1.53"
+    "zenn-markdown-html": "^0.1.70"
   },
   "devDependencies": {
     "@types/react": "^16.9.35",
