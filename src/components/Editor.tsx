@@ -4,13 +4,14 @@ import { Textarea } from "./Textarea";
 import * as defaultCommands from "../commands";
 import { Command } from "../types";
 import { useDebounce } from "../hooks/debounce";
+import { parser as defaultParser } from "../parser";
 
 type Props = {
   commands?: Record<string, Command>;
   previewClassName?: string;
   textareaClassName?: string;
   previewCallback?: Record<string, (node: any) => any>;
-  parser: (text: string) => Promise<string>;
+  parser?: (text: string) => Promise<string>;
   value: string;
   onChange?: (value: string) => void;
   psudoMode?: boolean;
@@ -22,7 +23,7 @@ type Props = {
 export const Editor: React.FC<Props> = ({
   commands = defaultCommands,
   textareaClassName,
-  previewClassName,
+  previewClassName = "react-split-mde-preview",
   previewCallback = {},
   parser,
   value,
@@ -34,14 +35,16 @@ export const Editor: React.FC<Props> = ({
 }) => {
   const ref = useRef<HTMLTextAreaElement>(null);
   const handleTextareaChange = React.useCallback((text: string) => {
-    onChange(text);
+    if (onChange) {
+      onChange(text);
+    }
   }, []);
 
   const debouncedValue = useDebounce(value, debounceTime);
 
   return (
-    <div className="zenn-mde-wrap">
-      <div className="zenn-mde zenn-mde-box">
+    <div className="react-split-mde-wrap">
+      <div className="react-split-mde react-split-mde-box">
         <Textarea
           ref={ref}
           placeholder={placeholder}
@@ -53,12 +56,12 @@ export const Editor: React.FC<Props> = ({
           value={value}
         />
       </div>
-      <div className="zenn-mde-box">
+      <div className="react-split-mde-box">
         <Preview
           value={debouncedValue}
           className={previewClassName}
           callback={previewCallback}
-          parser={parser}
+          parser={parser ?? defaultParser}
         />
       </div>
     </div>

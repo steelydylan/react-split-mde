@@ -38,11 +38,6 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@catnose99/markdown-it-texmath@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@catnose99/markdown-it-texmath/-/markdown-it-texmath-1.0.0.tgz#a581e2e7ebe2051b4f8dab3060895eb6d939c5a2"
-  integrity sha512-bWh2Jn2WU21iZvCFWqskITi+E4Pi9fVy7i7VMvkaNMrxJBcGKfTAXzQN4MCoRA6Fsu07g87uN10G22hK6gpMRg==
-
 "@eslint/eslintrc@^0.2.1":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.2.1.tgz#f72069c330461a06684d119384435e12a5d76e3c"
@@ -2028,13 +2023,6 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
-fault@^1.0.0:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/fault/-/fault-1.0.4.tgz#eafcfc0a6d214fc94601e170df29954a4f842f13"
-  integrity sha512-CJ0HCB5tL5fYTEA7ToAq5+kTwd++Borf1/bifxd9iT70QcXr4MRrO3Llf8Ifs70q+SJcGHFtnIE/Nw6giCtECA==
-  dependencies:
-    format "^0.2.0"
-
 faye-websocket@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/faye-websocket/-/faye-websocket-0.10.0.tgz#4e492f8d04dfb6f89003507f6edbf2d501e7c6f4"
@@ -2160,11 +2148,6 @@ for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
   integrity sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=
-
-format@^0.2.0:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/format/-/format-0.2.2.tgz#d6170107e9efdc4ed30c9dc39016df942b5cb58b"
-  integrity sha1-1hcBB+nv3E7TDJ3DkBbflCtctYs=
 
 forwarded@~0.1.2:
   version "0.1.2"
@@ -2440,15 +2423,10 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-highlight.js@^10.2.0, highlight.js@~10.4.0:
+highlight.js@^10.2.0:
   version "10.4.0"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.4.0.tgz#ef3ce475e5dfa7a48484260b49ea242ddab823a0"
   integrity sha512-EfrUGcQ63oLJbj0J0RI9ebX6TAITbsDBLbsjr881L/X5fMO9+oadKzEF21C7R3ULKG6Gv3uoab2HiqVJa/4+oA==
-
-highlightjs-line-numbers.js@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/highlightjs-line-numbers.js/-/highlightjs-line-numbers.js-2.8.0.tgz#479ea8cff0c31fadc1578a66fa03e38b801f9ca6"
-  integrity sha512-TEf1gw0c8mb8nan0QwliqS7obT4cpUd9hzsGzsZLweteNnWea/VIqy5/aQqsa5wnz9lnvmtAkS1ZtDTjB/goYQ==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -2969,13 +2947,6 @@ json5@^2.1.2:
     array-includes "^3.1.1"
     object.assign "^4.1.1"
 
-katex@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/katex/-/katex-0.11.1.tgz#df30ca40c565c9df01a466a00d53e079e84ffaa2"
-  integrity sha512-5oANDICCTX0NqYIyAiFCCwjQ7ERu3DQG2JFHLbYOf+fXaMoH8eg/zOq5WSYJsKMi/QebW+Eh3gSM+oss1H/bww==
-  dependencies:
-    commander "^2.19.0"
-
 katex@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/katex/-/katex-0.12.0.tgz#2fb1c665dbd2b043edcf8a1f5c555f46beaa0cb9"
@@ -3105,14 +3076,6 @@ loose-envify@^1.1.0, loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lowlight@^1.15.0:
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/lowlight/-/lowlight-1.17.0.tgz#a1143b2fba8239df8cd5893f9fe97aaf8465af4a"
-  integrity sha512-vmtBgYKD+QVNy7tIa7ulz5d//Il9R4MooOVh4nkOf9R9Cb/Dk5TXMSTieg/vDulkBkIWj59/BIlyFQxT9X1oAQ==
-  dependencies:
-    fault "^1.0.0"
-    highlight.js "~10.4.0"
-
 lru-cache@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-5.1.1.tgz#1da27e6710271947695daf6848e847f01d84b920"
@@ -3150,10 +3113,6 @@ markdown-it-container@^2.0.0:
   resolved "https://registry.yarnpkg.com/markdown-it-container/-/markdown-it-container-2.0.0.tgz#0019b43fd02eefece2f1960a2895fba81a404695"
   integrity sha1-ABm0P9Au7+zi8ZYKKJX7qBpARpU=
 
-"markdown-it-custom-block@git+https://github.com/catnose99/markdown-it-custom-block.git":
-  version "0.1.1"
-  resolved "git+https://github.com/catnose99/markdown-it-custom-block.git#7969ce2cca2fd30bd543104e45e6b67386d0743c"
-
 markdown-it-footnote@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/markdown-it-footnote/-/markdown-it-footnote-3.0.2.tgz#1575ee7a093648d4e096aa33386b058d92ac8bc1"
@@ -3174,7 +3133,7 @@ markdown-it-task-lists@^2.1.1:
   resolved "https://registry.yarnpkg.com/markdown-it-task-lists/-/markdown-it-task-lists-2.1.1.tgz#f68f4d2ac2bad5a2c373ba93081a1a6848417088"
   integrity sha512-TxFAc76Jnhb2OUu+n3yz9RMu4CwGfaT788br6HhEDlvWfdeJcLUsxk1Hgw2yJio0OXsxv7pyIPmvECY7bMbluA==
 
-markdown-it@^11.0.0, markdown-it@^11.0.1:
+markdown-it@^11.0.0:
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-11.0.1.tgz#b54f15ec2a2193efa66dda1eb4173baea08993d6"
   integrity sha512-aU1TzmBKcWNNYvH9pjq6u92BML+Hz3h5S/QpfTFwiQF852pLT+9qHsrhM9JYipkOXZxGn+sGH8oyJE9FD9WezQ==
@@ -5525,29 +5484,17 @@ yargs@^13.3.2:
     y18n "^4.0.0"
     yargs-parser "^13.1.2"
 
-zenn-content-css@^0.1.34:
-  version "0.1.58"
-  resolved "https://registry.yarnpkg.com/zenn-content-css/-/zenn-content-css-0.1.58.tgz#a1a9ebd8b4d8de6a7b85fa6d10143253c6472a60"
-  integrity sha512-RGGyVC3EMbQq0rxgPsroLJSqG8usi8EQ5znSCke9gGHGqGY3x9Fxb+hFH7u/crZ1/64lLdui1r0m0jemh+C8/Q==
-
-zenn-init-embed@^0.1.3:
-  version "0.1.58"
-  resolved "https://registry.yarnpkg.com/zenn-init-embed/-/zenn-init-embed-0.1.58.tgz#4de4e93fc2be251e6c3b4d4ea8da4fa476517a23"
-  integrity sha512-0kk0MYbp9PGzlMJThPfygZlo1kfr0rb+Cudkmv/99LgdArloGjZzrawjhbpvm3lQPyOVyWD+MDwYBuaYdYB7nQ==
-
-zenn-markdown-html@^0.1.53:
-  version "0.1.58"
-  resolved "https://registry.yarnpkg.com/zenn-markdown-html/-/zenn-markdown-html-0.1.58.tgz#d0d279fe5a86ab30d5ced3f6364140c0f3994d75"
-  integrity sha512-BUINiZJeQCPg8M9ElzQ0+YuvCITmiWk1QDZQg0Oqll/vFFyZaxF5/3/v2uQbvjwGYnRyCFKhTK3iF9dx/OVCvg==
+zenn-markdown-html@^0.1.70:
+  version "0.1.70"
+  resolved "https://registry.yarnpkg.com/zenn-markdown-html/-/zenn-markdown-html-0.1.70.tgz#c54c379233821beabe3bc7a61175cc2921c800de"
+  integrity sha512-lmJylhYFivCuGcrYzHopM6gGoOkljQmbAJenzXqOeq6GlLWccm88HEkCF8JR/zN/CCeiFs2k8jstm91HAEAT9A==
   dependencies:
-    "@catnose99/markdown-it-texmath" "^1.0.0"
     "@steelydylan/markdown-it-imsize" "^1.0.2"
     "@types/prismjs" "^1.16.1"
-    katex "^0.11.1"
+    katex "^0.12.0"
     markdown-it "^11.0.0"
     markdown-it-anchor "^5.3.0"
     markdown-it-container "^2.0.0"
-    markdown-it-custom-block "git+https://github.com/catnose99/markdown-it-custom-block.git"
     markdown-it-footnote "^3.0.2"
     markdown-it-inline-comments "^1.0.1"
     markdown-it-link-attributes "^3.0.0"

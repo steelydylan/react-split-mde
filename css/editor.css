@@ -1,11 +1,11 @@
-.zenn-mde-wrap {
+.react-split-mde-wrap {
   width: 100%;
   height: 100%;
   display: flex;
   box-shadow: 0 0 0 1px rgba(16,22,26,.1), 0 0 0 rgba(16,22,26,0), 0 1px 1px rgba(16,22,26,.2);
 }
 
-.zenn-mde {
+.react-split-mde {
   font-size: 14px;
   line-height: 18px;
   white-space: pre-wrap;
@@ -17,23 +17,23 @@
   font-variant-ligatures: common-ligatures;
 }
 
-.zenn-mde * {
+.react-split-mde * {
   box-sizing: border-box;
 }
 
-.zenn-mde-box {
+.react-split-mde-box {
   flex: 1;
   border: 1px solid #999;
   overflow: auto;
   padding: 5px;
 }
 
-.zenn-mde-textarea-wrap {
+.react-split-mde-textarea-wrap {
   position: relative;
   height: 100%;
 }
 
-.zenn-mde-textarea {
+.react-split-mde-textarea {
   position: relative;
   z-index: 2;
   width: 100%;
@@ -49,11 +49,11 @@
   padding: 0;
 }
 
-.zenn-mde-textarea-with-psudo {
+.react-split-mde-textarea-with-psudo {
   -webkit-text-fill-color: transparent;
 }
 
-.zenn-mde-psudo {
+.react-split-mde-psudo {
   z-index: 1;
   position: absolute;
   top: 0;
@@ -67,12 +67,12 @@
   scrollbar-width: none;  /* Firefox */
 }
 
-.zenn-mde-psudo::-webkit-scrollbar {
+.react-split-mde-psudo::-webkit-scrollbar {
   display: none;
 }
 
-.zenn-mde-textarea,
-.zenn-mde-psudo {
+.react-split-mde-textarea,
+.react-split-mde-psudo {
   box-sizing: inherit;
   display: inherit;
   font-family: inherit;
@@ -94,26 +94,26 @@
   color: #333;
 }
 
-.zenn-mde-psudo .bullet-item {
+.react-split-mde-psudo .bullet-item {
   color: #999;
 }
 
-.zenn-mde-psudo .code-start,
-.zenn-mde-psudo .code-end {
+.react-split-mde-psudo .code-start,
+.react-split-mde-psudo .code-end {
   color: #999;
 }
 
-.zenn-mde-psudo .title {
+.react-split-mde-psudo .title {
   /* font-weight: bold */
   color: #000;
 }
 
-.zenn-mde-psudo .sharp,
-.zenn-mde-psudo .hljs-bullet {
+.react-split-mde-psudo .sharp,
+.react-split-mde-psudo .hljs-bullet {
   color: #999;
 }
 
-.zenn-mde-psudo .hljs-link {
+.react-split-mde-psudo .hljs-link {
   color: #1199ff;
 }
 

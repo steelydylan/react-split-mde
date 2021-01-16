@@ -1,29 +1,28 @@
-このページではZennのマークダウン記法を一覧で紹介します。
+This page lists the Markdown notation for React Split MDE.
 
-# 見出し
+# Heading
 ```
-# 見出し1
-## 見出し2
-### 見出し3
-#### 見出し4
+# Heading1
+## Heading2
+### Heading3
+#### Heading4
 ```
 
-# リスト
-```
-- Hello!
-- Hola!
-  - Bonjour!
-  * Hi!
+# List
 ```
 - Hello!
 - Hola!
   - Bonjour!
   * Hi!
+```
+- Hello!
+- Hola!
+  - Bonjour!
+  * Hi!
 
-リストのアイテムには`*`もしくは`-`を使います。
+Use `*` or `-` for items in the list.
 
-
-### 番号付きリスト
+### Ordered List
 ```
 1. First
 2. Second
@@ -33,31 +32,30 @@
 
 
 
-# 画像
+# Image
 ```
-![altテキスト](https://画像のURL)
+![alt text](https://path_to_the_image)
 ```
-![altテキスト](https://storage.googleapis.com/zenn-user-upload/gxnwu3br83nsbqs873uibiy6fd43)
+![alt text](https://storage.googleapis.com/zenn-user-upload/gxnwu3br83nsbqs873uibiy6fd43)
 
-### 画像の横幅を指定する
+### Specify the width of the image
 
-画像の表示が大きすぎる場合は、URLの後に半角スペースを空けて`=○○x`と記述すると、画像の幅をpx単位で指定できます。
+If the image is too large, you can specify the width of the image in px units by writing `= ○○ x` with a half-width space after the URL.
 
 ```
-![altテキスト](https://画像のURL =250x)
+![alt text](https://path_to_the_image =250x)
 ```
-![altテキスト](https://storage.googleapis.com/zenn-user-upload/gxnwu3br83nsbqs873uibiy6fd43 =250x)
+![alt text](https://storage.googleapis.com/zenn-user-upload/gxnwu3br83nsbqs873uibiy6fd43 =250x)
 
 
-# テキストリンク
+# Text link
 ```
-[アンカーテキスト](リンクのURL)
+[anchor text](URL)
 ```
-[アンカーテキスト](https://zenn.dev)
-`Ctrl + K`のショートカットでも挿入できます。
+[anchor text](https://zenn.dev)
+You can also insert with the shortcut `Ctrl + K`.
 
-
-# テーブル
+# Table
 ```
 | Head | Head | Head |
 | ---- | ---- | ---- |
@@ -71,8 +69,9 @@
 
 
 
-# コードブロック
-コードは「```」で挟むことでブロックとして挿入できます。以下のように言語を指定するとコードへ装飾（シンタックスハイライト）が適用されます。
+# Code Block
+
+Code can be inserted as a block by sandwiching it with `` `. If you specify the language as shown below, the decoration (syntax highlighting) will be applied to the code.
 
 > \```js
 > 
@@ -84,130 +83,130 @@ const great = () => {
 }
 ```
 
-# 数式
+# Mathmatical Expression
 
-Zennでは**KaTeX**による数式表示に対応しています。
+Supports mathematical expression display by ** KaTeX **.
 
-### 数式のブロックを挿入する
-`$$`で記述を挟むことで、数式のブロックが挿入されます。たとえば
+### Insert a block of formulas
 
+A block of formulas is inserted by inserting the description between `$$`.
 
 ```
 $$
 e^{i\theta} = \cos\theta + i\sin\theta
 $$
 ```
-は以下のように表示されます。
+
+It will be displayed as follows.
 
 $$
 e^{i\theta} = \cos\theta + i\sin\theta
 $$
 
 :::message
-`$$`の前後は空の行でないと正しく埋め込まれないことがあります。
+Before and After `$$`, space should be placed, otherwise it won't be shown correctly.
 :::
 
-### インラインで数式を挿入する
-`$a\ne0$`というように`$`ひとつで挟むことで、インラインで数式を含めることができます。たとえば$a\ne0$のようなイメージです。
+### Insert formula inline
 
+You can include formulas inline by sandwiching them with one `$` such as `$a\ne0$`. For example, $a\ne0$.
 
-
-# 引用
+# Quote
 ```
-> 引用文
-> 引用文
-```
-
-> 引用文
-> 引用文
-
-# 注釈
-注釈を指定するとページ下部にその内容が表示されます。
-
-```
-脚注の例[^1]です。インライン^[脚注の内容その2]で書くこともできます。
-
-[^1]: 脚注の内容その1
+> Quote
+> Quote
 ```
 
-脚注の例[^1]です。インライン^[脚注の内容その2]で書くこともできます。
+> Quote
+> Quote
 
-[^1]: 脚注の内容その1
+# Annotation
+
+If you specify an annotation, its contents will be displayed at the bottom of the page.
+```
+
+An example of a footnote [^ 1]. You can also write inline ^ [Footnote Content 2].
+
+[^1]: footnote1
+```
+
+If you specify an annotation, its contents will be displayed at the bottom of the page.
+
+[^1]: footnote1
 
 
-# 区切り線
+# Separator
 ```
 -----
 ```
 -----
 
 
-
-
-# インラインスタイル
+# Inline Style
 ```
-*イタリック*
-**太字**
-~~打ち消し線~~
-インラインで`code`を挿入する
+*Italic*
+**Bold**
+~~Strikethrough~~
+Insert `code` inline
 ```
-*イタリック*
-**太字**
-~~打ち消し線~~
-インラインで`code`を挿入する
+*Italic*
+**Bold**
+~~Strikethrough~~
+Insert `code` inline
 
 
 
-# Zenn独自の記法
+# React Split MDE original notation
 
-### メッセージ
+### Message
 
 ```
 :::message
-メッセージをここに
+message here
 :::
 ```
 
 
 :::message
-メッセージをここに
+message here
 :::
 
 ```
 :::message alert
-警告メッセージをここに
+alert message here
 :::
 ```
 
 :::message alert
-警告メッセージをここに
+alert message here
 :::
 
 
-### アコーディオン（トグル）
+### Accordion（Toggle）
 
 ```
-:::details タイトル
-表示したい内容
+:::details title
+contents here
 :::
 ```
 
-:::details タイトル
-表示したい内容
+:::details title
+contents here
 :::
 
-分かりづらいのですが「detail」ではなく「details」です。
 
-# 外部コンテンツの埋め込み
+It's comfusing, but it's not "detail" but "details".
+
+# Embedding external content
 
 
 ### Twitter
 
 ```
-@[tweet](ツイートページのURL)
+@[tweet](URL)
 ```
 
-「twitter」ではなく「tweet」であることにご注意ください。
+Please note that it is "tweet", not "twitter".
 
 @[tweet](https://twitter.com/catnose99/status/1309382877272879110)
 
@@ -215,51 +214,39 @@ $$
 ### YouTube
 
 ```
-@[youtube](動画のID)
+@[youtube](video ID)
 ```
-URLに含まれる英数字の組み合わせを入力します。たとえばURLが`https://youtube.com/watch?v=ApXoWvfEYVU`の場合、`@[youtube](ApXoWvfEYVU)`と指定します。
+
+Enter a combination of alphanumeric characters in the URL.
+For example, if the URL is `https://youtube.com/watch?v=ApXoWvfEYVU`,
+specify `@[youtube](ApXoWvfEYVU)`.
 
 @[youtube](ApXoWvfEYVU)
-
 
 ### CodePen
 
 ```
-@[codepen](ページのURL)
+@[codepen](URL)
 ```
 
-デフォルトの表示タブは`ページのURL?default-tab=html,css`のようにクエリを指定することで変更できます。
-
+The default display tab can be changed by specifying a query like `pageURL?default-tab=html,css`.
 
 
 ### SlideShare
 ```
-@[slideshare](スライドのkey)
+@[slideshare](Slide key)
 ```
-SlideShareの埋め込みiframeに含まれる`...embed_code/key/○○...`の`◯◯`の部分を入力します。
+Enter the `◯◯` part of `...embed_code/key/○○...` included in the embedded iframe of SlideShare.
 
 
 ### SpeakerDeck
 ```
-@[speakerdeck](スライドのID)
+@[speakerdeck](Slide ID)
 ```
-SpeakerDeckで取得した埋め込みコードに含まれる`data-id`の値を入力します。
+Enter the value of `data-id` included in the embed code obtained by SpeakerDeck.
 
 ### JSFiddle
 
 ```
-@[jsfiddle](ページのURL)
+@[jsfiddle](URL)
 ```
-
-### オンラインエディターではモーダルから挿入可能
-
-オンラインのエディターでは「+」ボタンを押すことで、外部コンテンツ埋め込み用のモーダルを表示できます。
-
-![](https://storage.googleapis.com/zenn-user-upload/t87wf3d7xgfv7cabv4a9lfr1t79q)
-
-
-
----
-
-今後[CodeSandbox](https://codesandbox.io)などの埋め込みにも対応する予定です。
-
