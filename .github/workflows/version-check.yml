@@ -19,7 +19,7 @@ jobs:
         node-version: 12.x
         registry-url: 'https://npm.pkg.github.com'
     - name: install
-      run: npm ci
+      run: yarn --frozen-lockfile
     - name: version check
       run: BRANCH_NAME=$HEAD_BRANCH node ./utility/version-check.js
       env:

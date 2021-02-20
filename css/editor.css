@@ -47,6 +47,7 @@
   line-height: 1.6;
   outline: none;
   padding: 0;
+  overflow-anchor: none;
 }
 
 .react-split-mde-textarea-with-psudo {
