@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { Command } from "../types";
+import { Command, EnterKey } from "../types";
 import { getCurrentLine, getCurrentLineAll, insertTextAtCursor } from "../utils";
 import { SafeHTML } from "./SafeHTML";
 import { useEmitter, useSubscriber } from "../hooks";
@@ -77,7 +77,7 @@ export const Textarea = React.forwardRef(
     ref
   ) => {
     const [lineHeightMap, setLineHeightMap] = useState<number[]>([]);
-    const [composing, setComposing] = useState(false);
+    const composing = useRef(false)
     const htmlRef = useRef<HTMLTextAreaElement>();
     const oldScrollRef = useRef<number>(0);
     const historyManager = useRef(
@@ -115,12 +115,12 @@ export const Textarea = React.forwardRef(
     );
 
     const handleCompositionStart = useCallback(() => {
-      setComposing(true);
+      composing.current = true;
     }, []);
 
-    const handleCompositionEnd = useCallback(() => {
-      setComposing(false);
-    }, []);
+    // const handleCompositionEnd = useCallback(() => {
+    //   composing.current = false;
+    // }, []);
 
     const undo = () => {
       if (!historyManager.current.canUndo()) {
@@ -172,7 +172,7 @@ export const Textarea = React.forwardRef(
             shiftKey,
             start,
             end,
-            composing,
+            composing: composing.current,
             metaKey,
             ctrlKey,
             emit,
@@ -187,6 +187,9 @@ export const Textarea = React.forwardRef(
             onChange(textarea.value);
           }
         });
+        if (code === EnterKey) {
+          composing.current = false;
+        }
       },
       [composing]
     );
@@ -272,7 +275,7 @@ export const Textarea = React.forwardRef(
           spellCheck: false,
           onKeyDown: handleKeyDown,
           onCompositionStart: handleCompositionStart,
-          onCompositionEnd: handleCompositionEnd,
+          // onCompositionEnd: handleCompositionEnd,
           defaultValue: markdown,
           onChange: handleTextChange,
           ...(scrollSync ? { onScroll: handleTextareaScroll } : {}),
