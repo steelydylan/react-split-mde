@@ -22,7 +22,7 @@ jobs:
           node-version: 12.x
           registry-url: 'https://registry.npmjs.org'
       - name: install
-        run: npm install
+        run: yarn --frozen-lockfile
       # まだtagがないバージョンなら、Git Tagをpushする
       - name: package-version-to-git-tag
         uses: pkgdeps/action-package-version-to-git-tag@v1
