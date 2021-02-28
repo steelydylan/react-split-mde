@@ -16,7 +16,7 @@ const generateSpace = (count: number) => {
 };
 
 export const bulletList: Command = (target, option) => {
-  const { lineAll } = option;
+  const { lineAll, line } = option;
   const lineWithoutSpace = lineAll.replace(/^(\s*)/g, "");
   const spaces = lineAll.match(/^(\s*)/);
   let spaceLength = 0;
@@ -38,6 +38,9 @@ export const bulletList: Command = (target, option) => {
     if (option.metaKey || option.ctrlKey) {
       return { stop: true, change: false };
     }
+    if (line.length === 0) {
+      return { stop: false, change: true };
+    }
     if (lineWithoutSpace.length > 2) {
       const text = startWithHyphen
         ? `\n${generateSpace(spaceLength)}- `
@@ -49,7 +52,7 @@ export const bulletList: Command = (target, option) => {
       );
       return { stop: true, change: true };
     }
-    if (lineWithoutSpace.length === 2) {
+    if (lineWithoutSpace.length <= 2) {
       removeTextAtFirstLine(target, lineAll.length);
       insertTextAtCursor(target, "\n");
       return { stop: false, change: true };

@@ -77,7 +77,7 @@ export const Textarea = React.forwardRef(
     ref
   ) => {
     const [lineHeightMap, setLineHeightMap] = useState<number[]>([]);
-    const composing = useRef(false)
+    const composing = useRef(false);
     const htmlRef = useRef<HTMLTextAreaElement>();
     const oldScrollRef = useRef<number>(0);
     const historyManager = useRef(
@@ -156,6 +156,7 @@ export const Textarea = React.forwardRef(
       (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         const textarea = e.target as HTMLTextAreaElement;
         const line = getCurrentLine(textarea);
+        console.log(line)
         const lineAll = getCurrentLineAll(textarea);
         const { value } = textarea;
         const code = e.key;
