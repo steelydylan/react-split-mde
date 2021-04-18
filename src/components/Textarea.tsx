@@ -156,7 +156,6 @@ export const Textarea = React.forwardRef(
       (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         const textarea = e.target as HTMLTextAreaElement;
         const line = getCurrentLine(textarea);
-        console.log(line)
         const lineAll = getCurrentLineAll(textarea);
         const { value } = textarea;
         const code = e.key;
