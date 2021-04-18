@@ -2,6 +2,7 @@ import * as React from "react";
 import { render } from "react-dom";
 import { useProvider } from "../src/hooks";
 import "../css/index.css";
+import { parser } from "../src/parser";
 import { Editor, defaultCommands, EnterKey } from "../src";
 import markdown from "./markdown.txt";
 
@@ -66,6 +67,7 @@ const Main = () => {
       </div>
       <div className="demo">
         <Editor
+          parser={parser}
           value={value}
           onChange={handleValueChange}
           commands={{ 

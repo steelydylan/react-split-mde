@@ -24,8 +24,10 @@ Not Yet
 
 ## Install
 
+You should also import zenn-markdown-html as peer dependencies
+
 ```sh
-$ npm install react-split-mde --save
+$ npm install react-split-mde zenn-markdown-html --save
 ```
 
 ## Usage
@@ -34,6 +36,7 @@ $ npm install react-split-mde --save
 import React, { useCallback, useState } from 'react';
 import { render } from 'react-dom';
 import { Editor, useProvider } from 'react-split-mde';
+import { parser } from 'react-split-mde/lib/parser';
 import 'react-split-mde/css/index.css';
 
 const MDE = () => {
@@ -44,6 +47,7 @@ const MDE = () => {
 
   return (
     <Editor
+      parser={parser}
       value={markdown}
       onChange={handleValueChange}
     />

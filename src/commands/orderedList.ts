@@ -16,7 +16,7 @@ const generateSpace = (count: number) => {
 };
 
 export const orderedList: Command = (target, option) => {
-  const { lineAll } = option;
+  const { lineAll, line } = option;
   const lineWithoutSpace = lineAll.replace(/^(\s*)/g, "");
   const spaces = lineAll.match(/^(\s*)/);
   let spaceLength = 0;
@@ -35,6 +35,9 @@ export const orderedList: Command = (target, option) => {
   if (option.code === EnterKey) {
     if (option.ctrlKey || option.metaKey) {
       return { stop: true, change: false };
+    }
+    if (line.length === 0) {
+      return { stop: false, change: true };
     }
     const [_, number] = lineWithoutSpace.match(/^(\d+)/);
     if (lineWithoutSpace.length - number.length <= 2) {

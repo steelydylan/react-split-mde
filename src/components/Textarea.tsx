@@ -77,7 +77,7 @@ export const Textarea = React.forwardRef(
     ref
   ) => {
     const [lineHeightMap, setLineHeightMap] = useState<number[]>([]);
-    const composing = useRef(false)
+    const composing = useRef(false);
     const htmlRef = useRef<HTMLTextAreaElement>();
     const oldScrollRef = useRef<number>(0);
     const historyManager = useRef(
