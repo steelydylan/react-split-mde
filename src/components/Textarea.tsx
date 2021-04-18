@@ -9,7 +9,11 @@ import React, {
 } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { Command, EnterKey } from "../types";
-import { getCurrentLine, getCurrentLineAll, insertTextAtCursor } from "../utils";
+import {
+  getCurrentLine,
+  getCurrentLineAll,
+  insertTextAtCursor,
+} from "../utils";
 import { SafeHTML } from "./SafeHTML";
 import { useEmitter, useSubscriber } from "../hooks";
 import { UndoRedo } from "../utils/undo-redo";
@@ -113,14 +117,6 @@ export const Textarea = React.forwardRef(
       },
       []
     );
-
-    const handleCompositionStart = useCallback(() => {
-      composing.current = true;
-    }, []);
-
-    const handleCompositionEnd = useCallback(() => {
-      composing.current = false;
-    }, []);
 
     const undo = () => {
       if (!historyManager.current.canUndo()) {
@@ -239,6 +235,12 @@ export const Textarea = React.forwardRef(
       });
     }, [markdown]);
 
+    useEffect(() => {
+      htmlRef.current.addEventListener("keyup", (e) => {
+        composing.current = e.isComposing;
+      });
+    }, []);
+
     useDebounceCallback(
       markdown,
       (newValue) => {
@@ -274,8 +276,6 @@ export const Textarea = React.forwardRef(
           placeholder,
           spellCheck: false,
           onKeyDown: handleKeyDown,
-          onCompositionStart: handleCompositionStart,
-          onCompositionEnd: handleCompositionEnd,
           defaultValue: markdown,
           onChange: handleTextChange,
           ...(scrollSync ? { onScroll: handleTextareaScroll } : {}),
