@@ -118,9 +118,9 @@ export const Textarea = React.forwardRef(
       composing.current = true;
     }, []);
 
-    // const handleCompositionEnd = useCallback(() => {
-    //   composing.current = false;
-    // }, []);
+    const handleCompositionEnd = useCallback(() => {
+      composing.current = false;
+    }, []);
 
     const undo = () => {
       if (!historyManager.current.canUndo()) {
@@ -188,7 +188,7 @@ export const Textarea = React.forwardRef(
           }
         });
         if (code === EnterKey) {
-          composing.current = false;
+          // composing.current = false;
         }
       },
       [composing]
@@ -275,7 +275,7 @@ export const Textarea = React.forwardRef(
           spellCheck: false,
           onKeyDown: handleKeyDown,
           onCompositionStart: handleCompositionStart,
-          // onCompositionEnd: handleCompositionEnd,
+          onCompositionEnd: handleCompositionEnd,
           defaultValue: markdown,
           onChange: handleTextChange,
           ...(scrollSync ? { onScroll: handleTextareaScroll } : {}),
