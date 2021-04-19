@@ -236,9 +236,13 @@ export const Textarea = React.forwardRef(
     }, [markdown]);
 
     useEffect(() => {
-      htmlRef.current.addEventListener("keyup", (e) => {
+      const checkComposing = (e: KeyboardEvent) => {
         composing.current = e.isComposing;
-      });
+      };
+      htmlRef.current.addEventListener("keyup", checkComposing);
+      return () => {
+        htmlRef.current.removeEventListener("keyup", checkComposing);
+      };
     }, []);
 
     useDebounceCallback(
