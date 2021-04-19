@@ -183,9 +183,6 @@ export const Textarea = React.forwardRef(
             onChange(textarea.value);
           }
         });
-        if (code === EnterKey) {
-          // composing.current = false;
-        }
       },
       [composing]
     );
