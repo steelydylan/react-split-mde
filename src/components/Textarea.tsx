@@ -241,7 +241,7 @@ export const Textarea = React.forwardRef(
       };
       htmlRef.current.addEventListener("keyup", checkComposing);
       return () => {
-        htmlRef.current.removeEventListener("keyup", checkComposing);
+        htmlRef.current?.removeEventListener("keyup", checkComposing);
       };
     }, []);
 
