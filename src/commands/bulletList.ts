@@ -55,7 +55,7 @@ export const bulletList: Command = (target, option) => {
       );
       return { stop: true, change: true };
     }
-    if (lineWithoutSpace.length === 2) {
+    if (lineWithoutSpace === "- " || lineWithoutSpace === "* ") {
       removeTextAtFirstLine(target, lineAll.length);
       insertTextAtCursor(target, "\n");
       return { stop: false, change: true };
