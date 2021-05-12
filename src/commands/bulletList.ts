@@ -34,6 +34,9 @@ export const bulletList: Command = (target, option) => {
   if (!startWithHyphen && !startWithAsterisk) {
     return { stop: false, change: false };
   }
+  if (lineWithoutSpace.charAt(1) !== " ") {
+    return { stop: false, change: false };
+  }
   if (option.code === EnterKey) {
     if (option.metaKey || option.ctrlKey) {
       return { stop: true, change: false };
@@ -52,7 +55,7 @@ export const bulletList: Command = (target, option) => {
       );
       return { stop: true, change: true };
     }
-    if (lineWithoutSpace === "- " || lineWithoutSpace === "* ") {
+    if (lineWithoutSpace.length === 2) {
       removeTextAtFirstLine(target, lineAll.length);
       insertTextAtCursor(target, "\n");
       return { stop: false, change: true };
