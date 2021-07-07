@@ -235,11 +235,11 @@ export const Textarea = React.forwardRef(
     /**
      * 変換中かどうか（isComposing）を適切に取得する
      * - Safariだとkeydownの前にcompositionEndが発火される
-     *   - keydown時のisComposingの値が適切ではない（変換確定のEnterキーでhandleKeyDownがcomposing:falseとして呼ばれてしまう）
-     *   - keyupイベントで変換終了を確認することで対応
+     *   => 変換確定時のkeydownにおいてisComposingの値が適切ではない（変換確定のEnterキーでhandleKeyDownがcomposing:falseとして呼ばれてしまう）
+     *   => keyupイベントで変換終了を確認することで対応
      * - Chromeだとkeyupイベントの後にcompositionStartが発火される
-     *   - キーを離す前にEnterを押されると変換中であると認識されない
-     *   - keydownイベントで変換開始を確認することで対応
+     *   => キーを離す前にEnterを押されると変換中であると認識されない
+     *   => keydownイベントで変換開始を確認することで対応
      */
     useEffect(() => {
       const checkComposingStart = (e: KeyboardEvent) => {
