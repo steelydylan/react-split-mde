@@ -232,13 +232,27 @@ export const Textarea = React.forwardRef(
       });
     }, [markdown]);
 
+    /**
+     * 変換中かどうか（isComposing）を適切に取得する
+     * - Safariだとkeydownの前にcompositionEndが発火される
+     *   - keydown時のisComposingの値が適切ではない（変換確定のEnterキーでhandleKeyDownがcomposing:falseとして呼ばれてしまう）
+     *   - keyupイベントで変換終了を確認することで対応
+     * - Chromeだとkeyupイベントの後にcompositionStartが発火される
+     *   - キーを離す前にEnterを押されると変換中であると認識されない
+     *   - keydownイベントで変換開始を確認することで対応
+     */
     useEffect(() => {
-      const checkComposing = (e: KeyboardEvent) => {
-        composing.current = e.isComposing;
+      const checkComposingStart = (e: KeyboardEvent) => {
+        if (e.isComposing) composing.current = true;
       };
-      htmlRef.current.addEventListener("keyup", checkComposing);
+      const checkComposingEnd = (e: KeyboardEvent) => {
+        if (!e.isComposing) composing.current = false;
+      };
+      htmlRef.current.addEventListener("keydown", checkComposingStart);
+      htmlRef.current.addEventListener("keyup", checkComposingEnd);
       return () => {
-        htmlRef.current?.removeEventListener("keyup", checkComposing);
+        htmlRef.current?.removeEventListener("keydown", checkComposingStart);
+        htmlRef.current?.removeEventListener("keyup", checkComposingEnd);
       };
     }, []);
 
