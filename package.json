@@ -4,6 +4,9 @@
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.js --host 0.0.0.0 --port 3031",
     "build": "webpack --mode production && cp index.html ./dist/index.html",
